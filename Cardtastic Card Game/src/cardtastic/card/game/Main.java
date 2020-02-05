@@ -35,7 +35,7 @@ import java.lang.String;
 public class Main extends Application {
 
 
-    Stage window;
+   Stage window;
     Button solitaireButton, freeCellButton, blackJackButton;
     VBox mainLayout, menuVbox;
     HBox cardGames;
@@ -60,7 +60,7 @@ public class Main extends Application {
         menu1.getItems().add(menuItem2);
         menuBar.getMenus().add(menu1);
 
-
+        //LoginPage loginPage = new LoginPage();
 
         //window
         window = primaryStage;
@@ -110,9 +110,10 @@ public class Main extends Application {
         //clubButtonView.setFitWidth(15);
         //solitaireButton.setGraphic(clubButtonView);
 
+        Label greetings = new Label();
 
         //Add elements to GUI
-        cardGames.getChildren().addAll(solitaireButton, freeCellButton, blackJackButton);
+        cardGames.getChildren().addAll(solitaireButton, greetings, freeCellButton, blackJackButton);
         mainLayout.getChildren().addAll(menuBar);
         mainLayout.getChildren().addAll( cardGamesTitle);
         mainLayout.getChildren().addAll(cardGames);
@@ -126,10 +127,6 @@ public class Main extends Application {
         Scene main = new Scene(mainLayout, 1280, 550);
         window.setScene(main);
         window.show();
-
-
-
-
     }
 
 
