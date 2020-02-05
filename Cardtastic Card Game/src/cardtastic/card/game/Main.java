@@ -6,6 +6,7 @@
 package cardtastic.card.game;
 
 import javafx.application.Application;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -31,7 +32,6 @@ import javafx.scene.image.ImageView;
 import java.awt.*;
 import java.awt.image.ImageObserver;
 import java.lang.String;
-
 public class Main extends Application {
 
 
@@ -61,6 +61,20 @@ public class Main extends Application {
         menuBar.getMenus().add(menu1);
 
         //LoginPage loginPage = new LoginPage();
+
+//        menuItem1.setOnAction(new EventHandler() {
+//            @Override
+//            public void handle(Event event) {
+//                LoginPage loginPage = new LoginPage();
+//                loginPage.launch(primaryStage);
+//
+//                //Label greetings = new Label();
+//                //greetings.setText("Accepted");
+//
+//            }
+//        });
+
+
 
         //window
         window = primaryStage;
@@ -110,10 +124,25 @@ public class Main extends Application {
         //clubButtonView.setFitWidth(15);
         //solitaireButton.setGraphic(clubButtonView);
 
-        Label greetings = new Label();
+        //Label greetings = new Label();
+
+
+        //mapping buttons to run game when clicked
+//        solitaireButton.setOnAction(new EventHandler() {
+//            @Override
+//            public void handle(Event event) {
+//                ButtonClassTest buttonClassTest = new ButtonClassTest();
+//                buttonClassTest.launch(primaryStage);
+//
+//                //Label greetings = new Label();
+//                        //greetings.setText("Accepted");
+//
+//            }
+//        });
+
 
         //Add elements to GUI
-        cardGames.getChildren().addAll(solitaireButton, greetings, freeCellButton, blackJackButton);
+        cardGames.getChildren().addAll(solitaireButton, freeCellButton, blackJackButton);
         mainLayout.getChildren().addAll(menuBar);
         mainLayout.getChildren().addAll( cardGamesTitle);
         mainLayout.getChildren().addAll(cardGames);
@@ -127,6 +156,10 @@ public class Main extends Application {
         Scene main = new Scene(mainLayout, 1280, 550);
         window.setScene(main);
         window.show();
+
+
+
+
     }
 
 
@@ -134,4 +167,3 @@ public class Main extends Application {
         launch(args);
     }
 }
-
