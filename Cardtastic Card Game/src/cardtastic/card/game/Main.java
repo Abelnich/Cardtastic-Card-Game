@@ -32,6 +32,8 @@ import javafx.scene.image.ImageView;
 import java.awt.*;
 import java.awt.image.ImageObserver;
 import java.lang.String;
+import java.util.HashSet;
+import javafx.event.EventType;
 public class Main extends Application {
     
     //test for push
@@ -57,26 +59,22 @@ public class Main extends Application {
         //adding login and log out options to menu1
         MenuItem menuItem1 = new MenuItem("Login");
         MenuItem menuItem2 = new MenuItem("Log out");
+        MenuItem settingsMenuItem = new MenuItem("Settings");
+        
+        
+        settingsMenuItem.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                Settings settingsPage = new Settings();
+                settingsPage.start(primaryStage);
+
+            }
+        });
 
         menu1.getItems().add(menuItem1);
         menu1.getItems().add(menuItem2);
+        menu1.getItems().add(settingsMenuItem);
         menuBar.getMenus().add(menu1);
-
-        //LoginPage loginPage = new LoginPage();
-
-//        menuItem1.setOnAction(new EventHandler() {
-//            @Override
-//            public void handle(Event event) {
-//                LoginPage loginPage = new LoginPage();
-//                loginPage.launch(primaryStage);
-//
-//                //Label greetings = new Label();
-//                //greetings.setText("Accepted");
-//
-//            }
-//        });
-
-
 
         //window
         window = primaryStage;
