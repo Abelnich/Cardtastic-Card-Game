@@ -40,7 +40,7 @@ public class Main extends Application {
 
 
    Stage window;
-    Button solitaireButton, freeCellButton, blackJackButton;
+    Button solitaireButton, freeCellButton, blackJackButton, warButton;
     VBox mainLayout, menuVbox;
     HBox cardGames;
 
@@ -108,11 +108,13 @@ public class Main extends Application {
         solitaireButton = new Button("Solitaire");
         freeCellButton = new Button("Free Cell");
         blackJackButton = new Button("Black Jack");
+        warButton = new Button("War");
 
         //Button font and base color
         solitaireButton.setStyle("-fx-font: 22 calibre; -fx-base: tomato");
         freeCellButton.setStyle("-fx-font: 22 calibre; -fx-base: maroon");
         blackJackButton.setStyle("-fx-font: 22 calibre; -fx-base: red");
+        warButton.setStyle("-fx-font: 22 calibre; -fx-base: pink");
 
         //Button images
 
@@ -133,6 +135,13 @@ public class Main extends Application {
 //            public void handle(Event event) {
 //                ButtonClassTest buttonClassTest = new ButtonClassTest();
 //                buttonClassTest.launch(primaryStage);
+        warButton.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+               War openWar = new War();
+                openWar.start(primaryStage);
+            }
+        });
 //
 //                //Label greetings = new Label();
 //                        //greetings.setText("Accepted");
@@ -142,7 +151,7 @@ public class Main extends Application {
 
 
         //Add elements to GUI
-        cardGames.getChildren().addAll(solitaireButton, freeCellButton, blackJackButton);
+        cardGames.getChildren().addAll(solitaireButton, freeCellButton, blackJackButton, warButton);
         mainLayout.getChildren().addAll(menuBar);
         mainLayout.getChildren().addAll( cardGamesTitle);
         mainLayout.getChildren().addAll(cardGames);
@@ -165,5 +174,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+        
+        
     }
 }
