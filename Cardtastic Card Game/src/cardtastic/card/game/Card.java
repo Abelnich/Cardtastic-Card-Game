@@ -3,7 +3,7 @@ Nick Abel
 01/22/20
 Sophomore Project
  */
-package card.game;
+package cardtastic.card.game;
 
 import javafx.scene.image.Image;
 
