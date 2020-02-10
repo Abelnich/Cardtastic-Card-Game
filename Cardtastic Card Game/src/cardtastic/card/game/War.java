@@ -32,11 +32,11 @@ import javafx.stage.Stage;
 public class War {
     
    public static void main(String[] args){
+/*
 
 
 
-
-//Creates the hands and the deck
+//Creates deck
        ArrayList<Card> hands = new ArrayList<Card>();
        String[] vals = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
        Deck myDeck = new Deck();
@@ -51,19 +51,72 @@ public class War {
             hands.add(tempHeart);
         }
         
+       //shuffles deck
        Collections.shuffle(hands, new Random());
        
-       LinkedList<Card> deck1 = new LinkedList<Card>();
-       LinkedList<Card> deck2 = new LinkedList<Card>();
+       //creates hands
+       LinkedList<Card> hand1 = new LinkedList<Card>();
+       LinkedList<Card> hand2 = new LinkedList<Card>();
        
-       deck1.addAll(hands.subList(0, 25));
-       deck2.addAll(hands.subList(26, hands.size()));
+       //splits deck in two
+       hand1.addAll(hands.subList(0, 25));
+       hand2.addAll(hands.subList(26, hands.size()));
        
-       
+       //Start of the Game
+       while(true){
+           //takes the first card out of each hand
+           Card p1 = hand1.pop();
+           Card p2 = hand2.pop();
+           
+           //compares the cards
+           if(p1.getValue() > p2.getValue()){
+               //adds cards to player 1's hand if they win
+               hand1.addLast(p1);
+               hand1.addLast(p2);
+               
+               else if(p1.getValue() < p2.getValue()){
+                       //adds card to players 2's hand if they win
+                       hand2.addLast(p1);
+                       hand2.addLast(p2);
+                       }
+                       else{
+                       //war if cards match
+                        ArrayList<Card> war1 = new ArrayList<Card>();
+                        ArrayList<Card> war2 = new ArrayList<Card>();
+                       
+                        for(int x = 0; x < 3; x++){
+                       // checks to see if players have enough cards in their hands to continue
+                            if(hand1.size() == 0 || hand2.size() == 0){
+                                break;
+                       }
+                       hand1.addAll(war1);
+                       hand1.addAll(war2);
+                       }
+                       if war1.size() == 3 && war2.size() == 3){
+                       
+                       
+                        if(war1.get(2).getValue() > war2.get(2).getValue()){
+                            hand1.addAll(war1);
+                            hand1.addAll(war2);
+                       }
+                            else{
+                                hand2.addAll(war1);
+                                hand2.addAll(war2);
+                       }
+                       }
+                       }
+           
+       }
+           if(hand1.size() == 0){
+               break;
+           }
+           else if(hand2.size() == 0){
+               break;
+           }
+       }
    
    
-   
-   }
+   */}
 
     public void start(Stage primaryStage) {
                
