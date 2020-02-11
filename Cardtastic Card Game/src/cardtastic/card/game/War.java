@@ -36,15 +36,16 @@ public class War {
 
     public void start(Stage primaryStage) {
         
-        /*
+        
 
 
-
+/*
 //Creates deck
        ArrayList<Card> hands = new ArrayList<Card>();
-       String[] vals = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
        Deck myDeck = new Deck();
-       for (int i = 0; i < vals.length; i++) {
+      
+        String[] vals = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+        for (int i = 0; i < vals.length; i++) {
             Card tempSpade = new Card("Spades", vals[i]);
             hands.add(tempSpade);
             Card tempDiamond = new Card("Diamonds", vals[i]);
@@ -63,7 +64,7 @@ public class War {
        LinkedList<Card> hand2 = new LinkedList<Card>();
        
        //deals to hand
-        myDeck.deal(hand1, hand2);
+       myDeck.deal();
         
        //splits deck in two
        hand1.addAll(hands.subList(0, 25));
@@ -85,45 +86,51 @@ public class War {
                        //adds card to players 2's hand if they win
                        hand2.addLast(p1);
                        hand2.addLast(p2);
-                       }
-                       else{
-                       //war if cards match
-                        ArrayList<Card> war1 = new ArrayList<Card>();
-                        ArrayList<Card> war2 = new ArrayList<Card>();
+                       }//end of else if
+                            else{
+                                //war if cards match
+                                ArrayList<Card> war1 = new ArrayList<Card>();
+                                ArrayList<Card> war2 = new ArrayList<Card>();
                        
-                        for(int x = 0; x < 3; x++){
-                       // checks to see if players have enough cards in their hands to continue
-                            if(hand1.size() == 0 || hand2.size() == 0){
-                                break;
-                       }
-                       hand1.addAll(war1);
-                       hand1.addAll(war2);
-                       }
-                       if war1.size() == 3 && war2.size() == 3){
+                                for(int x = 0; x < 3; x++){
+        
+                                // checks to see if players have enough cards in their hands to continue
+                                    if(hand1.size() == 0 || hand2.size() == 0){
+                                         break;
+                                    }//end of if
+        
+                                hand1.addAll(war1);
+                                hand1.addAll(war2);
+                                }//end of for
+        
+                            if (war1.size() == 3 && war2.size() == 3){
                        
-                       
-                        if(war1.get(2).getValue() > war2.get(2).getValue()){
-                            hand1.addAll(war1);
-                            hand1.addAll(war2);
-                       }
+                                if(war1.get(2).getValue() > war2.get(2).getValue()){
+                                     hand1.addAll(war1);
+                                    hand1.addAll(war2);
+                                }//end of if
+        
                             else{
                                 hand2.addAll(war1);
                                 hand2.addAll(war2);
-                       }
-                       }
-                       }
+                            }//end of else
+                            }//end of if
+                }//end of else
            
-       }
-           if(hand1.size() == 0){
+            }//end of if
+        
+         if(hand1.isEmpty()){
                break;
-           }
-           else if(hand2.size() == 0){
+         }
+        
+         else if(hand2.isEmpty()){
                break;
-           }
-       }
+         }
+        
+         }//end of while loop*/
    
    
-   }*/
+   
                
         VBox warLayout = new VBox();
         Button strtBtn, drwBtn;
@@ -159,30 +166,33 @@ public class War {
         warLayout.setStyle("-fx-background-color: ForestGreen");
         Scene war = new Scene(warLayout, 1280, 550);
         warLayout.setPrefWidth(300);
-        warLayout.setSpacing(20);
+        
         warLayout.setPadding(new Insets(0, 0, 0, 0));
         primaryStage.setTitle("War Game");
         Label warTitle = new Label("War");
+        Label round = new Label("Round#: ");
+        Label roundWon = new Label("Round Winner is: ");
         Label p1Hand = new Label("Player's cards remaining: ");
         Label p2Hand = new Label("Computer's cards remaining: ");
         Label p1Draw = new Label("Player's card: ");
         Label p2Draw = new Label("Computer's card: ");
+        Label winner = new Label("Winner is: ");
         warTitle.setFont(new Font("calibre", 40));
         warLayout.getChildren().addAll(warMenuBar);
         warLayout.getChildren().addAll(warTitle);
         warLayout.setAlignment(Pos.TOP_CENTER);
-        warLayout.getChildren().addAll(p1Hand,p1Draw,p2Draw,p2Hand);
+        warLayout.getChildren().addAll(winner,round,roundWon,p1Hand,p1Draw,p2Draw,p2Hand);
         warLayout.getChildren().addAll(drawButton);
         primaryStage.setScene(war);
         primaryStage.show();
       
         
         
-    }
+    }//end of start
         
         
     
-         }
+         }//end of class
     
     
     
