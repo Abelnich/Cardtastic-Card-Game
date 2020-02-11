@@ -62,6 +62,9 @@ public class War {
        LinkedList<Card> hand1 = new LinkedList<Card>();
        LinkedList<Card> hand2 = new LinkedList<Card>();
        
+       //deals to hand
+        myDeck.deal(hand1, hand2);
+        
        //splits deck in two
        hand1.addAll(hands.subList(0, 25));
        hand2.addAll(hands.subList(26, hands.size()));
@@ -142,6 +145,16 @@ public class War {
         warMenu.getItems().add(settingsMenuItem);
         warMenuBar.getMenus().add(warMenu);
         
+        Button drawButton = new Button("Draw Cards");
+        
+        /*drawButton.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+               War warGame = new War();
+                warGame.start(primaryStage);
+            }
+        });*/
+        
         
         warLayout.setStyle("-fx-background-color: ForestGreen");
         Scene war = new Scene(warLayout, 1280, 550);
@@ -150,10 +163,16 @@ public class War {
         warLayout.setPadding(new Insets(0, 0, 0, 0));
         primaryStage.setTitle("War Game");
         Label warTitle = new Label("War");
+        Label p1Hand = new Label("Player's cards remaining: ");
+        Label p2Hand = new Label("Computer's cards remaining: ");
+        Label p1Draw = new Label("Player's card: ");
+        Label p2Draw = new Label("Computer's card: ");
         warTitle.setFont(new Font("calibre", 40));
         warLayout.getChildren().addAll(warMenuBar);
         warLayout.getChildren().addAll(warTitle);
         warLayout.setAlignment(Pos.TOP_CENTER);
+        warLayout.getChildren().addAll(p1Hand,p1Draw,p2Draw,p2Hand);
+        warLayout.getChildren().addAll(drawButton);
         primaryStage.setScene(war);
         primaryStage.show();
       
