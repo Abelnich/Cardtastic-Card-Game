@@ -31,8 +31,12 @@ import javafx.stage.Stage;
  */
 public class War {
     
-   public static void main(String[] args){
-/*
+   //public static void main(String[] args){
+
+
+    public void start(Stage primaryStage) {
+        
+        /*
 
 
 
@@ -116,9 +120,7 @@ public class War {
        }
    
    
-   */}
-
-    public void start(Stage primaryStage) {
+   }*/
                
         VBox warLayout = new VBox();
         Button strtBtn, drwBtn;
