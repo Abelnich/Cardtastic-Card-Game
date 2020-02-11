@@ -65,9 +65,9 @@ public class Main extends Application {
         settingsMenuItem.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
+                System.out.println("Settings");
                 Settings settingsPage = new Settings();
                 settingsPage.start(primaryStage);
-
             }
         });
 
@@ -138,8 +138,8 @@ public class Main extends Application {
         warButton.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-               War openWar = new War();
-                openWar.start(primaryStage);
+               War warGame = new War();
+                warGame.start(primaryStage);
             }
         });
 //
