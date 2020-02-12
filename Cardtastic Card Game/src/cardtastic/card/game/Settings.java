@@ -29,9 +29,12 @@ import javafx.stage.Stage;
  * @author NickAbel
  */
 public class Settings extends Application {
+        
+    Stage primaryStage;
     
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage sentStage) {
+        this.primaryStage = sentStage;
         
         // VBox for all settings buttons
         VBox AllSettingsVBox = new VBox();
@@ -131,6 +134,10 @@ public class Settings extends Application {
         primaryStage.show();
     } // end Start
     
+    public void LoadSettings() {
+        
+    }
+    
     public void CancelSettings(ActionEvent e) {
         Alert cancelAlert = new Alert(AlertType.CONFIRMATION);
         cancelAlert.setTitle("Discard Changes");
@@ -140,6 +147,7 @@ public class Settings extends Application {
         Optional<ButtonType> result = cancelAlert.showAndWait();
         if (result.get() == ButtonType.OK) {
             // user says okay den
+            primaryStage.close();
         } else {
             // stay on page
         }
