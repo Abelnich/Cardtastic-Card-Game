@@ -66,7 +66,8 @@ public class Main extends Application {
             @Override
             public void handle(Event event) {
                 Settings settingsPage = new Settings();
-                settingsPage.start(primaryStage);
+                Stage newStage = new Stage();
+                settingsPage.start(newStage);
             }
         });
 
