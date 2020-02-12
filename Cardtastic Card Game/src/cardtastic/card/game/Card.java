@@ -22,26 +22,7 @@ public class Card {
     }
     
     public String getSuit() {
-        String suitSymbol = "";
-        
-        switch (this.suit) {
-            // 
-            case "Spades":
-                suitSymbol = "♤";
-                break;
-            case "Diamonds":
-                suitSymbol = "♢";
-                break;
-            case "Clubs":
-                suitSymbol = "♧";
-                break;
-            case "Hearts":
-                suitSymbol = "♡";
-                break;
-
-        }
-        
-        return suitSymbol;
+        return this.suit;
     } // end getSuit()
     
     public String getValue() {
@@ -51,18 +32,17 @@ public class Card {
     public Image getImageFile(String reqSuit, String reqVal) {
         
         String fileName = "";
-        
-        if (reqSuit.equals("♤")) {
+        fileName += reqVal;
+        if (this.equals("Spades")) {
             fileName += 'S';
-        } else if (reqSuit.equals("♢")) {
+        } else if (reqSuit.equals("Diamonds")) {
             fileName += 'D';
-        } else if (reqSuit.equals("♧")) {
+        } else if (reqSuit.equals("Clubs")) {
             fileName += 'C';
-        } else if (reqSuit.equals("♡")) {
+        } else if (reqSuit.equals("Hearts")) {
             fileName += 'H';
         }
         
-        fileName += reqVal;
         fileName += ".png";
         
         Image reqImage = new Image(fileName);
