@@ -65,7 +65,6 @@ public class Main extends Application {
         settingsMenuItem.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-                System.out.println("Settings");
                 Settings settingsPage = new Settings();
                 settingsPage.start(primaryStage);
             }
