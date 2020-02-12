@@ -22,6 +22,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 /**
@@ -36,9 +37,11 @@ public class Settings extends Application {
     public void start(Stage sentStage) {
         this.primaryStage = sentStage;
         
-        // VBox for all settings buttons
+        // VBox for all settings
         VBox AllSettingsVBox = new VBox();
         AllSettingsVBox.setSpacing(40);
+        
+        // Card Back HBox to hold each VBox
         HBox CardBackHBox = new HBox();
         CardBackHBox.setAlignment(Pos.CENTER);
         CardBackHBox.setSpacing(40);
@@ -111,6 +114,21 @@ public class Settings extends Application {
         
         AllSettingsVBox.getChildren().add(CardBackHBox);
         
+        HBox Background = new HBox();
+        VBox greenBackVBox = new VBox();
+        VBox redBackVBox = new VBox();
+        VBox blueBackVBox = new VBox();
+        
+        Rectangle greenBack = new Rectangle(75, 75);
+        greenBack.setStyle("-fx-background-color: ForestGreen");
+        greenBack.setStroke(Paint.valueOf("Black"));
+        greenBack.setStrokeWidth(1);
+        greenBackVBox.getChildren().add(greenBack);
+        
+        Background.getChildren().add(greenBackVBox);
+        AllSettingsVBox.getChildren().add(Background);
+        
+        // Save and Close Buttons
         HBox buttonHBox = new HBox();
         buttonHBox.setSpacing(40);
         buttonHBox.setAlignment(Pos.CENTER);
@@ -120,6 +138,7 @@ public class Settings extends Application {
         btnCancel.setTextFill(Paint.valueOf("Red"));
         btnCancel.setOnAction(this::CancelSettings);
         buttonHBox.getChildren().add(btnCancel);
+        // End buttons
         
         AllSettingsVBox.getChildren().add(buttonHBox);
                 
