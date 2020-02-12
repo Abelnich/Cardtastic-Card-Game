@@ -64,12 +64,24 @@ public class LoginPage extends Application {
             { 
                 
                 x.begin();
+                
                   
             } 
         }; 
              
-       
+              EventHandler<ActionEvent> loginBtn = new EventHandler<ActionEvent>() { 
+            public void handle(ActionEvent e) 
+            { 
+                
+                
+                
+                  
+            } 
+        }; 
+             
+           
            create.setOnAction(event);
+           login.setOnAction(loginBtn);
          
          
         
