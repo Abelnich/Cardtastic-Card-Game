@@ -34,7 +34,7 @@ import java.awt.image.ImageObserver;
 import java.lang.String;
 public class Main extends Application {
     
-    //test for push
+    //2nd test for push
 
 
    Stage window;
