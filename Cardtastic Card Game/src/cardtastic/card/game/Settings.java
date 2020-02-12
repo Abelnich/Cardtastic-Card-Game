@@ -21,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -115,17 +116,22 @@ public class Settings extends Application {
         AllSettingsVBox.getChildren().add(CardBackHBox);
         
         HBox Background = new HBox();
-        VBox greenBackVBox = new VBox();
-        VBox redBackVBox = new VBox();
-        VBox blueBackVBox = new VBox();
+        VBox greenBGVBox = new VBox();
+        VBox redBGVBox = new VBox();
+        VBox blueBGVBox = new VBox();
         
-        Rectangle greenBack = new Rectangle(75, 75);
-        greenBack.setStyle("-fx-background-color: ForestGreen");
-        greenBack.setStroke(Paint.valueOf("Black"));
-        greenBack.setStrokeWidth(1);
-        greenBackVBox.getChildren().add(greenBack);
+        Rectangle greenBG = new Rectangle(75, 75);
+        greenBG.setFill(Color.valueOf("Green"));
+        greenBGVBox.getChildren().add(greenBG);
+        Rectangle redBG = new Rectangle(75, 75);
+        redBG.setFill(Color.valueOf("Red"));
+        redBGVBox.getChildren().add(redBG);
+        Rectangle blueBG = new Rectangle(75, 75);
+        blueBG.setFill(Color.valueOf("Blue"));
+        blueBGVBox.getChildren().add(blueBG);
         
-        Background.getChildren().add(greenBackVBox);
+        Background.getChildren().add(greenBGVBox);
+        Background.getChildren().add(redBGVBox);
         AllSettingsVBox.getChildren().add(Background);
         
         // Save and Close Buttons
