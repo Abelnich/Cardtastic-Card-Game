@@ -21,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -89,14 +90,21 @@ public class createAccount {
         
         
             
-        EventHandler<ActionEvent> save = new EventHandler<ActionEvent>() { 
-            public void handle (ActionEvent e)
+        EventHandler<ActionEvent> save = new EventHandler<ActionEvent>()  { 
+            public void handle (ActionEvent e) 
             { 
-                UserInfo y = new UserInfo(first,last,username,email,password,confPass); 
                 try {
-                    y.toFile("userDatabase.txt", first);
+                    UserInfo newUser = new UserInfo(first,last,username,email,password,confPass);
+                    
+                    if(first.getText().isEmpty() || last.getText().isEmpty() || username.getText().isEmpty()
+                       || email.getText().isEmpty() || password.getText().isEmpty() || confPass.getText().isEmpty()){
+                        JOptionPane.showMessageDialog(null,"Error!");
+                    }else{
+                        newUser.toFile("userDatabase.txt");
+                        JOptionPane.showMessageDialog(null,"Account created!");
+                    }
                 } catch (IOException ex) {
-                    Logger.getLogger(createAccount.class.getName()).log(Level.SEVERE, null, ex);
+                   // Logger.getLogger(createAccount.class.getName()).log(Level.SEVERE, null, ex);
                 }
             
                   
