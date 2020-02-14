@@ -6,11 +6,16 @@
 package cardtastic.card.game;
 
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -24,8 +29,14 @@ public class UserInfo {
     private String email; 
     private String password; 
     private String confPass;
+    private String activeUser; 
     
     private ArrayList<String> master = new ArrayList(); 
+    private ArrayList<String> check = new ArrayList(); 
+    
+    public UserInfo(){
+        
+    }
     
     public UserInfo(TextField fName, TextField lName, TextField username, TextField email, TextField password, TextField confPass){
         
@@ -50,8 +61,10 @@ public class UserInfo {
         
     }
     
-    public void toFile(String fileName) throws IOException{
+    // writes the user inputed information to a file 
+    public void toFile(String fileName) throws IOException{ 
         PrintWriter writer = new PrintWriter(new FileWriter(fileName, true)); 
+        
         
         writer.write("\n"); 
         for(String i : master){
@@ -62,6 +75,61 @@ public class UserInfo {
         
         
     }
+    
+    // validates the username and password for the login page
+    public void validate(TextField user, TextField pass) throws IOException{ 
+        
+        Scanner reader = new Scanner(new File("userDatabase.txt")); 
+        
+        //takes the contents of the file and adds them to a new arrayList called check 
+        while(reader.hasNext()){
+            String test = reader.next(); 
+            check.add(test); 
+        }
+        
+        Stage main = new Stage(); // test stage 
+        
+        // this loop sperates all the users in the text file
+        for(int a = 0; a < check.size(); a+=6){
+//            System.out.println(check.get(a+2));
+//            
+//            System.out.println(check.get(a+4));
+
+            // checks the username and password and displays the stage if there is a match
+            if(user.getText().equals(check.get(a+2)) && pass.getText().equals(check.get(a+4))){
+                 
+                 main.show();
+               //  a = 10000000; 
+            }
+            
+            
+        }
+        
+        
+        if(main.isShowing() == false){
+             JOptionPane.showMessageDialog(null,"Invalid User Name or Password");
+             activeUser = null; 
+        }
+        else{
+            activeUser = user.getText(); 
+        }
+        
+        System.out.println("Active User: " + activeUser);
+        
+       
+        
+//        for(int i = 0; i < check.size(); i++){
+//            System.out.println(check.get(i) + " -- " + i);
+//        }
+        
+        
+    }
+    
+     public String getActiveUser(){
+            return activeUser; 
+        }
+    
+    
     
    
     

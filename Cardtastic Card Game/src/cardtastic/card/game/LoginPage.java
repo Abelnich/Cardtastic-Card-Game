@@ -9,6 +9,9 @@ package cardtastic.card.game;
 
 
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -27,12 +30,12 @@ import javafx.stage.Stage;
  *
  * @author yousif
  */
-public class LoginPage extends Application {
+public class LoginPage {
     
     
    
-    @Override
-    public void start(Stage loginPage) {
+    
+    public void start() {
      
         
         
@@ -58,6 +61,7 @@ public class LoginPage extends Application {
          grid.add(create, 1, 3);
          
          createAccount x = new createAccount();
+         UserInfo y = new UserInfo(); 
          
              EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() { 
             public void handle(ActionEvent e) 
@@ -72,7 +76,11 @@ public class LoginPage extends Application {
               EventHandler<ActionEvent> loginBtn = new EventHandler<ActionEvent>() { 
             public void handle(ActionEvent e) 
             { 
-                
+                try { 
+                    y.validate(username,password);
+                } catch (IOException ex) {
+                 //   Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 
                 
                   
@@ -90,7 +98,7 @@ public class LoginPage extends Application {
       
         
         Scene scene = new Scene(grid, 500, 450);
-        
+        Stage loginPage = new Stage();
         loginPage.setTitle("Login");
         loginPage.setScene(scene);
         loginPage.show();

@@ -61,7 +61,17 @@ public class Main extends Application {
         MenuItem menuItem2 = new MenuItem("Log out");
         MenuItem settingsMenuItem = new MenuItem("Settings");
         
-        
+    EventHandler<ActionEvent> loginBtn = new EventHandler<ActionEvent>() { 
+            public void handle(ActionEvent e) 
+            { 
+
+                LoginPage loginPage = new LoginPage(); 
+                loginPage.start();
+                
+                  
+            } 
+        }; 
+    menuItem1.setOnAction(loginBtn);
         settingsMenuItem.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
