@@ -28,9 +28,7 @@ import javax.swing.JOptionPane;
  * @author yousif
  */
 public class createAccount {
-    public createAccount(){
-        
-    }
+
     
     public void begin(){
         Text fName = new Text("First Name: ");
@@ -87,7 +85,7 @@ public class createAccount {
                   
             } 
         }; 
-        
+        clear.setOnAction(erase);
         
             
         EventHandler<ActionEvent> save = new EventHandler<ActionEvent>()  { 
@@ -99,7 +97,16 @@ public class createAccount {
                     if(first.getText().isEmpty() || last.getText().isEmpty() || username.getText().isEmpty()
                        || email.getText().isEmpty() || password.getText().isEmpty() || confPass.getText().isEmpty()){
                         JOptionPane.showMessageDialog(null,"Error!");
-                    }else{
+                    }
+                    else if(password.getText().compareTo(confPass.getText()) != 0){
+                        JOptionPane.showMessageDialog(null,"Error! \n Password Does Not Match"); 
+                    }
+                    else if(password.getText().length() < 4 || confPass.getText().length() < 4){
+                        JOptionPane.showMessageDialog(null,"Error! \n Password must have at least 4 characters");
+                    }
+                        
+               
+                    else{
                         newUser.toFile("userDatabase.txt");
                         JOptionPane.showMessageDialog(null,"Account created!");
                     }
@@ -112,7 +119,7 @@ public class createAccount {
         }; 
             
             confirm.setOnAction(save);
-            clear.setOnAction(erase);
+            
              
         
         Scene root = new Scene(grid,500,450); 
