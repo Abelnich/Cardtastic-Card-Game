@@ -29,7 +29,7 @@ public class FileReader {
             if (myFile.createNewFile()) {
                 System.out.println("File created: " + myFile.getName());
             } else {
-                System.out.println("File already exists.");
+                System.out.println(fileName + " file already exists.");
             }
         } catch (Exception e) {
             System.out.println("An error occurred: " + e.getMessage());
