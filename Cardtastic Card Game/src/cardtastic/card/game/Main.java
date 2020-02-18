@@ -46,22 +46,22 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-       // Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-       // primaryStage.setTitle("Card Games");
-        //primaryStage.setScene(new Scene(root, 500, 475));
-
-
-        //Menu bar
+   
+        // Top Menu Bar
         MenuBar menuBar = new MenuBar();
-        VBox menuVbox = new VBox();
+        VBox menuVbox = new VBox(); // Is this needed?
         Menu menu1 = new Menu("User");
 
-        //adding login and log out options to menu1
         MenuItem menuItem1 = new MenuItem("Login");
         MenuItem menuItem2 = new MenuItem("Log out");
         MenuItem settingsMenuItem = new MenuItem("Settings");
         
-    EventHandler<ActionEvent> loginBtn = new EventHandler<ActionEvent>() { 
+        menu1.getItems().add(menuItem1);
+        menu1.getItems().add(menuItem2);
+        menu1.getItems().add(settingsMenuItem);
+        menuBar.getMenus().add(menu1);
+        
+    /*EventHandler<ActionEvent> loginBtn = new EventHandler<ActionEvent>() { 
             public void handle(ActionEvent e) 
             { 
 
@@ -79,72 +79,44 @@ public class Main extends Application {
                 Stage newStage = new Stage();
                 settingsPage.start(newStage);
             }
-        });
+        }); */
 
-        menu1.getItems().add(menuItem1);
-        menu1.getItems().add(menuItem2);
-        menu1.getItems().add(settingsMenuItem);
-        menuBar.getMenus().add(menu1);
-
-        //window
+        // Window
         window = primaryStage;
         window.setTitle("Card Games");
 
-        //VBox
+        // MainLayout
         mainLayout = new VBox();
         mainLayout.setPrefWidth(300);
         mainLayout.setSpacing(20);
         mainLayout.setPadding(new Insets(0, 0, 0, 0));
-
-
-        //MainLayout color
         mainLayout.setStyle("-fx-background-color: ForestGreen");
 
-        //HBox for button
+        // HBox for card game buttons
         cardGames = new HBox();
         cardGames.setPrefWidth(300);
         cardGames.setSpacing(20);
         cardGames.setPadding(new Insets( 200, 0, 0, 0));
+        
 
-
-        //Title
+        // Title
         Label cardGamesTitle = new Label("Card Games");
-
-        //Title font
         cardGamesTitle.setFont(new Font("calibre", 40));
-
-
-        //Buttons
+        
+        // Buttons
         solitaireButton = new Button("Solitaire");
         freeCellButton = new Button("Free Cell");
         blackJackButton = new Button("Black Jack");
         warButton = new Button("War");
 
-        //Button font and base color
+        // Button font and base color
         solitaireButton.setStyle("-fx-font: 22 calibre; -fx-base: tomato");
         freeCellButton.setStyle("-fx-font: 22 calibre; -fx-base: maroon");
         blackJackButton.setStyle("-fx-font: 22 calibre; -fx-base: red");
         warButton.setStyle("-fx-font: 22 calibre; -fx-base: pink");
 
-        //Button images
-
-        //Image clubButtonImage = new ImageIcon("club.png").getImage();
-
-        //Image clubButtonImage = new Image(getClass().getResourceAsStream(("club.png")));
-        //ImageView clubButtonView = new ImageView(clubButtonImage);
-        //clubButtonView.setFitHeight(15);
-        //clubButtonView.setFitWidth(15);
-        //solitaireButton.setGraphic(clubButtonView);
-
-        //Label greetings = new Label();
-
-
-        //mapping buttons to run game when clicked
-//        solitaireButton.setOnAction(new EventHandler() {
-//            @Override
-//            public void handle(Event event) {
-//                ButtonClassTest buttonClassTest = new ButtonClassTest();
-//                buttonClassTest.launch(primaryStage);
+        // Action Methods for each Button
+        
         warButton.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
@@ -152,22 +124,16 @@ public class Main extends Application {
                 warGame.start(primaryStage);
             }
         });
-//
-//                //Label greetings = new Label();
-//                        //greetings.setText("Accepted");
-//
-//            }
-//        });
+        
+        // end Action Methods
 
-
-        //Add elements to GUI
+        // Add elements to GUI
+        mainLayout.getChildren().add(menuBar);
+        mainLayout.getChildren().add(cardGamesTitle);
         cardGames.getChildren().addAll(solitaireButton, freeCellButton, blackJackButton, warButton);
-        mainLayout.getChildren().addAll(menuBar);
-        mainLayout.getChildren().addAll( cardGamesTitle);
-        mainLayout.getChildren().addAll(cardGames);
+        mainLayout.getChildren().add(cardGames);
 
-
-        //center stuff optional
+        // GUI Alignment
         cardGames.setAlignment(Pos.TOP_CENTER);
         mainLayout.setAlignment(Pos.TOP_CENTER);
 
@@ -176,15 +142,10 @@ public class Main extends Application {
         window.setScene(main);
         window.show();
 
-
-
-
     }
 
 
     public static void main(String[] args) {
         launch(args);
-        
-        
     }
 }
