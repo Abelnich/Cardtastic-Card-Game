@@ -4,9 +4,11 @@ Sophomore Project
 package cardtastic.card.game;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Optional;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -33,12 +35,21 @@ import javafx.stage.Stage;
 public class Settings extends Application {
         
     Stage primaryStage;
+    FileReader reader;
+    ArrayList<String> settingsInfo;
     
     @Override
     public void start(Stage sentStage) {
         this.primaryStage = sentStage;
         
-        FileReader reader = new FileReader("Settings.txt");
+        reader = new FileReader("Settings.txt");
+        settingsInfo = reader.readFile();
+        
+        if (settingsInfo.size() == 0) {
+            // If the settings file is empty, adds default settings for card and window backs
+            settingsInfo.add(0, "CardBack_Red");
+            settingsInfo.add(1, "Back_Green");
+        }
         
         // VBox for all settings
         VBox AllSettingsVBox = new VBox();
@@ -100,6 +111,27 @@ public class Settings extends Application {
         RadioButton grayBackTGL = new RadioButton();
         grayBackTGL.setToggleGroup(cardBackToggle);
         
+        switch (settingsInfo.get(0)) {
+            case "CardBack_Red":
+                redBackTGL.setSelected(true);
+                break;
+            case "CardBack_Yellow":
+                yellowBackTGL.setSelected(true);
+                break;
+            case "CardBack_Green":
+                greenBackTGL.setSelected(true);
+                break;
+            case "CardBack_Blue":
+                blueBackTGL.setSelected(true);
+                break;
+            case "CardBack_Purple":  
+                purpleBackTGL.setSelected(true);
+                break;
+            case "CardBack_Gray":
+                grayBackTGL.setSelected(true);
+                break;
+        }
+        
         RedCardVBox.getChildren().add(redBackTGL);
         YellowCardVBox.getChildren().add(yellowBackTGL);
         GreenCardVBox.getChildren().add(greenBackTGL);
@@ -151,6 +183,19 @@ public class Settings extends Application {
         blueBGTgl.setToggleGroup(backgroundTgl);
         blueBGVBox.getChildren().add(blueBGTgl);
         
+        switch(settingsInfo.get(1)) {
+            // Reads the saved setting for the background and toggles the corresponding radio button
+            case "Back_Green":
+                greenBGTgl.setSelected(true);
+                break;
+            case "Back_Red":
+                redBGTgl.setSelected(true);
+                break;
+            case "Back_Blue":
+                blueBGTgl.setSelected(true);
+                break;
+        }
+        
         Background.getChildren().add(greenBGVBox);
         Background.getChildren().add(redBGVBox);
         Background.getChildren().add(blueBGVBox);
@@ -161,6 +206,12 @@ public class Settings extends Application {
         buttonHBox.setSpacing(40);
         buttonHBox.setAlignment(Pos.CENTER);
         Button btnSave = new Button("Save");
+        btnSave.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                reader.writeFile(settingsInfo);
+            }
+        }); 
         buttonHBox.getChildren().add(btnSave);
         Button btnCancel = new Button("Cancel");
         btnCancel.setTextFill(Paint.valueOf("Red"));
@@ -180,10 +231,6 @@ public class Settings extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     } // end Start
-    
-    public void LoadSettings() {
-        
-    }
     
     public void CancelSettings(ActionEvent e) {
         Alert cancelAlert = new Alert(AlertType.CONFIRMATION);
