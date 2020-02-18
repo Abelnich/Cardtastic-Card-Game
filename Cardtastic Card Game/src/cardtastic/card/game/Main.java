@@ -52,26 +52,25 @@ public class Main extends Application {
         VBox menuVbox = new VBox(); // Is this needed?
         Menu menu1 = new Menu("User");
 
-        MenuItem menuItem1 = new MenuItem("Login");
+        MenuItem loginButton = new MenuItem("Login");
         MenuItem menuItem2 = new MenuItem("Log out");
         MenuItem settingsMenuItem = new MenuItem("Settings");
         
-        menu1.getItems().add(menuItem1);
+        menu1.getItems().add(loginButton);
         menu1.getItems().add(menuItem2);
         menu1.getItems().add(settingsMenuItem);
         menuBar.getMenus().add(menu1);
+       
+        // Menu bar actions
         
-    /*EventHandler<ActionEvent> loginBtn = new EventHandler<ActionEvent>() { 
+        loginButton.setOnAction(new EventHandler<ActionEvent>() { 
             public void handle(ActionEvent e) 
             { 
-
                 LoginPage loginPage = new LoginPage(); 
                 loginPage.start();
-                
-                  
             } 
-        }; 
-    menuItem1.setOnAction(loginBtn);
+        });
+    
         settingsMenuItem.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
@@ -79,7 +78,7 @@ public class Main extends Application {
                 Stage newStage = new Stage();
                 settingsPage.start(newStage);
             }
-        }); */
+        }); 
 
         // Window
         window = primaryStage;
