@@ -38,6 +38,8 @@ public class Settings extends Application {
     public void start(Stage sentStage) {
         this.primaryStage = sentStage;
         
+        FileReader reader = new FileReader("Settings.txt");
+        
         // VBox for all settings
         VBox AllSettingsVBox = new VBox();
         AllSettingsVBox.setSpacing(40);
@@ -114,11 +116,18 @@ public class Settings extends Application {
         CardBackHBox.getChildren().add(GrayCardVBox);
         
         AllSettingsVBox.getChildren().add(CardBackHBox);
+        // End Card Back Settings
         
+        // Background Settings
         HBox Background = new HBox();
+        Background.setSpacing(40);
+        Background.setAlignment(Pos.CENTER);
         VBox greenBGVBox = new VBox();
+        greenBGVBox.setAlignment(Pos.CENTER);
         VBox redBGVBox = new VBox();
+        redBGVBox.setAlignment(Pos.CENTER);
         VBox blueBGVBox = new VBox();
+        blueBGVBox.setAlignment(Pos.CENTER);
         
         Rectangle greenBG = new Rectangle(75, 75);
         greenBG.setFill(Color.valueOf("Green"));
@@ -130,8 +139,21 @@ public class Settings extends Application {
         blueBG.setFill(Color.valueOf("Blue"));
         blueBGVBox.getChildren().add(blueBG);
         
+        // Background toggles
+        ToggleGroup backgroundTgl = new ToggleGroup();
+        RadioButton greenBGTgl = new RadioButton();
+        greenBGTgl.setToggleGroup(backgroundTgl);
+        greenBGVBox.getChildren().add(greenBGTgl);
+        RadioButton redBGTgl = new RadioButton();
+        redBGTgl.setToggleGroup(backgroundTgl);
+        redBGVBox.getChildren().add(redBGTgl);
+        RadioButton blueBGTgl = new RadioButton();
+        blueBGTgl.setToggleGroup(backgroundTgl);
+        blueBGVBox.getChildren().add(blueBGTgl);
+        
         Background.getChildren().add(greenBGVBox);
         Background.getChildren().add(redBGVBox);
+        Background.getChildren().add(blueBGVBox);
         AllSettingsVBox.getChildren().add(Background);
         
         // Save and Close Buttons
