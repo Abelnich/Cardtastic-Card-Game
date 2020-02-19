@@ -45,7 +45,7 @@ public class Settings extends Application {
         reader = new FileReader("Settings.txt");
         settingsInfo = reader.readFile();
         
-        if (settingsInfo.size() == 0) {
+        if (settingsInfo.isEmpty()) {
             // If the settings file is empty, adds default settings for card and window backs
             settingsInfo.add(0, "CardBack_Red");
             settingsInfo.add(1, "Back_Green");
@@ -163,12 +163,18 @@ public class Settings extends Application {
         
         Rectangle greenBG = new Rectangle(75, 75);
         greenBG.setFill(Color.valueOf("Green"));
+        greenBG.setStroke(Color.valueOf("Black"));
+        greenBG.setStrokeWidth(3);
         greenBGVBox.getChildren().add(greenBG);
         Rectangle redBG = new Rectangle(75, 75);
         redBG.setFill(Color.valueOf("Red"));
+        redBG.setStroke(Color.valueOf("Black"));
+        redBG.setStrokeWidth(3);
         redBGVBox.getChildren().add(redBG);
         Rectangle blueBG = new Rectangle(75, 75);
         blueBG.setFill(Color.valueOf("Blue"));
+        blueBG.setStroke(Color.valueOf("Black"));
+        blueBG.setStrokeWidth(3);
         blueBGVBox.getChildren().add(blueBG);
         
         // Background toggles
