@@ -74,20 +74,19 @@ public class Settings extends Application {
         GrayCardVBox.setAlignment(Pos.CENTER);
         
         // Card Back Images 
-        Image redImg = new Image(new File("CardBack_Red.png").toURI().toString(), 75, 75, true, true);
-        Image yellowImg = new Image(new File("CardBack_Yellow.png").toURI().toString(), 75, 75, true, true);
-        Image greenImg = new Image(new File("CardBack_Green.png").toURI().toString(), 75, 75, true, true);
-        Image blueImg = new Image(new File("CardBack_Blue.png").toURI().toString(), 75, 75, true, true);
-        Image purpleImg = new Image(new File("CardBack_Purple.png").toURI().toString(), 75, 75, true, true);
-        Image grayImg = new Image(new File("CardBack_Gray.png").toURI().toString(), 75, 75, true, true);
+        Image imgCardBackRed = new Image(new File("CardBack_Red.png").toURI().toString(), 75, 75, true, true);
+        Image imgCardBackYellow = new Image(new File("CardBack_Yellow.png").toURI().toString(), 75, 75, true, true);
+        Image imgCardBackGreen = new Image(new File("CardBack_Green.png").toURI().toString(), 75, 75, true, true);
+        Image imgCardBackBlue = new Image(new File("CardBack_Blue.png").toURI().toString(), 75, 75, true, true);
+        Image imgCardBackPurple = new Image(new File("CardBack_Purple.png").toURI().toString(), 75, 75, true, true);
+        Image imgCardBackGray = new Image(new File("CardBack_Gray.png").toURI().toString(), 75, 75, true, true);
         
-        ImageView redImgView = new ImageView();
-        redImgView.setImage(redImg);
-        ImageView yellowImgView = new ImageView(yellowImg);
-        ImageView greenImgView = new ImageView(greenImg);
-        ImageView blueImgView = new ImageView(blueImg);
-        ImageView purpleImgView = new ImageView(purpleImg);
-        ImageView grayImgView = new ImageView(grayImg);
+        ImageView redImgView = new ImageView(imgCardBackRed);
+        ImageView yellowImgView = new ImageView(imgCardBackYellow);
+        ImageView greenImgView = new ImageView(imgCardBackGreen);
+        ImageView blueImgView = new ImageView(imgCardBackBlue);
+        ImageView purpleImgView = new ImageView(imgCardBackPurple);
+        ImageView grayImgView = new ImageView(imgCardBackGray);
         
         RedCardVBox.getChildren().add(redImgView);
         YellowCardVBox.getChildren().add(yellowImgView);
@@ -99,46 +98,46 @@ public class Settings extends Application {
         
         // Card Back Toggles
         ToggleGroup cardBackToggle = new ToggleGroup();
-        RadioButton redBackTGL = new RadioButton();
-        redBackTGL.setToggleGroup(cardBackToggle);
-        RadioButton yellowBackTGL = new RadioButton();
-        yellowBackTGL.setToggleGroup(cardBackToggle);
-        RadioButton greenBackTGL = new RadioButton();
-        greenBackTGL.setToggleGroup(cardBackToggle);
-        RadioButton blueBackTGL = new RadioButton();
-        blueBackTGL.setToggleGroup(cardBackToggle);
-        RadioButton purpleBackTGL = new RadioButton();
-        purpleBackTGL.setToggleGroup(cardBackToggle);
-        RadioButton grayBackTGL = new RadioButton();
-        grayBackTGL.setToggleGroup(cardBackToggle);
+        RadioButton radRedBack = new RadioButton();
+        radRedBack.setToggleGroup(cardBackToggle);
+        RadioButton radYellowBack = new RadioButton();
+        radYellowBack.setToggleGroup(cardBackToggle);
+        RadioButton radGreenBack = new RadioButton();
+        radGreenBack.setToggleGroup(cardBackToggle);
+        RadioButton radBlueBack = new RadioButton();
+        radBlueBack.setToggleGroup(cardBackToggle);
+        RadioButton radPurpleBack = new RadioButton();
+        radPurpleBack.setToggleGroup(cardBackToggle);
+        RadioButton radGrayBack = new RadioButton();
+        radGrayBack.setToggleGroup(cardBackToggle);
         
         switch (settingsInfo.get(0)) {
             case "CardBack_Red":
-                redBackTGL.setSelected(true);
+                radRedBack.setSelected(true);
                 break;
             case "CardBack_Yellow":
-                yellowBackTGL.setSelected(true);
+                radYellowBack.setSelected(true);
                 break;
             case "CardBack_Green":
-                greenBackTGL.setSelected(true);
+                radGreenBack.setSelected(true);
                 break;
             case "CardBack_Blue":
-                blueBackTGL.setSelected(true);
+                radBlueBack.setSelected(true);
                 break;
             case "CardBack_Purple":  
-                purpleBackTGL.setSelected(true);
+                radPurpleBack.setSelected(true);
                 break;
             case "CardBack_Gray":
-                grayBackTGL.setSelected(true);
+                radGrayBack.setSelected(true);
                 break;
         }
         
-        RedCardVBox.getChildren().add(redBackTGL);
-        YellowCardVBox.getChildren().add(yellowBackTGL);
-        GreenCardVBox.getChildren().add(greenBackTGL);
-        BlueCardVBox.getChildren().add(blueBackTGL);
-        PurpleCardVBox.getChildren().add(purpleBackTGL);
-        GrayCardVBox.getChildren().add(grayBackTGL);
+        RedCardVBox.getChildren().add(radRedBack);
+        YellowCardVBox.getChildren().add(radYellowBack);
+        GreenCardVBox.getChildren().add(radGreenBack);
+        BlueCardVBox.getChildren().add(radBlueBack);
+        PurpleCardVBox.getChildren().add(radPurpleBack);
+        GrayCardVBox.getChildren().add(radGrayBack);
         // End Card Back Toggles
         
         CardBackHBox.getChildren().add(RedCardVBox);
