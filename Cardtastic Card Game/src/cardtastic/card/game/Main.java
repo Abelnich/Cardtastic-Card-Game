@@ -138,6 +138,7 @@ public class Main extends Application {
 
         //Show window
         Scene main = new Scene(mainLayout, 1280, 550);
+        //main.getStylesheets().add(getClass().getResource("Style.css").toExternalForm());
         window.setScene(main);
         window.show();
 
