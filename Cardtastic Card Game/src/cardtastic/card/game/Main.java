@@ -55,10 +55,12 @@ public class Main extends Application {
         MenuItem loginButton = new MenuItem("Login");
         MenuItem menuItem2 = new MenuItem("Log out");
         MenuItem settingsMenuItem = new MenuItem("Settings");
+        MenuItem helpMenuItem = new MenuItem("Help");
         
         menu1.getItems().add(loginButton);
         menu1.getItems().add(menuItem2);
         menu1.getItems().add(settingsMenuItem);
+        menu1.getItems().add(helpMenuItem);
         menuBar.getMenus().add(menu1);
        
         // Menu bar actions
@@ -77,6 +79,15 @@ public class Main extends Application {
                 Settings settingsPage = new Settings();
                 Stage newStage = new Stage();
                 settingsPage.start(newStage);
+            }
+        }); 
+        
+        helpMenuItem.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                Help help = new Help();
+                Stage newStage = new Stage();
+                help.start(newStage);
             }
         }); 
 
