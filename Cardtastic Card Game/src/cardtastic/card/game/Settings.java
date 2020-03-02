@@ -34,7 +34,7 @@ import javafx.stage.Stage;
  * @author NickAbel
  */
 public class Settings extends Application {
-        
+    
     Stage primaryStage;
     FileReader reader;
     ArrayList<String> settingsInfo;
