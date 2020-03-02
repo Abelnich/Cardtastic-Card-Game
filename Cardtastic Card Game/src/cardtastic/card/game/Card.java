@@ -30,10 +30,14 @@ public class Card {
     }
     
     public int getRank() {
-        if (this.value.equals("K") || this.value.equals("Q") || this.value.equals("J")) {
-            return 10;
-        } else if (this.value.equals("A")) {
-            return 11;
+        if (this.value.equals("A")) {
+            return 14;
+        } else if (this.value.equals("K")) {
+           return 13;
+        } else if (this.value.equals("Q")) {
+            return 12;
+        } else if (this.value.equals("J")) {
+            return 11;  
         } else {
             return Integer.parseInt(this.value);
         }
