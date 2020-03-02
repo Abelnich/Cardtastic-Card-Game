@@ -23,10 +23,20 @@ public class Card {
     
     public String getSuit() {
         return this.suit;
-    } // end getSuit()
+    } 
     
     public String getValue() {
         return this.value;
+    }
+    
+    public int getRank() {
+        if (this.value.equals("K") || this.value.equals("Q") || this.value.equals("J")) {
+            return 10;
+        } else if (this.value.equals("A")) {
+            return 11;
+        } else {
+            return Integer.getInteger(this.value);
+        }
     }
     
     public Image getImageFile(String reqSuit, String reqVal) {
