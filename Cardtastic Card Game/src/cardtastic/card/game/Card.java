@@ -35,7 +35,7 @@ public class Card {
         } else if (this.value.equals("A")) {
             return 11;
         } else {
-            return Integer.getInteger(this.value);
+            return Integer.parseInt(this.value);
         }
     }
     
