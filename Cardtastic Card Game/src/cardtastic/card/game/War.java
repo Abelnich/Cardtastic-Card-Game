@@ -33,8 +33,7 @@ import javafx.stage.Stage;
  */
 public class War {
     
-        int rankp1 = 0;
-        int rankp2 = 0;
+        
         int rnd = 0;
         String rdW = "";
         int pc;
@@ -174,88 +173,10 @@ public class War {
            Card p1 = hand1.pop();
            Card p2 = hand2.pop();
            
-           if(p1.getValue().equals("A")){
-               rankp1 = 14;
-           }
-           else if(p1.getValue().equals("2")){
-               rankp1 = 2;
-           }
-           else if(p1.getValue().equals("3")){
-               rankp1 = 3;
-           }
-           else if(p1.getValue().equals("4")){
-               rankp1 = 4;
-           }
-           else if(p1.getValue().equals("5")){
-               rankp1 = 5;
-           }
-           else if(p1.getValue().equals("6")){
-               rankp1 = 6;
-           }
-           else if(p1.getValue().equals("7")){
-               rankp1 = 7;
-           }
-           else if(p1.getValue().equals("8")){
-               rankp1 = 8;
-           }
-           else if(p1.getValue().equals("9")){
-               rankp1 = 9;
-           }
-           else if(p1.getValue().equals("10")){
-               rankp1 = 10;
-           }
-           else if(p1.getValue().equals("J")){
-               rankp1 = 11;
-           }
-           else if(p1.getValue().equals("Q")){
-               rankp1 = 12;
-           }
-           else if(p1.getValue().equals("K")){
-               rankp1 = 13;
-           }
            
-           if(p2.getValue().equals("A")){
-               rankp2 = 14;
-           }
-           else if(p2.getValue().equals("2")){
-               rankp2 = 2;
-           }
-           else if(p2.getValue().equals("3")){
-               rankp2 = 3;
-           }
-           else if(p2.getValue().equals("4")){
-               rankp2 = 4;
-           }
-           else if(p2.getValue().equals("5")){
-               rankp2 = 5;
-           }
-           else if(p2.getValue().equals("6")){
-               rankp2 = 6;
-           }
-           else if(p2.getValue().equals("7")){
-               rankp2 = 7;
-           }
-           else if(p2.getValue().equals("8")){
-               rankp2 = 8;
-           }
-           else if(p2.getValue().equals("9")){
-               rankp2 = 9;
-           }
-           else if(p2.getValue().equals("10")){
-               rankp2 = 10;
-           }
-           else if(p2.getValue().equals("J")){
-               rankp2 = 11;
-           }
-           else if(p2.getValue().equals("Q")){
-               rankp2 = 12;
-           }
-           else if(p2.getValue().equals("K")){
-               rankp2 = 13;
-           }
            
            //compares the cards
-           if(rankp1 > rankp2){
+           if(p1.getRank() > p2.getRank()){
                //adds cards to player 1's hand if they win
                hand1.addLast(p1);
                hand1.addLast(p2);
@@ -273,7 +194,7 @@ public class War {
                
                
            }
-               else if(rankp1 < rankp2){
+               else if(p1.getRank() < p2.getRank()){
                        //adds card to players 2's hand if they win
                        hand2.addLast(p1);
                        hand2.addLast(p2);
@@ -293,8 +214,7 @@ public class War {
                        }//end of else if
                             else{
                                 //war if cards match
-                                warG = "War Declared";
-                                warGm.setText(warG);
+                                
                                 pc1 = p1.getSuit() +" "+ p1.getValue();
                                 p1Draw.setText("Player's card: " + pc1);
                                 cc1 = p2.getSuit() +" "+ p2.getValue();
@@ -336,16 +256,13 @@ public class War {
                                      hand1.addAll(war1);
                                      hand1.addAll(war2);
                                     
-                                    warG = "Player Wins War";
+                                    warG = "War Declared: Player Wins";
                                     warGm.setText(warG);
                                     pc += 3;
                                     p1Hand.setText("Player's cards remaining: " + pc);
                                     cc -= 3;
                                     p2Hand.setText("Computer's cards remaining: " + cc);
-                                    pc1 = p1.getSuit() +" "+ p1.getValue();
-                                    p1Draw.setText("Player's card: " + pc1);
-                                    cc1 = p2.getSuit() +" "+ p2.getValue();
-                                    p2Draw.setText("Computer's card: " + cc1);
+                                    
                                     
                                 }//end of if
         
@@ -353,16 +270,13 @@ public class War {
                                 hand2.addAll(war1);
                                 hand2.addAll(war2);
                                 
-                                warG = "Computer Wins War";
+                                warG = "War Declared: Computer Wins";
                                 warGm.setText(warG);
                                 pc -= 3;
                                 p1Hand.setText("Player's cards remaining: " + pc);
                                 cc += 3;
                                 p2Hand.setText("Computer's cards remaining: " + cc);
-                                pc1 = p1.getSuit() +" "+ p1.getValue();
-                                p1Draw.setText("Player's card: " + pc1);
-                                cc1 = p2.getSuit() +" "+ p2.getValue();
-                                p2Draw.setText("Computer's card: " + cc1);
+                               
                                 
                             }//end of else
                             }//end of if
