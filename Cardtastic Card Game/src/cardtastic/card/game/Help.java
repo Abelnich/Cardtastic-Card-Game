@@ -25,6 +25,7 @@ import javafx.stage.Stage;
  */
 public class Help extends Application {
     
+    StackPane root;
     Stage helpStage;
     Scene startScene, blackjackScene;
     
@@ -33,8 +34,7 @@ public class Help extends Application {
         helpStage = primaryStage;
         
         // start scene \\
-            //MenuBar menuBar = new MenuBar();
-            //Menu back = new Menu();
+        
         
         Label welcomeMessage = new Label("Select below which game you want to know more about.");
         welcomeMessage.setFont(new Font("calibre", 40));
@@ -51,6 +51,7 @@ public class Help extends Application {
         
         HBox buttonHB = new HBox();
         buttonHB.setAlignment(Pos.CENTER);
+        buttonHB.setSpacing(20);
         buttonHB.getChildren().add(solitaireBtn);
         buttonHB.getChildren().add(freeCellBtn);
         buttonHB.getChildren().add(blackJackBtn);
@@ -58,10 +59,10 @@ public class Help extends Application {
         sceneVB.getChildren().add(buttonHB);
         
         // Scene housekeeping
-        StackPane root = new StackPane();
+        root = new StackPane();
         root.setStyle("-fx-background-color: ForestGreen");
-        Scene scene = new Scene(root, 1280, 550);
         root.getChildren().add(sceneVB);
+        Scene scene = new Scene(root, 1280, 550);
         
         helpStage.setTitle("Help");
         helpStage.setScene(scene);
@@ -72,6 +73,13 @@ public class Help extends Application {
     
     public void helpBlackjack(ActionEvent e) {
         
+        
+        
+        StackPane blackJackStack = new StackPane();
+        blackJackStack.setStyle("-fx-background-color: ForestGreen");
+        blackjackScene = new Scene(blackJackStack, 1280, 550);
+        
+        helpStage.setScene(blackjackScene);
     }
     
 }
