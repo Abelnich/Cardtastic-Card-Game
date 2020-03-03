@@ -5,6 +5,8 @@
  */
 package cardtastic.card.game;
 import static java.awt.SystemColor.window;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,6 +44,10 @@ public class War {
         String cc1 = "";
         String wnr = "";
         String warG = "";
+        Image card1;
+        Image card2;
+        Image card3;
+        Image card4;
     
    //public static void main(String[] args){
 
@@ -157,7 +163,7 @@ public class War {
         Label winner = new Label("Winner is: " + wnr);
         Label warGm = new Label (warG);
         warTitle.setFont(new Font("calibre", 40));
-        
+        ImageView imv1 = new ImageView();
         
         //Image d1, d2 = new Image("C:\\Users\\tq\\Desktop\\SophProj\\Cardtastic-Card-Game\\Cardtastic Card Game");
         
@@ -191,6 +197,9 @@ public class War {
                p1Draw.setText("Player's card: " + pc1);
                cc1 = p2.getSuit() +" "+ p2.getValue();
                p2Draw.setText("Computer's card: " + cc1);
+               imv1.setImage(p2.getImageFile(p1.getSuit(), p1.getValue()));
+               
+               
                
                
            }
@@ -209,6 +218,8 @@ public class War {
                         p1Draw.setText("Player's card: " + pc1);
                         cc1 = p2.getSuit() +" "+ p2.getValue();
                         p2Draw.setText("Computer's card: " + cc1);
+                        p1.getImageFile(p1.getSuit(), p1.getValue());
+                        p2.getImageFile(p1.getSuit(), p1.getValue());
                         
                         
                        }//end of else if
@@ -219,6 +230,8 @@ public class War {
                                 p1Draw.setText("Player's card: " + pc1);
                                 cc1 = p2.getSuit() +" "+ p2.getValue();
                                 p2Draw.setText("Computer's card: " + cc1);
+                                p1.getImageFile(p1.getSuit(), p1.getValue());
+                                p2.getImageFile(p1.getSuit(), p1.getValue());
                                 
                                 ArrayList<Card> war1 = new ArrayList<Card>();
                                 ArrayList<Card> war2 = new ArrayList<Card>();
@@ -308,6 +321,7 @@ public class War {
         warLayout.setAlignment(Pos.TOP_CENTER);
         warLayout.getChildren().addAll(winner,round,roundWon,p1Hand,p1Draw,p2Draw,p2Hand, warGm);
         warLayout.getChildren().addAll(drawButton);
+        warLayout.getChildren().addAll(imv1);
         primaryStage.setScene(war);
         primaryStage.show();
       
