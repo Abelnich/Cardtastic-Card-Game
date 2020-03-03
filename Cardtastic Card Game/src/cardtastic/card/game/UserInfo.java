@@ -31,7 +31,8 @@ public class UserInfo {
     private String activeUser; 
     
     private ArrayList<String> master = new ArrayList(); 
-    private ArrayList<String> check = new ArrayList(); 
+    private ArrayList<String> checkLogin = new ArrayList(); 
+    private ArrayList<String> checkAccount = new ArrayList(); 
     
     public UserInfo(){
         
@@ -83,19 +84,19 @@ public class UserInfo {
         //takes the contents of the file and adds them to a new arrayList called check 
         while(reader.hasNext()){
             String test = reader.next(); 
-            check.add(test); 
+            checkLogin.add(test); 
         }
         
         Stage main = new Stage(); // test stage 
         
         // this loop sperates all the users in the text file
-        for(int a = 0; a < check.size(); a+=6){
+        for(int a = 0; a < checkLogin.size(); a+=6){
 //            System.out.println(check.get(a+2));
 //            
 //            System.out.println(check.get(a+4));
 
             // checks the username and password and displays the stage if there is a match
-            if(user.getText().equals(check.get(a+2)) && pass.getText().equals(check.get(a+4))){
+            if(user.getText().equals(checkLogin.get(a+2)) && pass.getText().equals(checkLogin.get(a+4))){
                  
                  main.show();
                //  a = 10000000; 
@@ -122,6 +123,25 @@ public class UserInfo {
 //        }
         
         
+    }
+    
+    public boolean checkAccount(TextField email) throws IOException{
+       Scanner reader = new Scanner(new File("userDatabase.txt")); 
+       boolean result = true; 
+       while(reader.hasNext()){
+           String test = reader.next(); 
+           checkAccount.add(test); 
+       }
+       
+       for(int a = 0; a < checkAccount.size(); a+=6){
+           if(email.getText().equals(checkAccount.get(a+3))){
+               result = false; 
+               
+           }
+       }
+       
+       
+       return result; 
     }
     
      public String getActiveUser(){

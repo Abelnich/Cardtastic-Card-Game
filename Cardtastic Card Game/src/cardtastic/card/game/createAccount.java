@@ -16,7 +16,10 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -31,6 +34,9 @@ public class createAccount {
 
     
     public void begin(){
+        
+        boolean alreadyExists;
+     
         Text fName = new Text("First Name: ");
         Text lName = new Text("Last Name: ");
         Text user = new Text("Username: "); 
@@ -72,6 +78,8 @@ public class createAccount {
         grid.add(confirm,1,6);
         grid.add(clear,1,7); 
         
+        
+        
         EventHandler<ActionEvent> erase = new EventHandler<ActionEvent>() { 
             public void handle(ActionEvent e) 
             { 
@@ -91,24 +99,45 @@ public class createAccount {
         EventHandler<ActionEvent> save = new EventHandler<ActionEvent>()  { 
             public void handle (ActionEvent e) 
             { 
+                
                 try {
                     UserInfo newUser = new UserInfo(first,last,username,email,password,confPass);
+                    Alert a = new Alert(AlertType.NONE); 
                     
                     if(first.getText().isEmpty() || last.getText().isEmpty() || username.getText().isEmpty()
                        || email.getText().isEmpty() || password.getText().isEmpty() || confPass.getText().isEmpty()){
-                        JOptionPane.showMessageDialog(null,"Error!");
+                        a.setAlertType(AlertType.ERROR);
+                        a.show();
+                        
+                        
+                    }
+                    else if(newUser.checkAccount(email) == false){
+                        a.setAlertType(AlertType.ERROR);
+                        a.setContentText("Account Already Exists");
+                        a.show();
+                        
                     }
                     else if(password.getText().compareTo(confPass.getText()) != 0){
-                        JOptionPane.showMessageDialog(null,"Error! \n Password Does Not Match"); 
+                        a.setAlertType(AlertType.ERROR);
+                        a.setContentText("Password Does Not Match");
+                        a.show();
+                        
                     }
                     else if(password.getText().length() < 4 || confPass.getText().length() < 4){
-                        JOptionPane.showMessageDialog(null,"Error! \n Password must have at least 4 characters");
+                        a.setAlertType(AlertType.ERROR);
+                        a.setContentText("Password must have at least 4 characters");
+                        a.show();
+                        
                     }
+                    
                         
                
                     else{
                         newUser.toFile("userDatabase.txt");
-                        JOptionPane.showMessageDialog(null,"Account created!");
+                        Alert a1 = new Alert(AlertType.NONE, "default Dialog",ButtonType.APPLY); 
+                        a1.setContentText("Account created!");
+                        a1.show();
+                        
                     }
                 } catch (IOException ex) {
                    // Logger.getLogger(createAccount.class.getName()).log(Level.SEVERE, null, ex);
