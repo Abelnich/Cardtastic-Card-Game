@@ -21,6 +21,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -30,6 +32,17 @@ import javafx.stage.Stage;
  * @author tq
  */
 public class War {
+    
+        int rankp1 = 0;
+        int rankp2 = 0;
+        int rnd = 0;
+        String rdW = "";
+        int pc;
+        int cc;
+        String pc1 = "";
+        String cc1 = "";
+        String wnr = "";
+        String warG = "";
     
    //public static void main(String[] args){
 
@@ -41,9 +54,6 @@ public class War {
 
 
 //Creates deck
-       /* int rankp1 = 0;
-        int rankp2 = 0;
-
        ArrayList<Card> hands = new ArrayList<Card>(52);
        Deck myDeck1 = new Deck();
        Deck myDeck2 = new Deck();
@@ -71,8 +81,8 @@ public class War {
        //creates hands
        LinkedList<Card> hand1 = new LinkedList<Card>();
        LinkedList<Card> hand2 = new LinkedList<Card>();
-       int handp1;
-       int handp2;
+       
+       
        
        //deals to hand
        myDeck1.Shuffle();
@@ -89,9 +99,78 @@ public class War {
        hand1.addAll(hands.subList(0, 25));
        hand2.addAll(hands.subList(26, hands.size()));
        
-       //Start of the Game
-       while(true){
-           //takes the first card out of each hand
+        
+           pc = hand1.size();
+           cc = hand2.size();
+           
+           
+        
+
+       
+       
+      
+        
+         
+    
+         
+
+   
+   
+               
+        VBox warLayout = new VBox();
+        Button strtBtn, drwBtn;
+        
+        MenuBar warMenuBar = new MenuBar();
+        VBox warMenuVbox = new VBox();
+        Menu warMenu = new Menu("User");
+        MenuItem settingsMenuItem = new MenuItem("Settings");
+        
+        settingsMenuItem.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                Settings settingsPage = new Settings();
+                settingsPage.start(primaryStage);
+
+            }
+        });
+        
+        warMenu.getItems().add(settingsMenuItem);
+        warMenuBar.getMenus().add(warMenu);
+        
+        Button drawButton = new Button("Draw Cards");
+        
+        
+        
+        
+        warLayout.setStyle("-fx-background-color: ForestGreen");
+        Scene war = new Scene(warLayout, 1280, 550);
+        warLayout.setPrefWidth(300);
+        
+        warLayout.setPadding(new Insets(0, 0, 0, 0));
+        primaryStage.setTitle("War Game");
+        Label warTitle = new Label("War");
+        Label round = new Label("Round#: " + rnd);
+        Label roundWon = new Label("Round Winner is: " + rdW);
+        Label p1Hand = new Label("Player's cards remaining: " + pc);
+        Label p2Hand = new Label("Computer's cards remaining: " + cc);
+        Label p1Draw = new Label("Player's card: " + pc1);
+        Label p2Draw = new Label("Computer's card: " + cc1);
+        Label winner = new Label("Winner is: " + wnr);
+        Label warGm = new Label (warG);
+        warTitle.setFont(new Font("calibre", 40));
+        
+        
+        //Image d1, d2 = new Image("C:\\Users\\tq\\Desktop\\SophProj\\Cardtastic-Card-Game\\Cardtastic Card Game");
+        
+        
+        drawButton.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                rnd = rnd+1;
+                round.setText("Round#: " + rnd);
+                //Start of the Game
+                warGm.setText("");
+          //takes the first card out of each hand
            Card p1 = hand1.pop();
            Card p2 = hand2.pop();
            
@@ -174,113 +253,146 @@ public class War {
            else if(p2.getValue().equals("K")){
                rankp2 = 13;
            }
-          
+           
            //compares the cards
            if(rankp1 > rankp2){
                //adds cards to player 1's hand if they win
                hand1.addLast(p1);
                hand1.addLast(p2);
-           
+               
+               rdW = "Player";
+               roundWon.setText("Round Winner is: " + rdW);
+               pc += 1;
+               p1Hand.setText("Player's cards remaining: " + pc);
+               cc -= 1;
+               p2Hand.setText("Computer's cards remaining: " + cc);
+               pc1 = p1.getSuit() +" "+ p1.getValue();
+               p1Draw.setText("Player's card: " + pc1);
+               cc1 = p2.getSuit() +" "+ p2.getValue();
+               p2Draw.setText("Computer's card: " + cc1);
+               
+               
+           }
                else if(rankp1 < rankp2){
                        //adds card to players 2's hand if they win
                        hand2.addLast(p1);
                        hand2.addLast(p2);
+                       
+                        rdW = "Computer";
+                        roundWon.setText("Round Winner is: " + rdW);
+                        pc -= 1;
+                        p1Hand.setText("Player's cards remaining: " + pc);
+                        cc += 1;
+                        p2Hand.setText("Computer's cards remaining: " + cc);
+                        pc1 = p1.getSuit() +" "+ p1.getValue();
+                        p1Draw.setText("Player's card: " + pc1);
+                        cc1 = p2.getSuit() +" "+ p2.getValue();
+                        p2Draw.setText("Computer's card: " + cc1);
+                        
+                        
                        }//end of else if
                             else{
                                 //war if cards match
+                                warG = "War Declared";
+                                warGm.setText(warG);
+                                pc1 = p1.getSuit() +" "+ p1.getValue();
+                                p1Draw.setText("Player's card: " + pc1);
+                                cc1 = p2.getSuit() +" "+ p2.getValue();
+                                p2Draw.setText("Computer's card: " + cc1);
+                                
                                 ArrayList<Card> war1 = new ArrayList<Card>();
                                 ArrayList<Card> war2 = new ArrayList<Card>();
                        
                                 for(int x = 0; x < 3; x++){
         
                                 // checks to see if players have enough cards in their hands to continue
-                                    if(hand1.isEmpty() || hand2.isEmpty()){
+                                    if(hand1.isEmpty()){
+                                        
+                                        wnr = "Computer";
+                                        winner.setText("Winner is: " + wnr);
+                                        rnd = 0;
+                                        round.setText("Round#: " + rnd);
+                                        
                                          break;
+                                         
                                     }//end of if
-        
-                                hand1.addAll(war1);
-                                hand1.addAll(war2);
+                                    else if (hand2.isEmpty()){
+                                        
+                                        wnr = "Player";
+                                        winner.setText("Winner is: " + wnr);
+                                        rnd = 0;
+                                        round.setText("Round#: " + rnd);
+                                        break;
+                                        
+                                    }//end of elseif
+                                war1.add(hand1.pop());
+                                war2.add(hand2.pop());
+
                                 }//end of for
         
                             if (war1.size() == 3 && war2.size() == 3){
                        
-                                if(war1.get(2).getValue() > war2.get(2).getValue()){
+                                if(war1.get(2).getRank() > war2.get(2).getRank()){
                                      hand1.addAll(war1);
-                                    hand1.addAll(war2);
+                                     hand1.addAll(war2);
+                                    
+                                    warG = "Player Wins War";
+                                    warGm.setText(warG);
+                                    pc += 3;
+                                    p1Hand.setText("Player's cards remaining: " + pc);
+                                    cc -= 3;
+                                    p2Hand.setText("Computer's cards remaining: " + cc);
+                                    pc1 = p1.getSuit() +" "+ p1.getValue();
+                                    p1Draw.setText("Player's card: " + pc1);
+                                    cc1 = p2.getSuit() +" "+ p2.getValue();
+                                    p2Draw.setText("Computer's card: " + cc1);
+                                    
                                 }//end of if
         
                             else{
                                 hand2.addAll(war1);
                                 hand2.addAll(war2);
+                                
+                                warG = "Computer Wins War";
+                                warGm.setText(warG);
+                                pc -= 3;
+                                p1Hand.setText("Player's cards remaining: " + pc);
+                                cc += 3;
+                                p2Hand.setText("Computer's cards remaining: " + cc);
+                                pc1 = p1.getSuit() +" "+ p1.getValue();
+                                p1Draw.setText("Player's card: " + pc1);
+                                cc1 = p2.getSuit() +" "+ p2.getValue();
+                                p2Draw.setText("Computer's card: " + cc1);
+                                
                             }//end of else
                             }//end of if
                 }//end of else
-           
-            }//end of if
-        
-         if(hand1.isEmpty()){
-               break;
+           if(hand1.isEmpty()){
+               
+               wnr = "Computer";
+               winner.setText("Winner is: " + wnr);
+               rnd = 0;
+               round.setText("Round#: " + rnd);
+               
          }
         
          else if(hand2.isEmpty()){
-               break;
-         }
-        
-         }//end of while loop*/
-
-   
-   
+             
+             wnr = "Player";
+             winner.setText("Winner is: " + wnr);
+             rnd = 0;
+             round.setText("Round#: " + rnd);
                
-        VBox warLayout = new VBox();
-        Button strtBtn, drwBtn;
-        
-        MenuBar warMenuBar = new MenuBar();
-        VBox warMenuVbox = new VBox();
-        Menu warMenu = new Menu("User");
-        MenuItem settingsMenuItem = new MenuItem("Settings");
-        
-        settingsMenuItem.setOnAction(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                Settings settingsPage = new Settings();
-                settingsPage.start(primaryStage);
-
+         }
+           
+            
             }
         });
         
-        warMenu.getItems().add(settingsMenuItem);
-        warMenuBar.getMenus().add(warMenu);
-        
-        Button drawButton = new Button("Draw Cards");
-        
-        /*drawButton.setOnAction(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-               War warGame = new War();
-                warGame.start(primaryStage);
-            }
-        });*/
-        
-        
-        warLayout.setStyle("-fx-background-color: ForestGreen");
-        Scene war = new Scene(warLayout, 1280, 550);
-        warLayout.setPrefWidth(300);
-        
-        warLayout.setPadding(new Insets(0, 0, 0, 0));
-        primaryStage.setTitle("War Game");
-        Label warTitle = new Label("War");
-        Label round = new Label("Round#: ");
-        Label roundWon = new Label("Round Winner is: ");
-        Label p1Hand = new Label("Player's cards remaining: ");
-        Label p2Hand = new Label("Computer's cards remaining: ");
-        Label p1Draw = new Label("Player's card: ");
-        Label p2Draw = new Label("Computer's card: ");
-        Label winner = new Label("Winner is: ");
-        warTitle.setFont(new Font("calibre", 40));
         warLayout.getChildren().addAll(warMenuBar);
         warLayout.getChildren().addAll(warTitle);
         warLayout.setAlignment(Pos.TOP_CENTER);
-        warLayout.getChildren().addAll(winner,round,roundWon,p1Hand,p1Draw,p2Draw,p2Hand);
+        warLayout.getChildren().addAll(winner,round,roundWon,p1Hand,p1Draw,p2Draw,p2Hand, warGm);
         warLayout.getChildren().addAll(drawButton);
         primaryStage.setScene(war);
         primaryStage.show();
