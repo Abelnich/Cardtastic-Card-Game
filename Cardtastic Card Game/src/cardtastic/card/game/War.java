@@ -197,7 +197,7 @@ public class War {
                p1Draw.setText("Player's card: " + pc1);
                cc1 = p2.getSuit() +" "+ p2.getValue();
                p2Draw.setText("Computer's card: " + cc1);
-               imv1.setImage(p2.getImageFile(p1.getSuit(), p1.getValue()));
+               //imv1.setImage(p2.getImageFile(p1.getSuit(), p1.getValue()));
                
                
                
@@ -218,8 +218,8 @@ public class War {
                         p1Draw.setText("Player's card: " + pc1);
                         cc1 = p2.getSuit() +" "+ p2.getValue();
                         p2Draw.setText("Computer's card: " + cc1);
-                        p1.getImageFile(p1.getSuit(), p1.getValue());
-                        p2.getImageFile(p1.getSuit(), p1.getValue());
+                        //p1.getImageFile(p1.getSuit(), p1.getValue());
+                        //p2.getImageFile(p1.getSuit(), p1.getValue());
                         
                         
                        }//end of else if
@@ -230,8 +230,8 @@ public class War {
                                 p1Draw.setText("Player's card: " + pc1);
                                 cc1 = p2.getSuit() +" "+ p2.getValue();
                                 p2Draw.setText("Computer's card: " + cc1);
-                                p1.getImageFile(p1.getSuit(), p1.getValue());
-                                p2.getImageFile(p1.getSuit(), p1.getValue());
+                                //p1.getImageFile(p1.getSuit(), p1.getValue());
+                                //p2.getImageFile(p1.getSuit(), p1.getValue());
                                 
                                 ArrayList<Card> war1 = new ArrayList<Card>();
                                 ArrayList<Card> war2 = new ArrayList<Card>();
