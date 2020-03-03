@@ -50,18 +50,24 @@ public class Main extends Application {
         // Top Menu Bar
         MenuBar menuBar = new MenuBar();
         VBox menuVbox = new VBox(); // Is this needed?
-        Menu menu1 = new Menu("User");
+        Menu userMenu = new Menu("User");
+        Menu helpMenu = new Menu("Help");
 
         MenuItem loginButton = new MenuItem("Login");
         MenuItem menuItem2 = new MenuItem("Log out");
         MenuItem settingsMenuItem = new MenuItem("Settings");
         MenuItem helpMenuItem = new MenuItem("Help");
         
-        menu1.getItems().add(loginButton);
-        menu1.getItems().add(menuItem2);
-        menu1.getItems().add(settingsMenuItem);
-        menu1.getItems().add(helpMenuItem);
-        menuBar.getMenus().add(menu1);
+        MenuItem userHelpItem = new MenuItem("User Help");
+        MenuItem gameHelpItem = new MenuItem("Game Help");
+        
+        userMenu.getItems().add(loginButton);
+        userMenu.getItems().add(menuItem2);
+        userMenu.getItems().add(settingsMenuItem);
+        userMenu.getItems().add(helpMenuItem);
+        
+        menuBar.getMenus().add(userMenu);
+        //menuBar.getMenus().add(helpMenu);
        
         // Menu bar actions
         
