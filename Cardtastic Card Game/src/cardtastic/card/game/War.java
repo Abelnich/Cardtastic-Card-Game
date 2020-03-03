@@ -105,7 +105,7 @@ public class War {
        hand2.addAll(hands.subList(26, hands.size()));
        
         
-           pc = hand1.size();
+           pc = hand1.size() + 1;//not sure why i doesnt display 26
            cc = hand2.size();
            
            
