@@ -1,18 +1,18 @@
+/*
+Nick Abel
+01/22/20
+Sophomore Project
+ */
 package cardtastic.card.game;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+import javafx.scene.image.Image;
 
 /**
  *
- * @author nik
+ * @author NickAbel
  */
-import javafx.scene.image.Image;
-
 public class Card {
+    
     private String suit;
     private String value;
     private int numVal;
@@ -24,50 +24,45 @@ public class Card {
     }
     
     public String getSuit() {
-        String suitSymbol = "";
-        
-        switch (this.suit) {
-            // 
-            case "Spades":
-                suitSymbol = "♤";
-                break;
-            case "Diamonds":
-                suitSymbol = "♢";
-                break;
-            case "Clubs":
-                suitSymbol = "♧";
-                break;
-            case "Hearts":
-                suitSymbol = "♡";
-                break;
-
-        }
-        
-        return suitSymbol;
-    } // end getSuit()
+        return this.suit;
+    } 
     
     public String getValue() {
         return this.value;
     }
-    public int getnumVal(){
+    
+    public int getNumVal() {
         return this.numVal;
+    }
+    
+    public int getRank() {
+        if (this.value.equals("A")) {
+            return 14;
+        } else if (this.value.equals("K")) {
+           return 13;
+        } else if (this.value.equals("Q")) {
+            return 12;
+        } else if (this.value.equals("J")) {
+            return 11;  
+        } else {
+            return Integer.parseInt(this.value);
+        }
     }
     
     public Image getImageFile(String reqSuit, String reqVal) {
         
-        String fileName = "/img/" + reqVal;
-        
-        if (reqSuit.equals("♤")) {
+        String fileName = "";
+        fileName += reqVal;
+        if (this.equals("Spades")) {
             fileName += 'S';
-        } else if (reqSuit.equals("♢")) {
+        } else if (reqSuit.equals("Diamonds")) {
             fileName += 'D';
-        } else if (reqSuit.equals("♧")) {
+        } else if (reqSuit.equals("Clubs")) {
             fileName += 'C';
-        } else if (reqSuit.equals("♡")) {
+        } else if (reqSuit.equals("Hearts")) {
             fileName += 'H';
         }
         
-        //fileName += reqVal;
         fileName += ".png";
         
         Image reqImage = new Image(fileName);
