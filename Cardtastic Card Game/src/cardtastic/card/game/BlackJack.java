@@ -51,8 +51,8 @@ public class BlackJack extends Application {
         dealerHand[0] = deck.deal();
         dealerHand[1] = deck.deal();
         
-        dealerScore = dealerHand[0].getnumVal() + dealerHand[1].getnumVal();
-        playerScore = playerHand[0].getnumVal() + playerHand[1].getnumVal();
+        dealerScore = dealerHand[0].getNumVal() + dealerHand[1].getNumVal();
+        playerScore = playerHand[0].getNumVal() + playerHand[1].getNumVal();
         Image image6 = dealerHand[0].getImageFile(dealerHand[0].getSuit(), dealerHand[0].getValue());
         ImageView iv6 = new ImageView();
         iv6.setImage(image6);
@@ -76,8 +76,8 @@ public class BlackJack extends Application {
             public void handle(ActionEvent event) {
                 
         playerHand[i] = deck.deal(); 
-        playerScore = playerScore + playerHand[i].getnumVal();
-        if(((playerHand[i].getnumVal() == 11)||(playerHand[0].getnumVal() == 11)||(playerHand[1].getnumVal() == 11)) && (playerScore > 21) && (c==1)){
+        playerScore = playerScore + playerHand[i].getNumVal();
+        if(((playerHand[i].getNumVal() == 11)||(playerHand[0].getNumVal() == 11)||(playerHand[1].getNumVal() == 11)) && (playerScore > 21) && (c==1)){
             playerScore = playerScore - 10;
             c++;
         }
@@ -113,8 +113,8 @@ public class BlackJack extends Application {
         
         while(dealerScore < 17){
         dealerHand[x] = deck.deal(); 
-        dealerScore = dealerScore + dealerHand[x].getnumVal();
-        if(((dealerHand[x].getnumVal() == 11)||(dealerHand[0].getnumVal() == 11)||(dealerHand[1].getnumVal() == 11))  && (dealerScore > 21) && (d == 1)){
+        dealerScore = dealerScore + dealerHand[x].getNumVal();
+        if(((dealerHand[x].getNumVal() == 11)||(dealerHand[0].getNumVal() == 11)||(dealerHand[1].getNumVal() == 11))  && (dealerScore > 21) && (d == 1)){
             dealerScore = dealerScore - 10;
             d++;
         }
@@ -230,11 +230,7 @@ public class BlackJack extends Application {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        launch(args);
-        
 
-    }
-    }
+}
     
 
