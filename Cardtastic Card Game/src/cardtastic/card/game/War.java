@@ -7,6 +7,7 @@ package cardtastic.card.game;
 import static java.awt.SystemColor.window;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,7 +53,7 @@ public class War {
    //public static void main(String[] args){
 
 
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws FileNotFoundException{
         
         
 
@@ -163,9 +164,16 @@ public class War {
         Label winner = new Label("Winner is: " + wnr);
         Label warGm = new Label (warG);
         warTitle.setFont(new Font("calibre", 40));
-        ImageView imv1 = new ImageView();
         
-        //Image d1, d2 = new Image("C:\\Users\\tq\\Desktop\\SophProj\\Cardtastic-Card-Game\\Cardtastic Card Game");
+        
+        /*FileInputStream inSt = new FileInputStream("C:\\Cardtastic Card Game\\CardBack_Red.png");
+        Image cardbk = new Image(inSt);
+        ImageView imv1 = new ImageView();
+        imv1.setImage(cardbk);
+        imv1.setFitHeight(150);
+        imv1.setPreserveRatio(true);
+        imv1.setTranslateX(-65);
+        imv1.setTranslateY(-225);*/
         
         
         drawButton.setOnAction(new EventHandler() {
@@ -321,7 +329,7 @@ public class War {
         warLayout.setAlignment(Pos.TOP_CENTER);
         warLayout.getChildren().addAll(winner,round,roundWon,p1Hand,p1Draw,p2Draw,p2Hand, warGm);
         warLayout.getChildren().addAll(drawButton);
-        warLayout.getChildren().addAll(imv1);
+        //warLayout.getChildren().addAll(imv1);
         primaryStage.setScene(war);
         primaryStage.show();
       
