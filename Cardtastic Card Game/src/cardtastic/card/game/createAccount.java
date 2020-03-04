@@ -35,7 +35,7 @@ public class createAccount {
     
     public void begin(){
         
-        boolean alreadyExists;
+       
      
         Text fName = new Text("First Name: ");
         Text lName = new Text("Last Name: ");

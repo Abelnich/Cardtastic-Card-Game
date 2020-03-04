@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
@@ -107,7 +109,11 @@ public class UserInfo {
         
         
         if(main.isShowing() == false){
-             JOptionPane.showMessageDialog(null,"Invalid User Name or Password");
+            Alert a = new Alert(AlertType.NONE); 
+              a.setAlertType(Alert.AlertType.ERROR);
+              a.setContentText("Invalid Username or Password");
+              a.show();
+             
              activeUser = null; 
         }
         else{
