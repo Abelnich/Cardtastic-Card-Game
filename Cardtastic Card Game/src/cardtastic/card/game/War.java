@@ -66,14 +66,7 @@ public class War {
       
         String[] vals = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
         for (int i = 0; i < vals.length; i++) {
-            Card tempSpade = new Card("Spades", vals[i]);
-            hands.add(tempSpade);
-            Card tempDiamond = new Card("Diamonds", vals[i]);
-            hands.add(tempDiamond);
-            Card tempClub = new Card("Clubs", vals[i]);
-            hands.add(tempClub);
-            Card tempHeart = new Card("Hearts", vals[i]);
-            hands.add(tempHeart);
+            hands.add(myDeck1.deal());
         }
         
         
