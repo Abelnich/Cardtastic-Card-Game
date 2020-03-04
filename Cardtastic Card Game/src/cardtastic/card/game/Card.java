@@ -51,8 +51,7 @@ public class Card {
     
     public Image getImageFile(String reqSuit, String reqVal) {
         
-        String fileName = "";
-        fileName += reqVal;
+        String fileName = "/Cardtastic Card Game/" + reqVal;
         if (this.equals("Spades")) {
             fileName += 'S';
         } else if (reqSuit.equals("Diamonds")) {
