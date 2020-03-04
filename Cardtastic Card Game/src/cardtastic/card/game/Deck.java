@@ -1,32 +1,30 @@
 /*
-Nick Abel
-01/22/20
-Sophomore Project
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package cardtastic.card.game;
-
 import java.util.ArrayList;
 import java.util.Random;
-
 /**
  *
- * @author NickAbel
+ * @author nik
  */
 public class Deck {
-    
     ArrayList<Card> deckList = new ArrayList<Card>(); 
     String[] vals = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+    int[] numVal = {11,2,3,4,5,6,7,8,9,10,10,10,10};
     
     public Deck() {
         for (int i = 0; i < vals.length; i++) {
             // Creates a card from each suit with the corresponding value from the vals array
-            Card tempSpade = new Card("Spades", vals[i]);
+            Card tempSpade = new Card("Spades", vals[i], numVal[i]);
             deckList.add(tempSpade);
-            Card tempDiamond = new Card("Diamonds", vals[i]);
+            Card tempDiamond = new Card("Diamonds", vals[i], numVal[i]);
             deckList.add(tempDiamond);
-            Card tempClub = new Card("Clubs", vals[i]);
+            Card tempClub = new Card("Clubs", vals[i], numVal[i]);
             deckList.add(tempClub);
-            Card tempHeart = new Card("Hearts", vals[i]);
+            Card tempHeart = new Card("Hearts", vals[i], numVal[i]);
             deckList.add(tempHeart);
         }
     } // end Deck() constructor
@@ -40,7 +38,7 @@ public class Deck {
         // Checks if deck is empty
         if (deckList.size() == 0) {
             System.out.println("Empty Deck");
-            Card fake = new Card("Empty", "0");
+            Card fake = new Card("Empty", "0" , 0);
             // Calling instance will need to be able to handle a fake card being returned
             return (fake);
         } else {
@@ -81,7 +79,4 @@ public class Deck {
             deckList.set(secondSpot, tempCard);
         } // end for
     } // end Shuffle(int)
-        
-    
 }
-
