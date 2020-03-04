@@ -53,7 +53,7 @@ public class War {
    //public static void main(String[] args){
 
 
-    public void start(Stage primaryStage) throws FileNotFoundException{
+    public void start(Stage primaryStage) {
         
         
 
