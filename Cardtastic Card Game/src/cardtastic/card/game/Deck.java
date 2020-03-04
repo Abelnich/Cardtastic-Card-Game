@@ -54,8 +54,8 @@ public class Deck {
         
         for (int i = 0; i < 100; i++) {
             Random place = new Random();
-            int firstSpot = place.nextInt(51);
-            int secondSpot = place.nextInt(51);
+            int firstSpot = place.nextInt(this.deckList.size());
+            int secondSpot = place.nextInt(this.deckList.size());
             Card tempCard;
 
             tempCard = deckList.get(firstSpot);
