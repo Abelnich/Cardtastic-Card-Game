@@ -68,12 +68,7 @@ public class War {
         for (int i = 0; i < vals.length; i++) {
             hands.add(myDeck1.deal());
         }
-        
-        
-            
-        
-        
-        
+
        //shuffles deck
        Collections.shuffle(hands, new Random());
        
@@ -84,10 +79,10 @@ public class War {
        
        
        //deals to hand
-       myDeck1.Shuffle();
+       //myDeck1.Shuffle();
        myDeck1.deal();
        
-       myDeck2.Shuffle();
+       //myDeck2.Shuffle();
        myDeck2.deal();
        
        
