@@ -56,7 +56,6 @@ public class Main extends Application {
         MenuItem loginButton = new MenuItem("Login");
         MenuItem menuItem2 = new MenuItem("Log out");
         MenuItem settingsMenuItem = new MenuItem("Settings");
-        MenuItem helpMenuItem = new MenuItem("Help");
         
         MenuItem userHelpItem = new MenuItem("User Help");
         MenuItem gameHelpItem = new MenuItem("Game Help");
@@ -64,10 +63,12 @@ public class Main extends Application {
         userMenu.getItems().add(loginButton);
         userMenu.getItems().add(menuItem2);
         userMenu.getItems().add(settingsMenuItem);
-        userMenu.getItems().add(helpMenuItem);
+        
+        helpMenu.getItems().add(userHelpItem);
+        helpMenu.getItems().add(gameHelpItem);
         
         menuBar.getMenus().add(userMenu);
-        //menuBar.getMenus().add(helpMenu);
+        menuBar.getMenus().add(helpMenu);
        
         // Menu bar actions
         
@@ -88,14 +89,24 @@ public class Main extends Application {
             }
         }); 
         
-        helpMenuItem.setOnAction(new EventHandler() {
+//        userHelpItem.setOnAction(new EventHandler() {
+//            @Override
+//            public void handle(Event event) {
+//                HelpUser helpUser = new HelpUser();
+//                Stage newStage = new Stage();
+//                helpUser.start(newStage);
+//            }
+//        });
+        
+        gameHelpItem.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-                Help help = new Help();
+                HelpGame helpGame = new HelpGame();
                 Stage newStage = new Stage();
-                help.start(newStage);
+                helpGame.start(newStage);
             }
-        }); 
+        });
+        
 
         // Window
         window = primaryStage;
