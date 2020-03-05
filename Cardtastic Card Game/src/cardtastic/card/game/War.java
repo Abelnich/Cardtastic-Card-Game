@@ -78,8 +78,8 @@ public class War {
         myDeck2.deal();
 
         //splits deck in two
-        hand1.addAll(hands.subList(0, 25));
-        hand2.addAll(hands.subList(26, hands.size()));
+        hand1.addAll(hands.subList(0, hands.size()/2));
+        hand2.addAll(hands.subList(hands.size()/2 + 1, hands.size()));
 
         pc = hand1.size() + 1;//not sure why i doesnt display 26
         cc = hand2.size();
@@ -158,7 +158,7 @@ public class War {
                     p1Draw.setText("Player's card: " + pc1);
                     cc1 = p2.getSuit() + " " + p2.getValue();
                     p2Draw.setText("Computer's card: " + cc1);
-                    //imv1.setImage(p2.getImageFile(p1.getSuit(), p1.getValue()));
+                    //imv1.setImage();
 
                 } else if (p1.getRank() < p2.getRank()) {
                     //adds card to players 2's hand if they win
@@ -175,8 +175,8 @@ public class War {
                     p1Draw.setText("Player's card: " + pc1);
                     cc1 = p2.getSuit() + " " + p2.getValue();
                     p2Draw.setText("Computer's card: " + cc1);
-                    //p1.getImageFile(p1.getSuit(), p1.getValue());
-                    //p2.getImageFile(p1.getSuit(), p1.getValue());
+                    //p1.getImageFile();
+                    //p2.getImageFile();
 
                 } else {
                     //war if cards match
@@ -185,8 +185,8 @@ public class War {
                     p1Draw.setText("Player's card: " + pc1);
                     cc1 = p2.getSuit() + " " + p2.getValue();
                     p2Draw.setText("Computer's card: " + cc1);
-                    //p1.getImageFile(p1.getSuit(), p1.getValue());
-                    //p2.getImageFile(p1.getSuit(), p1.getValue());
+                    //p1.getImageFile();
+                    //p2.getImageFile();
 
                     ArrayList<Card> war1 = new ArrayList<Card>();
                     ArrayList<Card> war2 = new ArrayList<Card>();
