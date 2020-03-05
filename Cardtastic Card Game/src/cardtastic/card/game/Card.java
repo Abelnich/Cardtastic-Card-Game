@@ -49,24 +49,31 @@ public class Card {
         }
     }
     
-    public Image getImageFile(String reqSuit, String reqVal) {
-        
-        String fileName = "/Cardtastic Card Game/" + reqVal;
-        if (this.equals("Spades")) {
-            fileName += 'S';
-        } else if (reqSuit.equals("Diamonds")) {
-            fileName += 'D';
-        } else if (reqSuit.equals("Clubs")) {
-            fileName += 'C';
-        } else if (reqSuit.equals("Hearts")) {
-            fileName += 'H';
+    public Image getImageFile() {
+        String fileName = "resources" + this.value;
+        switch (this.suit) {
+            case "Spades":
+                fileName += 'S';
+                break;
+            case "Diamonds":
+                fileName += 'D';
+                break;
+            case "Clubs":
+                fileName += 'C';
+                break;
+            case "Hearts":
+                fileName += 'H';
+                break;
+            default:
+                break;
         }
         
         fileName += ".png";
         
-        Image reqImage = new Image(fileName);
+        Image reqImage = new Image(fileName, true);
         
         return (reqImage);
-    } //  end getImageFile()
+    }
+
     
 }
