@@ -113,7 +113,7 @@ public class Main extends Application {
         cardGames.setPrefWidth(300);
         cardGames.setSpacing(20);
         cardGames.setPadding(new Insets( 200, 0, 0, 0));
-        
+
         // Title
         Label cardGamesTitle = new Label("Card Games");
         cardGamesTitle.setFont(new Font("calibre", 40));
