@@ -114,7 +114,6 @@ public class Main extends Application {
         cardGames.setSpacing(20);
         cardGames.setPadding(new Insets( 200, 0, 0, 0));
         
-
         // Title
         Label cardGamesTitle = new Label("Card Games");
         cardGamesTitle.setFont(new Font("calibre", 40));
@@ -132,14 +131,14 @@ public class Main extends Application {
         warButton.setStyle("-fx-font: 22 calibre; -fx-base: pink");
 
         // Action Methods for each Button
-       /* 
+       
         blackJackButton.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
                BlackJack blackJackGame = new BlackJack();
                 blackJackGame.start(primaryStage);
             }
-        }); */
+        }); 
         
         /*warButton.setOnAction(new EventHandler() {
             @Override
