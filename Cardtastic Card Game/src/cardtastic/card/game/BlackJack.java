@@ -53,7 +53,7 @@ public class BlackJack extends Application {
         
         dealerScore = dealerHand[0].getNumVal() + dealerHand[1].getNumVal();
         playerScore = playerHand[0].getNumVal() + playerHand[1].getNumVal();
-        Image image6 = dealerHand[0].getImageFile(dealerHand[0].getSuit(), dealerHand[0].getValue());
+        Image image6 = dealerHand[0].getImageFile();
         ImageView iv6 = new ImageView();
         iv6.setImage(image6);
         iv6.setFitHeight(150);
@@ -82,7 +82,7 @@ public class BlackJack extends Application {
             c++;
         }
         //image displays image for hit card
-        Image image4 = playerHand[i].getImageFile(playerHand[i].getSuit(), playerHand[i].getValue());
+        Image image4 = playerHand[i].getImageFile();
         ImageView iv5 = new ImageView();
         iv5.setImage(image4);
         iv5.setFitHeight(150);
@@ -119,7 +119,7 @@ public class BlackJack extends Application {
             d++;
         }
         //displays image for dealer hit card
-        Image image6 = dealerHand[x].getImageFile(dealerHand[x].getSuit(), dealerHand[x].getValue());
+        Image image6 = dealerHand[x].getImageFile();
         ImageView iv6 = new ImageView();
         iv6.setImage(image6);
         iv6.setFitHeight(150);
@@ -164,7 +164,7 @@ public class BlackJack extends Application {
 
         
         //players card 1 image
-        Image image = playerHand[1].getImageFile(playerHand[1].getSuit(), playerHand[1].getValue());
+        Image image = playerHand[1].getImageFile();
         ImageView iv = new ImageView();
         iv.setImage(image);
         iv.setFitHeight(150);
@@ -174,7 +174,7 @@ public class BlackJack extends Application {
         
         //players card 2 image
 
-        Image image2 = playerHand[0].getImageFile(playerHand[0].getSuit(), playerHand[0].getValue());
+        Image image2 = playerHand[0].getImageFile();
         
         ImageView iv2 = new ImageView();
         iv2.setImage(image2);
@@ -184,7 +184,7 @@ public class BlackJack extends Application {
         iv2.setTranslateY(175);
         
         //dealers card facedown image
-        Image image3 = new Image("/img/CardBack_Blue.png");
+        Image image3 = new Image("resources/CardBack_Blue.png");
         ImageView iv3 = new ImageView();
         iv3.setImage(image3);
         iv3.setFitHeight(150);
@@ -193,7 +193,7 @@ public class BlackJack extends Application {
         iv3.setTranslateY(-225);
         
         //dealers card face up
-        Image image4 = dealerHand[1].getImageFile(dealerHand[1].getSuit(), dealerHand[1].getValue());
+        Image image4 = dealerHand[1].getImageFile();
         ImageView iv4 = new ImageView();
         iv4.setImage(image4);
         iv4.setFitHeight(150);
