@@ -73,7 +73,6 @@ public class Card {
         Image reqImage = new Image(fileName, true);
         
         return (reqImage);
-    }
-
+    } // end getImageFile()
     
-}
+} // end class
