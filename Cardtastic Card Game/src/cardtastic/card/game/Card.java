@@ -50,7 +50,7 @@ public class Card {
     }
     
     public Image getImageFile() {
-        String fileName = "resources" + this.value;
+        String fileName = "resources/" + this.value;
         switch (this.suit) {
             case "Spades":
                 fileName += 'S';
@@ -67,9 +67,9 @@ public class Card {
             default:
                 break;
         }
+       
         
         fileName += ".png";
-        
         Image reqImage = new Image(fileName, true);
         
         return (reqImage);
