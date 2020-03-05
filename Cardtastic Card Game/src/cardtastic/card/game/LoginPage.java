@@ -19,6 +19,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -49,7 +50,7 @@ public class LoginPage {
          Text user = new Text("Username:"); 
          Text pass = new Text("Password:"); 
          TextField username = new TextField();
-         TextField password = new TextField(); 
+         PasswordField password = new PasswordField(); 
          Button login = new Button("Login"); 
          Button create = new Button("Create Account"); 
          

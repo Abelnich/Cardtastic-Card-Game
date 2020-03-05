@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
@@ -40,7 +41,7 @@ public class UserInfo {
         
     }
     
-    public UserInfo(TextField fName, TextField lName, TextField username, TextField email, TextField password, TextField confPass){
+    public UserInfo(TextField fName, TextField lName, TextField username, TextField email, PasswordField password, PasswordField confPass){
         
         this.fName = fName.getText(); 
         this.lName = lName.getText(); 
@@ -79,7 +80,7 @@ public class UserInfo {
     }
     
     // validates the username and password for the login page
-    public void validate(TextField user, TextField pass) throws IOException{ 
+    public void validate(TextField user, PasswordField pass) throws IOException{ 
         
         Scanner reader = new Scanner(new File("userDatabase.txt")); 
         

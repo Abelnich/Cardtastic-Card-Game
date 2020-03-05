@@ -20,6 +20,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -48,8 +49,8 @@ public class createAccount {
         TextField last = new TextField(); 
         TextField username = new TextField(); 
         TextField email = new TextField(); 
-        TextField password = new TextField(); 
-        TextField confPass = new TextField(); 
+        PasswordField password = new PasswordField(); 
+        PasswordField confPass = new PasswordField(); 
         
         Button confirm = new Button("Confirm"); 
         Button clear = new Button("Clear"); 
