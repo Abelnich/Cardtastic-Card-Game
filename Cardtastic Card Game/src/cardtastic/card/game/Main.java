@@ -140,13 +140,13 @@ public class Main extends Application {
             }
         }); 
         
-        /*warButton.setOnAction(new EventHandler() {
+        warButton.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
                War warGame = new War();
                 warGame.start(primaryStage);
             }
-        });*/
+        });
         
         // end Action Methods
 
