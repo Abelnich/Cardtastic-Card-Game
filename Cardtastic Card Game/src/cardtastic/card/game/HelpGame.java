@@ -32,7 +32,7 @@ public class HelpGame extends Application {
     
     StackPane root;
     Stage helpStage;
-    Scene startScene, blackjackScene;
+    Scene startScene, guideScene;
     
     @Override
     public void start(Stage primaryStage) {
@@ -44,10 +44,13 @@ public class HelpGame extends Application {
         Label welcomeMessage = new Label("Select below which game you want to know more about.");
         welcomeMessage.setFont(new Font("calibre", 40));
         Button solitaireBtn = new Button("Solitaire");
+        solitaireBtn.setOnAction(e -> handleButton(solitaireBtn));
         Button freeCellBtn = new Button("Freecell");
+        freeCellBtn.setOnAction(e -> handleButton(freeCellBtn));
         Button blackJackBtn = new Button("Blackjack");
-        blackJackBtn.setOnAction(this::helpBlackjack);
+        blackJackBtn.setOnAction(e -> handleButton(blackJackBtn));
         Button warBtn = new Button("War");
+        warBtn.setOnAction(e -> handleButton(warBtn));
         
         VBox sceneVB = new VBox();
         sceneVB.setAlignment(Pos.CENTER);
@@ -76,7 +79,24 @@ public class HelpGame extends Application {
         
     }
     
-    public void helpBlackjack(ActionEvent e) {
+    public void handleButton(Button b) {
+        switch (b.getText()) {
+            case "Solitaire":
+                break;
+            case "Freecell":
+                break;
+            case "Blackjack":
+                break;
+            case "War":
+                break;
+            default:
+                System.out.println("help " + b.getText());
+                break;
+        }
+                
+    }
+    
+    public void setup() {
         
         int currMessage = 0;
         String message1 = "Testing messages number 1";
@@ -118,17 +138,14 @@ public class HelpGame extends Application {
         
         vbox.getChildren().add(lblMessage);
         vbox.getChildren().add(btnBox);
+
         
+        StackPane guideStack = new StackPane();
+        guideStack.getChildren().add(vbox);
+        guideStack.setStyle("-fx-background-color: ForestGreen");
+        guideScene = new Scene(guideStack, 1280, 550);
         
-        
-        
-        
-        StackPane blackJackStack = new StackPane();
-        blackJackStack.getChildren().add(vbox);
-        blackJackStack.setStyle("-fx-background-color: ForestGreen");
-        blackjackScene = new Scene(blackJackStack, 1280, 550);
-        
-        helpStage.setScene(blackjackScene);
+        helpStage.setScene(guideScene);
     }
     
 }
