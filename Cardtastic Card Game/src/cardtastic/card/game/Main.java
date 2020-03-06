@@ -35,11 +35,8 @@ import java.lang.String;
 import java.util.HashSet;
 import javafx.event.EventType;
 public class Main extends Application {
-    
-    //2nd test for push
 
-
-   Stage window;
+    Stage window;
     Button solitaireButton, freeCellButton, blackJackButton, warButton;
     VBox mainLayout, menuVbox;
     HBox cardGames;
