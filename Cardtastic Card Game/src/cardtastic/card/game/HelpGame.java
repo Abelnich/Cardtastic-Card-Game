@@ -6,6 +6,7 @@ package cardtastic.card.game;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,9 +14,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -73,9 +78,53 @@ public class HelpGame extends Application {
     
     public void helpBlackjack(ActionEvent e) {
         
+        int currMessage = 0;
+        String message1 = "Testing messages number 1";
+        String message2 = "2 number messages testing";
+        String[] messages = {message1, message2};  
+        
+        // Layout
+        VBox vbox = new VBox();
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setSpacing(20);
+        
+        // Images for guide
+        Image test1 = new Image("resources/AC.png", 100, 152.821997106, false, true);
+        ImageView iv1 = new ImageView(test1);
+        vbox.getChildren().add(iv1);
+  
+        Label lblMessage = new Label(messages[currMessage]);
+        lblMessage.setFont(new Font("calibre", 40));
+        
+        HBox btnBox = new HBox();
+        btnBox.setAlignment(Pos.CENTER);
+        btnBox.setSpacing(20);
+        Button previous = new Button("Previous");
+        previous.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+              lblMessage.setText("prev");
+            }
+        });
+        Button next = new Button("Next");
+        next.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+              lblMessage.setText("next");
+            }
+        });
+        btnBox.getChildren().add(previous);
+        btnBox.getChildren().add(next);
+        
+        vbox.getChildren().add(lblMessage);
+        vbox.getChildren().add(btnBox);
+        
+        
+        
         
         
         StackPane blackJackStack = new StackPane();
+        blackJackStack.getChildren().add(vbox);
         blackJackStack.setStyle("-fx-background-color: ForestGreen");
         blackjackScene = new Scene(blackJackStack, 1280, 550);
         
