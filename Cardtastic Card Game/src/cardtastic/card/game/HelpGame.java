@@ -33,6 +33,10 @@ public class HelpGame extends Application {
     StackPane root;
     Stage helpStage;
     Scene startScene, guideScene;
+    Button solitaireBtn, freeCellBtn, blackJackBtn, warBtn;
+    Label messageLbl;
+    Image guideImg1, guideImg2, guideImg3, guideImg4;
+    ImageView guideIV1, guideIV2, guideIV3, guideIV4;
     
     @Override
     public void start(Stage primaryStage) {
@@ -40,22 +44,34 @@ public class HelpGame extends Application {
         
         // start scene \\
         
+        guideImg1 = new Image("resources/AS.png", 100, 150.2, true, true);
+        guideIV1 = new ImageView(guideImg1);
+        guideImg2 = new Image("resources/AD.png", 100, 150.2, true, true);
+        guideIV2 = new ImageView(guideImg2);
+        guideImg3 = new Image("resources/AC.png", 100, 150.2, true, true);
+        guideIV3 = new ImageView(guideImg3);
+        guideImg4 = new Image("resources/AH.png", 100, 150.2, true, true);
+        guideIV4 = new ImageView(guideImg4);
+        HBox imgHB = new HBox();
+        imgHB.setAlignment(Pos.CENTER);
+        imgHB.setSpacing(20);
+        imgHB.getChildren().addAll(guideIV1, guideIV2, guideIV3, guideIV4);
         
-        Label welcomeMessage = new Label("Select below which game you want to know more about.");
-        welcomeMessage.setFont(new Font("calibre", 40));
-        Button solitaireBtn = new Button("Solitaire");
+        messageLbl = new Label("Select below which game you want to know more about.");
+        messageLbl.setFont(new Font("calibre", 40));
+        solitaireBtn = new Button("Solitaire");
         solitaireBtn.setOnAction(e -> handleButton(solitaireBtn));
-        Button freeCellBtn = new Button("Freecell");
+        freeCellBtn = new Button("Freecell");
         freeCellBtn.setOnAction(e -> handleButton(freeCellBtn));
-        Button blackJackBtn = new Button("Blackjack");
+        blackJackBtn = new Button("Blackjack");
         blackJackBtn.setOnAction(e -> handleButton(blackJackBtn));
-        Button warBtn = new Button("War");
+        warBtn = new Button("War");
         warBtn.setOnAction(e -> handleButton(warBtn));
         
         VBox sceneVB = new VBox();
         sceneVB.setAlignment(Pos.CENTER);
         sceneVB.setSpacing(20);
-        sceneVB.getChildren().add(welcomeMessage);
+        sceneVB.getChildren().addAll(imgHB, messageLbl);
         
         HBox buttonHB = new HBox();
         buttonHB.setAlignment(Pos.CENTER);
@@ -82,12 +98,19 @@ public class HelpGame extends Application {
     public void handleButton(Button b) {
         switch (b.getText()) {
             case "Solitaire":
+                messageLbl.setText("Your text here.");
                 break;
             case "Freecell":
+                messageLbl.setText("Your text here.");
                 break;
             case "Blackjack":
+                messageLbl.setText("Your text here.");
                 break;
             case "War":
+                messageLbl.setText("Your text here.");
+                break;
+            case "UNO":
+                messageLbl.setText("Legally not uno.");
                 break;
             default:
                 System.out.println("help " + b.getText());
@@ -97,6 +120,7 @@ public class HelpGame extends Application {
     }
     
     public void setup() {
+        // may not be used
         
         int currMessage = 0;
         String message1 = "Testing messages number 1";
