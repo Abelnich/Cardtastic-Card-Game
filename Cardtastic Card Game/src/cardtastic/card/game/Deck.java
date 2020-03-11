@@ -79,4 +79,10 @@ public class Deck {
             deckList.set(secondSpot, tempCard);
         } // end for
     } // end Shuffle(int)
+    
+    public void RemoveCard(String suit, String val) {
+        // Use if you don't want to use all the cards in the deck
+        Card removeMe = new Card(suit, val);
+        this.deckList.remove(removeMe);
+    }
 }
