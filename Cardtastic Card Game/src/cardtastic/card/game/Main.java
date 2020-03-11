@@ -161,6 +161,14 @@ public class Main extends Application {
                 crazyGame.start(primaryStage);
             }
         });
+        
+        freeCellButton.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                freeCell freeCell = new freeCell(); 
+                freeCell.start(primaryStage);
+            }
+        });
 
         // end Action Methods
         // Add elements to GUI
