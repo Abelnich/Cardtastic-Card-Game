@@ -34,16 +34,17 @@ import java.awt.image.ImageObserver;
 import java.lang.String;
 import java.util.HashSet;
 import javafx.event.EventType;
+
 public class Main extends Application {
 
     Stage window;
-    Button solitaireButton, freeCellButton, blackJackButton, warButton;
+    Button solitaireButton, freeCellButton, blackJackButton, warButton, crazyButton;
     VBox mainLayout, menuVbox;
     HBox cardGames;
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-   
+    public void start(Stage primaryStage) throws Exception {
+
         // Top Menu Bar
         MenuBar menuBar = new MenuBar();
         VBox menuVbox = new VBox(); // Is this needed?
@@ -53,30 +54,28 @@ public class Main extends Application {
         MenuItem loginButton = new MenuItem("Login");
         MenuItem menuItem2 = new MenuItem("Log out");
         MenuItem settingsMenuItem = new MenuItem("Settings");
-        
+
         MenuItem userHelpItem = new MenuItem("User Help");
         MenuItem gameHelpItem = new MenuItem("Game Help");
-        
+
         userMenu.getItems().add(loginButton);
         userMenu.getItems().add(menuItem2);
         userMenu.getItems().add(settingsMenuItem);
-        
+
         helpMenu.getItems().add(userHelpItem);
         helpMenu.getItems().add(gameHelpItem);
-        
+
         menuBar.getMenus().add(userMenu);
         menuBar.getMenus().add(helpMenu);
-       
+
         // Menu bar actions
-        
-        loginButton.setOnAction(new EventHandler<ActionEvent>() { 
-            public void handle(ActionEvent e) 
-            { 
-                LoginPage loginPage = new LoginPage(); 
+        loginButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                LoginPage loginPage = new LoginPage();
                 loginPage.start();
-            } 
+            }
         });
-    
+
         settingsMenuItem.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
@@ -84,8 +83,8 @@ public class Main extends Application {
                 Stage newStage = new Stage();
                 settingsPage.start(newStage);
             }
-        }); 
-        
+        });
+
 //        userHelpItem.setOnAction(new EventHandler() {
 //            @Override
 //            public void handle(Event event) {
@@ -94,7 +93,6 @@ public class Main extends Application {
 //                helpUser.start(newStage);
 //            }
 //        });
-        
         gameHelpItem.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
@@ -103,7 +101,6 @@ public class Main extends Application {
                 helpGame.start(newStage);
             }
         });
-        
 
         // Window
         window = primaryStage;
@@ -120,48 +117,56 @@ public class Main extends Application {
         cardGames = new HBox();
         cardGames.setPrefWidth(300);
         cardGames.setSpacing(20);
-        cardGames.setPadding(new Insets( 200, 0, 0, 0));
+        cardGames.setPadding(new Insets(200, 0, 0, 0));
 
         // Title
         Label cardGamesTitle = new Label("Card Games");
         cardGamesTitle.setFont(new Font("calibre", 40));
-        
+
         // Buttons
         solitaireButton = new Button("Solitaire");
         freeCellButton = new Button("Free Cell");
         blackJackButton = new Button("Black Jack");
         warButton = new Button("War");
+        crazyButton = new Button("Crazy 8s");
 
         // Button font and base color
         solitaireButton.setStyle("-fx-font: 22 calibre; -fx-base: tomato");
         freeCellButton.setStyle("-fx-font: 22 calibre; -fx-base: maroon");
         blackJackButton.setStyle("-fx-font: 22 calibre; -fx-base: red");
         warButton.setStyle("-fx-font: 22 calibre; -fx-base: pink");
+        crazyButton.setStyle("-fx-font: 22 calibre; -fx-base: blue");
 
         // Action Methods for each Button
-       
         blackJackButton.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-               BlackJack blackJackGame = new BlackJack();
+                BlackJack blackJackGame = new BlackJack();
                 blackJackGame.start(primaryStage);
             }
-        }); 
-        
+        });
+
         warButton.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-               War warGame = new War();
+                War warGame = new War();
                 warGame.start(primaryStage);
             }
         });
-        
-        // end Action Methods
 
+        crazyButton.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                CrazyEights crazyGame = new CrazyEights();
+                crazyGame.start(primaryStage);
+            }
+        });
+
+        // end Action Methods
         // Add elements to GUI
         mainLayout.getChildren().add(menuBar);
         mainLayout.getChildren().add(cardGamesTitle);
-        cardGames.getChildren().addAll(solitaireButton, freeCellButton, blackJackButton, warButton);
+        cardGames.getChildren().addAll(solitaireButton, freeCellButton, blackJackButton, warButton, crazyButton);
         mainLayout.getChildren().add(cardGames);
 
         // GUI Alignment
@@ -175,7 +180,6 @@ public class Main extends Application {
         window.show();
 
     }
-
 
     public static void main(String[] args) {
         launch(args);
