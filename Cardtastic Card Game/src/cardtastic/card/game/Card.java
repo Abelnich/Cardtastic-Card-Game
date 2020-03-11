@@ -87,4 +87,8 @@ public class Card {
         return (reqImage);
     } // end getImageFile()
     
+    public String getInfo() {
+        return (this.suit + this.value);
+    }
+    
 } // end class
