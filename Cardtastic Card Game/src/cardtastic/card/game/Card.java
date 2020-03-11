@@ -23,6 +23,18 @@ public class Card {
         this.numVal = numVal;
     }
     
+    public Card(String suit, String val) {
+        this.suit = suit;
+        this.value = val;
+        if (val.equals("A") ) {
+            this.numVal = 11;
+        } else if (val.equals("K") || val.equals("Q") || val.equals("J")) {
+            this.numVal = 10;
+        } else {
+            this.numVal = Integer.parseInt(val);
+        }
+    }
+    
     public String getSuit() {
         return this.suit;
     } 
