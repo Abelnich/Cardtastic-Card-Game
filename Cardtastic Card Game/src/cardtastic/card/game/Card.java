@@ -88,7 +88,7 @@ public class Card {
     } // end getImageFile()
     
     public String getInfo() {
-        return (this.suit + this.value);
+        return (this.suit + " " + this.value);
     }
     
 } // end class
