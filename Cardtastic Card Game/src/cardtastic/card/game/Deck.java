@@ -11,9 +11,9 @@ import java.util.Random;
  * @author nik
  */
 public class Deck {
-    ArrayList<Card> deckList = new ArrayList<Card>(); 
-    String[] vals = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
-    int[] numVal = {11,2,3,4,5,6,7,8,9,10,10,10,10};
+    private ArrayList<Card> deckList = new ArrayList<Card>(); 
+    private String[] vals = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+    private int[] numVal = {11,2,3,4,5,6,7,8,9,10,10,10,10};
     
     public Deck() {
         for (int i = 0; i < vals.length; i++) {
@@ -84,5 +84,9 @@ public class Deck {
         // Use if you don't want to use all the cards in the deck
         Card removeMe = new Card(suit, val);
         this.deckList.remove(removeMe);
+    }
+    
+    public ArrayList<Card> getDeck() {
+        return this.deckList;
     }
 }
