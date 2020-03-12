@@ -28,6 +28,7 @@ import javafx.stage.Stage;
  * @author NickAbel
  */
 public class CrazyEights extends Application {
+    // hands can only display 12 cards currently
     
     private ArrayList<Card> discardPile = new ArrayList();
     private ArrayList<Card> playerHand;
@@ -37,7 +38,7 @@ public class CrazyEights extends Application {
     
     private Card currentDiscard;
     private Deck deck;
-    private Boolean[] turn = {false, false, false, false};
+    private Boolean[] turn = {true, false, false, false};
     private ArrayList[] hands = {playerHand, cpuHand_1, cpuHand_2, cpuHand_3};
     
     @Override
@@ -87,13 +88,26 @@ public class CrazyEights extends Application {
             cpu3VB.getChildren().add(iv);
         }
         
-        currentDiscard = deck.deal();
+        HBox pHandHB = new HBox();
+        pHandHB.setAlignment(Pos.CENTER);
+        for (int i = 0; i < playerHand.size(); i++) {
+            // Add player cards to the screen
+            ImageView iv = createIV(playerHand.get(i));
+            pHandHB.getChildren().add(iv);
+        }
+        
+        currentDiscard = deck.deal(); // First card to start game
         ImageView discardIV = createIV(currentDiscard);
+        
         ImageView deckIV = createIV();
         deckIV.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler() {
             @Override
             public void handle(Event event) {
-                discardIV.setImage(deck.deal().getImageFile());
+                if (turn[0]) {
+                    Card newCard = deck.deal();
+                    playerHand.add(newCard);
+                    pHandHB.getChildren().add(createIV(newCard));
+                }
             }
         });
         
@@ -104,18 +118,9 @@ public class CrazyEights extends Application {
         
         midHB.getChildren().addAll(cpu1VB, spacerL, discardIV, spacerM, deckIV, spacerR, cpu3VB);
         
-        HBox pHandHB = new HBox();
-        pHandHB.setAlignment(Pos.CENTER);
-        
         VBox screenVB = new VBox();
         screenVB.setAlignment(Pos.CENTER);
         screenVB.getChildren().addAll(cpu2HB, midHB, pHandHB);
-        
-        for (int i = 0; i < playerHand.size(); i++) {
-            // Add player cards to the screen
-            ImageView iv = createIV(playerHand.get(i));
-            pHandHB.getChildren().add(iv);
-        }
         
         StackPane root = new StackPane();       
         root.getChildren().add(screenVB);
@@ -126,14 +131,14 @@ public class CrazyEights extends Application {
         primaryStage.show();
         
         // Play the game
-        while ( !playerHand.isEmpty() || !cpuHand_1.isEmpty() || !cpuHand_2.isEmpty() || !cpuHand_3.isEmpty() ) {
-            turn[0] = true;
-            while(turn[0]) {
-                turn[0] = false;
-            }
-            
-            
-        }
+//        while ( !playerHand.isEmpty() || !cpuHand_1.isEmpty() || !cpuHand_2.isEmpty() || !cpuHand_3.isEmpty() ) {
+//            turn[0] = true;
+//            while(turn[0]) {
+//                turn[0] = false;
+//            }
+//            
+//            
+//        }
         
     }
     
