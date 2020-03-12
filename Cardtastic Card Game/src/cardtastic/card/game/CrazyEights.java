@@ -8,15 +8,19 @@ package cardtastic.card.game;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 /**
@@ -24,6 +28,8 @@ import javafx.stage.Stage;
  * @author NickAbel
  */
 public class CrazyEights extends Application {
+    
+    private Card currentDiscard;
     
     @Override
     public void start(Stage primaryStage) {
@@ -45,7 +51,7 @@ public class CrazyEights extends Application {
         
         HBox cpu2HB = new HBox();
         cpu2HB.setAlignment(Pos.CENTER);
-        cpu2HB.setSpacing(20);
+        cpu2HB.setSpacing(-75);
         for (int i = 0; i < cpuHand_2.size(); i++) {
             ImageView iv = createIV();
             cpu2HB.getChildren().add(iv);
@@ -53,10 +59,10 @@ public class CrazyEights extends Application {
         
         HBox midHB = new HBox();
         midHB.setAlignment(Pos.CENTER);
-        midHB.setSpacing(200);
         
         VBox cpu1VB = new VBox();
         cpu1VB.setAlignment(Pos.CENTER);
+        cpu1VB.setSpacing(-112.5);
         for (int i = 0; i < cpuHand_1.size(); i++) {
             ImageView iv = createIV();
             iv.setRotate(-90);
@@ -65,21 +71,33 @@ public class CrazyEights extends Application {
         
         VBox cpu3VB = new VBox();
         cpu3VB.setAlignment(Pos.CENTER);
+        cpu3VB.setSpacing(-112.5);
         for (int i = 0; i < cpuHand_3.size(); i++) {
             ImageView iv = createIV();
             iv.setRotate(90);
             cpu3VB.getChildren().add(iv);
         }
+        currentDiscard = myDeck.deal();
+        ImageView discardIV = createIV(currentDiscard);
+        ImageView deckIV = createIV();
+        deckIV.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                discardIV.setImage(myDeck.deal().getImageFile());
+            }
+        });
+        Spacer spacerL = new Spacer();
+        Spacer spacerM = new Spacer();
+        Spacer spacerR = new Spacer();
         
-        midHB.getChildren().addAll(cpu1VB, cpu3VB);
+        midHB.getChildren().addAll(cpu1VB, spacerL, discardIV, spacerM, deckIV, spacerR, cpu3VB);
         
         HBox pHandHB = new HBox();
         pHandHB.setAlignment(Pos.CENTER);
-        pHandHB.setSpacing(20);
         
         VBox screenVB = new VBox();
         screenVB.setAlignment(Pos.CENTER);
-        screenVB.getChildren().addAll(cpu2HB, pHandHB);
+        screenVB.getChildren().addAll(cpu2HB, midHB, pHandHB);
         
         for (int i = 0; i < playerHand.size(); i++) {
             // Add player cards to the screen
@@ -95,10 +113,6 @@ public class CrazyEights extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
-    /**
-     * @param args the command line arguments
-     */
     
     public ImageView createIV(Card c) {
         ImageView iv = new ImageView(c.getImageFile());
@@ -117,8 +131,13 @@ public class CrazyEights extends Application {
         return iv;
     }
     
-    public static void main(String[] args) {
-        launch(args);
+}
+
+class Spacer extends Rectangle {
+  
+    public Spacer() {
+        super(100, 100);
+        this.setFill(Color.TRANSPARENT);
     }
     
 }
