@@ -31,7 +31,7 @@ public class CrazyEights extends Application {
     // hands can only display 12 cards currently
 
     private ArrayList<Card> discardPile = new ArrayList();
-    private ArrayList<Card> playerHand;
+    private ArrayList<Card> playerHand; private ArrayList<ImageView> playersIVs;
     private ArrayList<Card> cpuHand_1;
     private ArrayList<Card> cpuHand_2;
     private ArrayList<Card> cpuHand_3;
@@ -49,7 +49,7 @@ public class CrazyEights extends Application {
         deck = new Deck();
         deck.Shuffle();
 
-        playerHand = new ArrayList();
+        playerHand = new ArrayList(); playersIVs = new ArrayList();
         cpuHand_1 = new ArrayList();
         cpuHand_2 = new ArrayList();
         cpuHand_3 = new ArrayList();
@@ -96,6 +96,7 @@ public class CrazyEights extends Application {
             // Add player cards to the screen
             ImageView iv = createIV(playerHand.get(i), false);
             pHandHB.getChildren().add(iv);
+            playersIVs.add(iv);
         }
 
         currentDiscard = deck.deal(); // First card to start game
@@ -108,7 +109,6 @@ public class CrazyEights extends Application {
                         // if the player has selected a card
                        if (currentDiscard.getValue().equals(selectedCard.getValue()) || currentDiscard.getSuit().equals(selectedCard.getSuit())) {
                             playerHand.remove(selectedCard);
-                            pHandHB.getChildren().remove(createIV(selectedCard, false));
                             currentDiscard = selectedCard;
                             discardIV.setImage(selectedCard.getImageFile());
                             playersTurn = false;
