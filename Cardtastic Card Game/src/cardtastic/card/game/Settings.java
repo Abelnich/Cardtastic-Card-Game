@@ -5,7 +5,9 @@ package cardtastic.card.game;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -18,6 +20,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -35,9 +38,11 @@ import javafx.stage.Stage;
  */
 public class Settings extends Application {
     
-    Stage primaryStage;
-    FileReader reader;
-    ArrayList<String> settingsInfo;
+    private Stage primaryStage;
+    private FileReader reader;
+    private ArrayList<String> settingsInfo;
+    
+    private Boolean saved = true;
     
     @Override
     public void start(Stage sentStage) {
@@ -189,16 +194,22 @@ public class Settings extends Application {
         blueBGTgl.setToggleGroup(backgroundTgl);
         blueBGVBox.getChildren().add(blueBGTgl);
         
+ 
+        
         switch(settingsInfo.get(1)) {
             // Reads the saved setting for the background and toggles the corresponding radio button
-            case "Back_Green":
+            case "-fx-background-color: ForestGreen":
                 greenBGTgl.setSelected(true);
                 break;
-            case "Back_Red":
+            case "-fx-background-color: Crimson":
                 redBGTgl.setSelected(true);
                 break;
-            case "Back_Blue":
+            case "-fx-background-color: DodgerBlue":
                 blueBGTgl.setSelected(true);
+                break;
+            default: 
+                greenBGTgl.setSelected(true);
+                System.out.println(settingsInfo.get(1) + " doesn't exist");
                 break;
         }
         
@@ -215,6 +226,18 @@ public class Settings extends Application {
         btnSave.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
+                saved = true;
+                Toggle backTog = backgroundTgl.getSelectedToggle();
+                if (backTog.equals(greenBGTgl)) {
+                    settingsInfo.set(1, "-fx-background-color: ForestGreen");
+                } else if (backTog.equals(redBGTgl)) {
+                    settingsInfo.set(1, "-fx-background-color: Crimson");
+                } else if (backTog.equals(blueBGTgl)) {
+                    settingsInfo.set(1, "-fx-background-color: DodgerBlue");
+                } else {
+                    System.out.println("no");
+                }
+                
                 reader.writeFile(settingsInfo);
             }
         }); 
@@ -228,7 +251,7 @@ public class Settings extends Application {
         AllSettingsVBox.getChildren().add(buttonHBox);
                 
         StackPane root = new StackPane();
-        root.setStyle("-fx-background-color: ForestGreen");
+        root.setStyle(settingsInfo.get(1));
         
         Scene scene = new Scene(root, 500, 500);
         root.getChildren().add(AllSettingsVBox);
@@ -236,20 +259,51 @@ public class Settings extends Application {
         primaryStage.setTitle("User Settings");
         primaryStage.setScene(scene);
         primaryStage.show();
+        
+        greenBGTgl.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                root.setStyle("-fx-background-color: ForestGreen");
+                saved = false;
+            }
+        }); 
+        
+        redBGTgl.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                root.setStyle("-fx-background-color: Crimson");
+                saved = false;
+            }
+        }); 
+        
+        blueBGTgl.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                root.setStyle("-fx-background-color: DodgerBlue");
+                saved = false;
+            }
+        }); 
+        
+        
     } // end Start
     
     public void CancelSettings(ActionEvent e) {
-        Alert cancelAlert = new Alert(AlertType.CONFIRMATION);
-        cancelAlert.setTitle("Discard Changes");
-        cancelAlert.setHeaderText("You are about to discard any changes.");
-        cancelAlert.setContentText("Are you sure?");
-        
-        Optional<ButtonType> result = cancelAlert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            // user says okay den
+        if (!saved) {
+            // Only shows alert if new settings have not been saved
+            Alert cancelAlert = new Alert(AlertType.CONFIRMATION);
+            cancelAlert.setTitle("Discard Changes");
+            cancelAlert.setHeaderText("You are about to discard any changes.");
+            cancelAlert.setContentText("Are you sure?");
+
+            Optional<ButtonType> result = cancelAlert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                // user says okay den
+                primaryStage.close();
+            } else {
+                // stay on page
+            }
+        } else { 
             primaryStage.close();
-        } else {
-            // stay on page
         }
         
     }
