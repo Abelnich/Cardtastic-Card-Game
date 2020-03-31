@@ -111,7 +111,7 @@ public class Main extends Application {
         mainLayout.setPrefWidth(300);
         mainLayout.setSpacing(20);
         mainLayout.setPadding(new Insets(0, 0, 0, 0));
-        mainLayout.setStyle("-fx-background-color: ForestGreen");
+        FileReader fr = new FileReader("Settings.txt"); mainLayout.setStyle(fr.readFile().get(1));
 
         // HBox for card game buttons
         cardGames = new HBox();
