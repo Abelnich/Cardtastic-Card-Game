@@ -38,12 +38,16 @@ public class CrazyEights extends Application {
 
     private Card currentDiscard, selectedCard;
     private Deck deck;
+    private String cardBack;
 
     private Boolean notOver = true, playersTurn = true;
 
     @Override
     public void start(Stage primaryStage) {
 
+        FileReader fr = new FileReader("Settings.txt");
+        cardBack = fr.readFile().get(0);
+        
         selectedCard = null;
 
         deck = new Deck();
@@ -147,7 +151,7 @@ public class CrazyEights extends Application {
         StackPane root = new StackPane();
         root.getChildren().add(screenVB);
         
-        FileReader fr = new FileReader("Settings.txt"); root.setStyle(fr.readFile().get(1));
+        root.setStyle(fr.readFile().get(1));
         
         Scene scene = new Scene(root, 1200, 700);
 
@@ -228,7 +232,7 @@ public class CrazyEights extends Application {
 
     private ImageView createIV() {
         // To create imageviews for the computers' hands
-        Image back = new Image("resources/CardBack_Blue.png");
+        Image back = new Image("resources/" + cardBack);
         ImageView iv = new ImageView(back);
         iv.setFitHeight(150.2);
         iv.setFitWidth(100);
