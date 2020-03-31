@@ -146,6 +146,9 @@ public class CrazyEights extends Application {
 
         StackPane root = new StackPane();
         root.getChildren().add(screenVB);
+        
+        FileReader fr = new FileReader("Settings.txt"); root.setStyle(fr.readFile().get(1));
+        
         Scene scene = new Scene(root, 1200, 700);
 
         primaryStage.setTitle("Crazy Eights");
