@@ -117,23 +117,26 @@ public class Settings extends Application {
         radGrayBack.setToggleGroup(cardBackToggle);
         
         switch (settingsInfo.get(0)) {
-            case "CardBack_Red":
+            case "CardBack_Red.png":
                 radRedBack.setSelected(true);
                 break;
-            case "CardBack_Yellow":
+            case "CardBack_Yellow.png":
                 radYellowBack.setSelected(true);
                 break;
-            case "CardBack_Green":
+            case "CardBack_Green.png":
                 radGreenBack.setSelected(true);
                 break;
-            case "CardBack_Blue":
+            case "CardBack_Blue.png":
                 radBlueBack.setSelected(true);
                 break;
-            case "CardBack_Purple":  
+            case "CardBack_Purple.png":  
                 radPurpleBack.setSelected(true);
                 break;
-            case "CardBack_Gray":
+            case "CardBack_Gray.png":
                 radGrayBack.setSelected(true);
+                break;
+            default:
+                radRedBack.setSelected(true);
                 break;
         }
         
@@ -222,11 +225,31 @@ public class Settings extends Application {
         HBox buttonHBox = new HBox();
         buttonHBox.setSpacing(40);
         buttonHBox.setAlignment(Pos.CENTER);
+        Button btnCancel = new Button("Close");
+        btnCancel.setTextFill(Paint.valueOf("Red"));
+        btnCancel.setOnAction(this::CancelSettings);
         Button btnSave = new Button("Save");
         btnSave.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
                 saved = true;
+                btnCancel.setText("Close");
+                
+                Toggle cardTog = cardBackToggle.getSelectedToggle();
+                if (cardTog.equals(radRedBack)) {
+                    settingsInfo.set(0, "CardBack_Red.png");
+                } else if (cardTog.equals(radYellowBack)) {
+                    settingsInfo.set(0, "CardBack_Yellow.png");
+                } else if (cardTog.equals(radGreenBack)) {
+                    settingsInfo.set(0, "CardBack_Green.png");
+                } else if (cardTog.equals(radBlueBack)) {
+                    settingsInfo.set(0, "CardBack_Blue.png");
+                } else if (cardTog.equals(radPurpleBack)) {
+                    settingsInfo.set(0, "CardBack_Purple.png");
+                } else if (cardTog.equals(radGrayBack)) {
+                    settingsInfo.set(0, "CardBack_Gray.png");
+                }
+                
                 Toggle backTog = backgroundTgl.getSelectedToggle();
                 if (backTog.equals(greenBGTgl)) {
                     settingsInfo.set(1, "-fx-background-color: ForestGreen");
@@ -242,9 +265,6 @@ public class Settings extends Application {
             }
         }); 
         buttonHBox.getChildren().add(btnSave);
-        Button btnCancel = new Button("Cancel");
-        btnCancel.setTextFill(Paint.valueOf("Red"));
-        btnCancel.setOnAction(this::CancelSettings);
         buttonHBox.getChildren().add(btnCancel);
         // End buttons
         
@@ -260,11 +280,57 @@ public class Settings extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         
+        // Changes saved to false so cancel dialogue will pop up
+        radRedBack.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                saved = false;
+                btnCancel.setText("Cancel");
+            }
+        }); 
+        radYellowBack.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                saved = false;
+                btnCancel.setText("Cancel");
+            }
+        }); 
+        radGreenBack.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                saved = false;
+                btnCancel.setText("Cancel");
+            }
+        });
+        radBlueBack.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                saved = false;
+                btnCancel.setText("Cancel");
+            }
+        });
+        radPurpleBack.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                saved = false;
+                btnCancel.setText("Cancel");
+            }
+        });
+        radGrayBack.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                saved = false;
+                btnCancel.setText("Cancel");
+            }
+        });
+        
+        // Sets the background to the selected color for a preview. Also sets it as not saved so cancel dialogue will pop up.
         greenBGTgl.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
                 root.setStyle("-fx-background-color: ForestGreen");
                 saved = false;
+                btnCancel.setText("Cancel");
             }
         }); 
         
@@ -273,6 +339,7 @@ public class Settings extends Application {
             public void handle(Event event) {
                 root.setStyle("-fx-background-color: Crimson");
                 saved = false;
+                btnCancel.setText("Cancel");
             }
         }); 
         
@@ -281,6 +348,7 @@ public class Settings extends Application {
             public void handle(Event event) {
                 root.setStyle("-fx-background-color: DodgerBlue");
                 saved = false;
+                btnCancel.setText("Cancel");
             }
         }); 
         
