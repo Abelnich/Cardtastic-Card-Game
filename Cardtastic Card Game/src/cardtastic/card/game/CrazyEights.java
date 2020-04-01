@@ -6,6 +6,7 @@
 package cardtastic.card.game;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -31,10 +32,14 @@ public class CrazyEights extends Application {
     // hands can only display 12 cards currently
 
     private ArrayList<Card> discardPile = new ArrayList();
+    
     private ArrayList<Card> playerHand; private ArrayList<ImageView> playersIVs;
-    private ArrayList<Card> cpuHand_1;
-    private ArrayList<Card> cpuHand_2;
-    private ArrayList<Card> cpuHand_3;
+    private ArrayList<Card> cpuHand_1; private ArrayList<ImageView> cpu1IVs;
+    private ArrayList<Card> cpuHand_2; private ArrayList<ImageView> cpu2IVs;
+    private ArrayList<Card> cpuHand_3; private ArrayList<ImageView> cpu3IVs;
+    
+    private ArrayList<Card>[] hands = new ArrayList[4];
+    private ArrayList<ImageView>[] handDisplays = new ArrayList[4];
 
     private Card currentDiscard, selectedCard;
     private Deck deck;
@@ -60,9 +65,13 @@ public class CrazyEights extends Application {
         deck.Shuffle();
 
         playerHand = new ArrayList(); playersIVs = new ArrayList();
-        cpuHand_1 = new ArrayList();
-        cpuHand_2 = new ArrayList();
-        cpuHand_3 = new ArrayList();
+        cpuHand_1 = new ArrayList(); cpu1IVs = new ArrayList();
+        cpuHand_2 = new ArrayList(); cpu2IVs = new ArrayList();
+        cpuHand_3 = new ArrayList(); cpu3IVs = new ArrayList();
+        
+        hands[0] = playerHand; hands[1] = cpuHand_1; hands[2] = cpuHand_2; hands[3] = cpuHand_3;
+        
+        handDisplays[0] = playersIVs; handDisplays[1] = cpu1IVs; handDisplays[2] = cpu2IVs; handDisplays[3] = cpu3IVs;
 
         for (int i = 1; i <= 5; i++) {
             playerHand.add(deck.deal());
@@ -77,6 +86,7 @@ public class CrazyEights extends Application {
         for (int i = 0; i < cpuHand_2.size(); i++) {
             ImageView iv = createIV();
             cpu2HB.getChildren().add(iv);
+            cpu2IVs.add(iv);
         }
 
         HBox midHB = new HBox();
@@ -89,6 +99,7 @@ public class CrazyEights extends Application {
             ImageView iv = createIV();
             iv.setRotate(-90);
             cpu1VB.getChildren().add(iv);
+            cpu1IVs.add(iv);
         }
 
         cpu3VB = new VBox();
@@ -98,6 +109,7 @@ public class CrazyEights extends Application {
             ImageView iv = createIV();
             iv.setRotate(90);
             cpu3VB.getChildren().add(iv);
+            cpu3IVs.add(iv);
         }
 
         pHandHB = new HBox();
@@ -111,28 +123,6 @@ public class CrazyEights extends Application {
 
         currentDiscard = deck.deal(); // First card to start game
         discardIV = createIV(currentDiscard, true);
-        discardIV.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler() {
-            @Override
-            public void handle(Event event) {
-//                System.out.println("yeha");
-//                if (playersTurn) {
-//                    if (selectedCard != null) {
-//                        // if the player has selected a card
-//                       if (currentDiscard.getValue().equals(selectedCard.getValue()) || currentDiscard.getSuit().equals(selectedCard.getSuit())) {
-//                            playerHand.remove(selectedCard);
-//                            currentDiscard = selectedCard;
-//                            discardIV.setImage(selectedCard.getImageFile());
-//                            playersTurn = false;
-//                        } else if (selectedCard.getValue().equals("8")) {
-//                            // Player has played a eight
-//                            
-//                        } else {
-//                            System.out.println("not possible");
-//                        }
-//                    }
-//                }
-            }
-        });
 
         ImageView deckIV = createIV();
         deckIV.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler() {
@@ -145,11 +135,11 @@ public class CrazyEights extends Application {
         });
 
         // Adds invisble spacers to help with alignment
-        Spacer spacerL = new Spacer();
-        Spacer spacerM = new Spacer();
-        Spacer spacerR = new Spacer();
+        Spacer spaceL = new Spacer();
+        Spacer spaceM = new Spacer();
+        Spacer spaceR = new Spacer();
 
-        midHB.getChildren().addAll(cpu1VB, spacerL, discardIV, spacerM, deckIV, spacerR, cpu3VB);
+        midHB.getChildren().addAll(cpu1VB, spaceL, discardIV, spaceM, deckIV, spaceR, cpu3VB);
 
         VBox screenVB = new VBox();
         screenVB.setAlignment(Pos.CENTER);
@@ -165,17 +155,76 @@ public class CrazyEights extends Application {
         primaryStage.setTitle("Crazy Eights");
         primaryStage.setScene(scene);
         primaryStage.show();
-
         
+        
+        // * Playing the Game * \\
 
+        // while nobody has won
+        
+        play(1); play(2); play(3);
+        
+        // end while
+    }
+    
+    private void play (int num) {
+        // Num = 0 is for the player; should only be used if player needs to be simulated
+        
+        Boolean played = false;
+        
+        while (!played) {
+            for (Card c : hands[num]) {
+                if (c.getSuit().equals(currentDiscard.getSuit()) || c.getValue().equals(currentDiscard.getValue())) {
+                    System.out.println("Playing " + c.getInfo());
+                    hands[num].remove(c);
+                    switch (num) {
+                        case 1: 
+                            cpu1IVs.remove(0);
+                            cpu1VB.getChildren().remove(0);
+                            break;
+                        case 2: 
+                            cpu2IVs.remove(0);
+                            cpu2HB.getChildren().remove(0);
+                            break;
+                        case 3: 
+                            cpu3IVs.remove(0);
+                            cpu3VB.getChildren().remove(0);
+                            break;
+                    } 
+                    handDisplays[num].remove(0);
+                    discardPile.add(c);
+                    currentDiscard = c;
+                    discardIV.setImage(c.getImageFile());
+                    played = true;
+                    break;
+                }
+            } // end for each
+            
+        // Will reach here if hand does not have a suitable hand
+        // Adds card to hand and goes back through again
+        hands[num].add(deck.deal());
+        switch (num) {
+            case 1: 
+                ImageView iv1 = createIV();
+                iv1.setRotate(90);
+                cpu1VB.getChildren().add(iv1);
+                cpu1IVs.add(iv1);
+                break;
+            case 2: 
+                cpu2HB.getChildren().add(createIV());
+                break;
+            case 3: 
+                ImageView iv3 = createIV();
+                iv3.setRotate(90);
+                cpu3VB.getChildren().add(iv3);
+                cpu3IVs.add(iv3);
+                break;
+        } // end switch 
+        
+        } // end while
     }
 
-    private void play(int num) {
-        
-
-    } // end play()
-
     private ImageView createIV(Card c, boolean isDiscard) {
+        // NOT FOR CPUS
         ImageView iv = new ImageView(c.getImageFile());
         
         if (!isDiscard) {
@@ -212,7 +261,7 @@ public class CrazyEights extends Application {
     }
 
     private ImageView createIV() {
-        // To create imageviews for the computers' hands
+        // To create imageviews for the computers' hands showing just the card back
         Image back = new Image("resources/" + cardBack);
         ImageView iv = new ImageView(back);
         iv.setFitHeight(150.2);
