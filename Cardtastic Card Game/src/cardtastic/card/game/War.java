@@ -46,49 +46,15 @@ public class War {
     private String cc1 = "";
     private String wnr = "";
     private String warG = "";
-    private Image card1;
-    private Image card2;
-    private Image card3;
-    private Image card4;
+    Image cardIp;
+    Image cardIc;
+    
 
     public void start(Stage primaryStage) {
 
-        //Creates deck
-        ArrayList<Card> hands = new ArrayList<Card>(52);
-        Deck myDeck1 = new Deck();
-        Deck myDeck2 = new Deck();
-
-        String[] vals = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
-        for (int i = 0; i < vals.length; i++) {
-            hands.add(myDeck1.deal());
-        }
-
-        //shuffles deck
-        Collections.shuffle(hands, new Random());
-
-        //creates hands
-        LinkedList<Card> hand1 = new LinkedList<Card>();
-        LinkedList<Card> hand2 = new LinkedList<Card>();
-
-        //deals to hand
-        //myDeck1.Shuffle();
-        myDeck1.deal();
-
-        //myDeck2.Shuffle();
-        myDeck2.deal();
-
-        //splits deck in two
-        hand1.addAll(hands.subList(0, hands.size()/2));
-        hand2.addAll(hands.subList(hands.size()/2 + 1, hands.size()));
-
-        pc = hand1.size() + 1;//not sure why i doesnt display 26
-        cc = hand2.size();
-
         VBox warLayout = new VBox();
-        Button strtBtn, drwBtn;
-
+        
         MenuBar warMenuBar = new MenuBar();
-        VBox warMenuVbox = new VBox();
         Menu warMenu = new Menu("User");
         MenuItem settingsMenuItem = new MenuItem("Settings");
 
@@ -123,14 +89,80 @@ public class War {
         Label warGm = new Label(warG);
         warTitle.setFont(new Font("calibre", 40));
 
-        /*FileInputStream inSt = new FileInputStream("C:\\Cardtastic Card Game\\CardBack_Red.png");
-        Image cardbk = new Image(inSt);
+       VBox pD = new VBox();
+       pD.setAlignment(Pos.BOTTOM_LEFT);
+        Image cardbk = new Image("resources/CardBack_Red.png");
         ImageView imv1 = new ImageView();
         imv1.setImage(cardbk);
         imv1.setFitHeight(150);
         imv1.setPreserveRatio(true);
-        imv1.setTranslateX(-65);
-        imv1.setTranslateY(-225);*/
+        pD.getChildren().add(imv1);
+        
+        //VBox cD = new VBox();
+        //pD.setAlignment(Pos.CENTER_RIGHT);
+        Image cardbk2 = new Image("resources/CardBack_Red.png");
+        ImageView imv2 = new ImageView();
+        imv2.setImage(cardbk2);
+        imv2.setFitHeight(150);
+        imv2.setPreserveRatio(true);
+        pD.getChildren().add(imv2);
+        
+        
+        
+        
+
+
+
+
+        //Creates deck
+        ArrayList<Card> hands = new ArrayList<Card>(52);
+        Deck myDeck1 = new Deck();
+        Deck myDeck2 = new Deck();
+
+        String[] vals = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+        for (int i = 0; i < vals.length; i++) {
+            Card tempSpade = new Card("Spades", vals[i]);
+            hands.add(tempSpade);
+            Card tempDiamond = new Card("Diamonds", vals[i]);
+            hands.add(tempDiamond);
+            Card tempClub = new Card("Clubs", vals[i]);
+            hands.add(tempClub);
+            Card tempHeart = new Card("Hearts", vals[i]);
+            hands.add(tempHeart);
+            //hands.add(myDeck1.deal());
+        }
+
+        //shuffles deck
+        Collections.shuffle(hands, new Random());
+
+        //creates hands
+        LinkedList<Card> hand1 = new LinkedList<Card>();
+        LinkedList<Card> hand2 = new LinkedList<Card>();
+
+        //deals to hand
+        //myDeck1.Shuffle();
+        myDeck1.deal();
+
+        //myDeck2.Shuffle();
+        myDeck2.deal();
+
+        //splits deck in two
+        hand1.addAll(hands.subList(0,25));
+        hand2.addAll(hands.subList(26, hands.size()));
+
+        pc = hand1.size() + 1;//not sure why i doesnt display 26
+        cc = hand2.size();
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+        
         drawButton.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
@@ -138,16 +170,41 @@ public class War {
                 round.setText("Round#: " + rnd);
                 //Start of the Game
                 warGm.setText("");
+                
+                
                 //takes the first card out of each hand
                 Card p1 = hand1.pop();
                 Card p2 = hand2.pop();
+                
+                //VBox pcV = new VBox();
+                //pcV.setAlignment(Pos.CENTER_LEFT);
+                cardIp = p1.getImageFile();
+                ImageView i = new ImageView();
+                warLayout.getChildren().remove(i);
+                i.setFitHeight(150);
+                i.setPreserveRatio(true);
+                i.setImage(cardIp);
+                //pcV.getChildren().add(i);
+                
+                //VBox ccV = new VBox();
+                //ccV.setAlignment(Pos.CENTER_RIGHT);
+                ImageView i2 = new ImageView();
+                warLayout.getChildren().remove(i2);
+                i2.setFitHeight(150);
+                i2.setPreserveRatio(true);
+                cardIc = p2.getImageFile();
+                i2.setImage(cardIc);
+                //ccV.getChildren().add(i2);
+                
+                warLayout.getChildren().addAll(i,i2);
 
                 //compares the cards
                 if (p1.getRank() > p2.getRank()) {
                     //adds cards to player 1's hand if they win
                     hand1.addLast(p1);
                     hand1.addLast(p2);
-
+                    
+                    
                     rdW = "Player";
                     roundWon.setText("Round Winner is: " + rdW);
                     pc += 1;
@@ -158,7 +215,7 @@ public class War {
                     p1Draw.setText("Player's card: " + pc1);
                     cc1 = p2.getSuit() + " " + p2.getValue();
                     p2Draw.setText("Computer's card: " + cc1);
-                    //imv1.setImage();
+                    
 
                 } else if (p1.getRank() < p2.getRank()) {
                     //adds card to players 2's hand if they win
@@ -175,8 +232,7 @@ public class War {
                     p1Draw.setText("Player's card: " + pc1);
                     cc1 = p2.getSuit() + " " + p2.getValue();
                     p2Draw.setText("Computer's card: " + cc1);
-                    //p1.getImageFile();
-                    //p2.getImageFile();
+                   
 
                 } else {
                     //war if cards match
@@ -185,8 +241,7 @@ public class War {
                     p1Draw.setText("Player's card: " + pc1);
                     cc1 = p2.getSuit() + " " + p2.getValue();
                     p2Draw.setText("Computer's card: " + cc1);
-                    //p1.getImageFile();
-                    //p2.getImageFile();
+
 
                     ArrayList<Card> war1 = new ArrayList<Card>();
                     ArrayList<Card> war2 = new ArrayList<Card>();
@@ -265,12 +320,15 @@ public class War {
             }
         });
 
+        
+
+        
         warLayout.getChildren().addAll(warMenuBar);
         warLayout.getChildren().addAll(warTitle);
         warLayout.setAlignment(Pos.TOP_CENTER);
         warLayout.getChildren().addAll(winner, round, roundWon, p1Hand, p1Draw, p2Draw, p2Hand, warGm);
         warLayout.getChildren().addAll(drawButton);
-        //warLayout.getChildren().addAll(imv1);
+        warLayout.getChildren().addAll( pD);
         primaryStage.setScene(war);
         primaryStage.show();
 
