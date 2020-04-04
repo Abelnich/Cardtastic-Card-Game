@@ -89,8 +89,8 @@ public class War {
         Label warGm = new Label(warG);
         warTitle.setFont(new Font("calibre", 40));
 
-        VBox pD = new VBox();
-        pD.setAlignment(Pos.CENTER_LEFT);
+       VBox pD = new VBox();
+       pD.setAlignment(Pos.BOTTOM_LEFT);
         Image cardbk = new Image("resources/CardBack_Red.png");
         ImageView imv1 = new ImageView();
         imv1.setImage(cardbk);
@@ -98,14 +98,14 @@ public class War {
         imv1.setPreserveRatio(true);
         pD.getChildren().add(imv1);
         
-        VBox cD = new VBox();
-        cD.setAlignment(Pos.CENTER_RIGHT);
+        //VBox cD = new VBox();
+        //pD.setAlignment(Pos.CENTER_RIGHT);
         Image cardbk2 = new Image("resources/CardBack_Red.png");
         ImageView imv2 = new ImageView();
         imv2.setImage(cardbk2);
         imv2.setFitHeight(150);
         imv2.setPreserveRatio(true);
-        cD.getChildren().add(imv2);
+        pD.getChildren().add(imv2);
         
         
         
@@ -176,25 +176,27 @@ public class War {
                 Card p1 = hand1.pop();
                 Card p2 = hand2.pop();
                 
-                VBox pcV = new VBox();
-                pcV.setAlignment(Pos.CENTER_LEFT);
+                //VBox pcV = new VBox();
+                //pcV.setAlignment(Pos.CENTER_LEFT);
                 cardIp = p1.getImageFile();
                 ImageView i = new ImageView();
+                warLayout.getChildren().remove(i);
                 i.setFitHeight(150);
                 i.setPreserveRatio(true);
                 i.setImage(cardIp);
-                pcV.getChildren().add(i);
+                //pcV.getChildren().add(i);
                 
-                VBox ccV = new VBox();
-                ccV.setAlignment(Pos.CENTER_RIGHT);
+                //VBox ccV = new VBox();
+                //ccV.setAlignment(Pos.CENTER_RIGHT);
                 ImageView i2 = new ImageView();
+                warLayout.getChildren().remove(i2);
                 i2.setFitHeight(150);
                 i2.setPreserveRatio(true);
                 cardIc = p2.getImageFile();
                 i2.setImage(cardIc);
-                ccV.getChildren().add(i2);
+                //ccV.getChildren().add(i2);
                 
-                warLayout.getChildren().addAll(pcV,ccV);
+                warLayout.getChildren().addAll(i,i2);
 
                 //compares the cards
                 if (p1.getRank() > p2.getRank()) {
@@ -323,10 +325,10 @@ public class War {
         
         warLayout.getChildren().addAll(warMenuBar);
         warLayout.getChildren().addAll(warTitle);
-        //warLayout.setAlignment(Pos.TOP_CENTER);
+        warLayout.setAlignment(Pos.TOP_CENTER);
         warLayout.getChildren().addAll(winner, round, roundWon, p1Hand, p1Draw, p2Draw, p2Hand, warGm);
         warLayout.getChildren().addAll(drawButton);
-        warLayout.getChildren().addAll(cD, pD);
+        warLayout.getChildren().addAll( pD);
         primaryStage.setScene(war);
         primaryStage.show();
 
