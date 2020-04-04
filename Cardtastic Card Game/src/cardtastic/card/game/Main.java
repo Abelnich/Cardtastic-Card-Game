@@ -166,7 +166,7 @@ public class Main extends Application {
             @Override
             public void handle(Event event) {
                 freeCell freeCell = new freeCell(); 
-                freeCell.start(primaryStage);
+                freeCell.main(primaryStage);
             }
         });
 

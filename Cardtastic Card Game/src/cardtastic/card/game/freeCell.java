@@ -7,6 +7,8 @@ package cardtastic.card.game;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -14,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
 
 /**
  *
@@ -26,44 +29,68 @@ public  class freeCell {
         private double startDragY; 
         private double endDragX; 
         private double endDragY;
-        Group root = new Group();
-        ArrayList<ImageView> x = new ArrayList();
-        ArrayList<ImageView> a1 = new ArrayList();
-        ArrayList<ImageView> a2 = new ArrayList();
-        ArrayList<ImageView> a3 = new ArrayList();
-        ArrayList<ImageView> a4 = new ArrayList();
-        ArrayList<ImageView> a5 = new ArrayList();
-        ArrayList<ImageView> a6 = new ArrayList();
-        ArrayList<ImageView> a7 = new ArrayList();
-        ArrayList<ImageView> a8 = new ArrayList();
-        int setx = 50;
-        int sety = 0;
-    public void start(Stage freeCellStage)  {
-        final double width = 1500; 
-        final double hieght = 1000; 
-        final double cardW = 150;
-        final double cardH = 200; 
-        Deck deck = new Deck(); 
+        private Group root = new Group();
+        private ArrayList<ImageView> x = new ArrayList(); 
+        private ArrayList<ImageView> a1 = new ArrayList();
+        private ArrayList<ImageView> a2 = new ArrayList();
+        private ArrayList<ImageView> a3 = new ArrayList();
+        private ArrayList<ImageView> a4 = new ArrayList();
+        private ArrayList<ImageView> a5 = new ArrayList();
+        private ArrayList<ImageView> a6 = new ArrayList();
+        private ArrayList<ImageView> a7 = new ArrayList();
+        private ArrayList<ImageView> a8 = new ArrayList();
+        private int setx; // set x position for each card 
+        private int sety; // set y position for each card 
+        private final double sceneWidth = 1650; 
+        private final double sceneHieght = 1000; 
+        private final double cardW = 150;
+        private final double cardH = 200; 
+        private Deck deck = new Deck(); 
+    public freeCell(){
+        setx = 50;
+        sety = 0;
         
-
-
+    }
+    public void newGame(){
+        Button newGame = new Button(); 
+        newGame.setText("New Game");
+        
+        newGame.setLayoutX(1513);
+        newGame.setLayoutY(50);
+        newGame.setScaleX(1.3);
+        newGame.setScaleY(5);
+        newGame.setStyle("-fx-background-color: red;");
+        newGame.setOnMousePressed(e -> {
+            newGame.setStyle("-fx-background-color: green;");
+            deck.Shuffle();
+            
+        });
+        newGame.setOnMouseReleased(e -> {
+            newGame.setStyle("-fx-background-color: red;");
+          
+            
+        });
+        root.getChildren().add(newGame); 
+        
+    }
+    
+    public void load(){
+        
         Image background = new Image("file:freeCell.png");
         ImageView imgView = new ImageView(background); 
         
-        Image card = new Image("file:2C.png"); 
-        ImageView cardImg = new ImageView(card); 
-        cardImg.setFitWidth(cardW);
-        cardImg.setFitHeight(cardH);
-        imgView.setFitWidth(width);
-        imgView.setFitHeight(hieght);
+
+        imgView.setFitWidth(1500);
+        imgView.setFitHeight(1000);
 
         
         
         root.getChildren().add(imgView); // background image 
        
          deck.Shuffle();
+         // this loop loads the images 
          for(int i = 0; i < deck.getDeck().size() ; i++){
- //           ImageView main = new ImageView(deck.deal().getImageFile());
+ //           ImageView main = new ImageView(deck.deal().getImageFile()); //the .getImageFile() isnt working 
             String value = deck.getDeck().get(i).getValue(); 
             char suit = deck.getDeck().get(i).getSuit().charAt(0); 
             ImageView main = new ImageView("file:" + value + suit + ".png"); 
@@ -74,6 +101,7 @@ public  class freeCell {
                
         }
          
+         // the next 8 for loops take the images and sort them into 8 columns 
          for(int i = 0; i < 7; i++){ // card index 0 - 7 
              sety +=50;
              a1.add(x.get(i)); 
@@ -138,21 +166,47 @@ public  class freeCell {
          }
          sety =0;
          setx += 180; 
-        for(int i = 46; i < 52; i++){ // card index 46 - 15
+        for(int i = 46; i < 52; i++){ // card index 46 - 51
              sety +=50;
              a8.add(x.get(i)); 
              root.getChildren().add(a8.get(i - 46)); 
              a8.get(i - 46).setY(sety+ 200);
              a8.get(i - 46).setX(setx);
          }
-       
+    }
+    
+    public void logic(){
+                a1.get(a1.size() - 1).setOnMousePressed(e -> {
+            startDragX = e.getSceneX(); 
+            startDragY = e.getSceneY(); 
         
-//        main.setOnMousePressed(e -> {
+        });
+        a1.get(a1.size() - 1).setOnMouseReleased(e -> {
+            startDragX = e.getSceneX(); 
+            startDragY = e.getSceneY(); 
+           
+        
+        });
+     
+        
+        a1.get(a1.size() - 1).setOnMouseDragged(e ->{
+ 
+            a1.get(a1.size() - 1).setTranslateX(e.getSceneX() - startDragX);
+            a1.get(a1.size() - 1).setTranslateY(e.getSceneY() - startDragY);
+             startDragX = e.getSceneX(); 
+            startDragY = e.getSceneY(); 
+            
+        
+        
+        });
+        
+//        
+//         a2.get(a2.size() - 1).setOnMousePressed(e -> {
 //            startDragX = e.getSceneX(); 
 //            startDragY = e.getSceneY(); 
 //        
 //        });
-//        main.setOnMouseReleased(c -> {
+//        a2.get(a2.size() - 1).setOnMouseReleased(c -> {
 //            endDragX = c.getX(); 
 //            endDragY = c.getY(); 
 //            endDragX = startDragX; 
@@ -161,25 +215,23 @@ public  class freeCell {
 //        });
 //     
 //        
-//        main.setOnMouseDragged(e ->{
+//        a2.get(a2.size() - 1).setOnMouseDragged(e ->{
 //          
 //           
-//            cardImg.setTranslateX(e.getSceneX() - startDragX);
-//            cardImg.setTranslateY(e.getSceneY() - startDragY);
+//            a2.get(a2.size() - 1).setTranslateX(e.getSceneX() - startDragX);
+//            a1.get(a2.size() - 1).setTranslateY(e.getSceneY() - startDragY);
 //            
 //        
 //        
 //        });
-        
-        
-        
-        
-        
+    }
 
-        Scene scene = new Scene(root, width, hieght);
-       
-        
-        
+    public void main(Stage freeCellStage)  {
+
+        load(); 
+        logic(); 
+        newGame();
+        Scene scene = new Scene(root, sceneWidth, sceneHieght);
         freeCellStage.setScene(scene);
         freeCellStage.setTitle("Free Cell");
        // freeCellStage.setResizable(false); 
