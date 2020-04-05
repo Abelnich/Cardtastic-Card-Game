@@ -51,7 +51,7 @@ public class CrazyEights extends Application {
     VBox cpu1VB, cpu3VB;
     // Layout Stuff
 
-    private Boolean playersTurn = true;
+    private Boolean playersTurn = false;
 
     @Override
     public void start(Stage primaryStage) {
@@ -140,10 +140,29 @@ public class CrazyEights extends Application {
         Spacer spaceR = new Spacer();
 
         midHB.getChildren().addAll(cpu1VB, spaceL, discardIV, spaceM, deckIV, spaceR, cpu3VB);
+        
+        
+        Button startBtn = new Button("Start");
+        startBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                startBtn.setVisible(false);
+                start();
+            }
+        });
+        
+        Button crazy = new Button("Go Crazy");
+        crazy.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                Crazy crazy = new Crazy("Spades");
+                crazy.showSelection();
+                System.out.println("You've selected: " + crazy.getSelection());
+            }
+        });
+        HBox bottomHB = new HBox();
 
         VBox screenVB = new VBox();
         screenVB.setAlignment(Pos.CENTER);
-        screenVB.getChildren().addAll(cpu2HB, midHB, pHandHB);
+        screenVB.getChildren().addAll(cpu2HB, midHB, pHandHB, startBtn);
 
         StackPane root = new StackPane();
         root.getChildren().add(screenVB);
@@ -157,20 +176,29 @@ public class CrazyEights extends Application {
         primaryStage.show();
         
         
-        // * Playing the Game * \\
-
+    }
+    
+    private void start() {
         // while nobody has won
-        
+        playersTurn = false;
         play(1); play(2); play(3);
-        
+        playersTurn = true;
         // end while
     }
     
     private void play (int num) {
         // Num = 0 is for the player; should only be used if player needs to be simulated
         
+//        try {
+//            Thread.sleep(2000);
+//        }
+//        catch(InterruptedException ex) {
+//            Thread.currentThread().interrupt();
+//        }
+        
         Boolean played = false;
         
+        whileLoop:
         while (!played) {
             for (Card c : hands[num]) {
                 if (c.getSuit().equals(currentDiscard.getSuit()) || c.getValue().equals(currentDiscard.getValue())) {
@@ -195,13 +223,14 @@ public class CrazyEights extends Application {
                     currentDiscard = c;
                     discardIV.setImage(c.getImageFile());
                     played = true;
-                    break;
+                    break whileLoop;
                 }
             } // end for each
             
         // Will reach here if hand does not have a suitable hand
         // Adds card to hand and goes back through again
         hands[num].add(deck.deal());
+            System.out.println("Drawing");
         switch (num) {
             case 1: 
                 ImageView iv1 = createIV();
@@ -232,6 +261,7 @@ public class CrazyEights extends Application {
             iv.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler() {
                 @Override
                 public void handle(Event event) {
+                    if (playersTurn)
                     if (c.getValue().equals("8")) {
                         // Wild
                         System.out.println("Its an eight, everyone panic!");
@@ -279,4 +309,22 @@ class Spacer extends Rectangle {
         this.setFill(Color.TRANSPARENT);
     }
 
+}
+
+class Crazy {
+    
+    String selectedSuit;
+    
+    public Crazy (String currentSuit) {
+        this.selectedSuit = currentSuit;
+    }
+    
+    public void showSelection() {
+        
+    }
+    
+    public String getSelection() {
+        return selectedSuit;
+    }
+    
 }
