@@ -27,9 +27,8 @@ public class FileReader {
             // Creates an File object 
             myFile = new File(fileName);
             if (myFile.createNewFile()) {
+                newFile(fileName);
                 System.out.println("File created: " + myFile.getName());
-            } else {
-                System.out.println(fileName + " file already exists.");
             }
         } catch (Exception e) {
             System.out.println("An error occurred: " + e.getMessage());
@@ -75,6 +74,19 @@ public class FileReader {
             System.out.println("An error occurred: " + e.getMessage());
         }
         
+    }
+    
+    private void newFile(String fileName) {
+        if (fileName.equals("Settings.txt")) {
+            ArrayList<String> settingsInfo = readFile();
+        
+            if (settingsInfo.isEmpty()) {
+                // If the settings file is empty, adds default settings for card and window backs
+                settingsInfo.add(0, "CardBack_Red.png");
+                settingsInfo.add(1, "-fx-background-color: ForestGreen");
+            }
+            writeFile(settingsInfo);
+        } // end if Settings.txt
     }
 
 }
