@@ -5,6 +5,7 @@
  */
 package cardtastic.card.game;
 
+import GUI.Solitaire;
 import javafx.application.Application;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
@@ -167,6 +168,14 @@ public class Main extends Application {
             public void handle(Event event) {
                 freeCell freeCell = new freeCell(); 
                 freeCell.main(primaryStage);
+            }
+        });
+
+        solitaireButton.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                Solitaire solitaire = new Solitaire();
+                solitaire.start(primaryStage);
             }
         });
 
