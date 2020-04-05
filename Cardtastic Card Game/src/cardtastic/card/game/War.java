@@ -154,7 +154,20 @@ public class War {
         cc = hand2.size();
         
         
-        
+        //VBox pcV = new VBox();
+                //pcV.setAlignment(Pos.CENTER_LEFT);
+               
+                ImageView i = new ImageView();
+                
+                
+                //pcV.getChildren().add(i);
+                
+                //VBox ccV = new VBox();
+                //ccV.setAlignment(Pos.CENTER_RIGHT);
+                ImageView i2 = new ImageView();
+                
+               
+                //ccV.getChildren().add(i2);
         
         
         
@@ -171,30 +184,24 @@ public class War {
                 //Start of the Game
                 warGm.setText("");
                 
+                warLayout.getChildren().remove(i);
+                warLayout.getChildren().remove(i2);
+                
                 
                 //takes the first card out of each hand
                 Card p1 = hand1.pop();
                 Card p2 = hand2.pop();
                 
-                //VBox pcV = new VBox();
-                //pcV.setAlignment(Pos.CENTER_LEFT);
                 cardIp = p1.getImageFile();
-                ImageView i = new ImageView();
-                warLayout.getChildren().remove(i);
                 i.setFitHeight(150);
                 i.setPreserveRatio(true);
                 i.setImage(cardIp);
-                //pcV.getChildren().add(i);
                 
-                //VBox ccV = new VBox();
-                //ccV.setAlignment(Pos.CENTER_RIGHT);
-                ImageView i2 = new ImageView();
-                warLayout.getChildren().remove(i2);
+                cardIc = p2.getImageFile();
                 i2.setFitHeight(150);
                 i2.setPreserveRatio(true);
-                cardIc = p2.getImageFile();
                 i2.setImage(cardIc);
-                //ccV.getChildren().add(i2);
+                
                 
                 warLayout.getChildren().addAll(i,i2);
 
