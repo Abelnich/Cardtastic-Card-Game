@@ -73,7 +73,7 @@ public class War {
         Button drawButton = new Button("Draw Cards");
 
         warLayout.setStyle("-fx-background-color: ForestGreen");
-        Scene war = new Scene(warLayout, 1280, 550);
+        Scene war = new Scene(warLayout, 1280, 900);
         warLayout.setPrefWidth(300);
 
         warLayout.setPadding(new Insets(0, 0, 0, 0));
@@ -89,14 +89,14 @@ public class War {
         Label warGm = new Label(warG);
         warTitle.setFont(new Font("calibre", 40));
 
-       VBox pD = new VBox();
-       pD.setAlignment(Pos.BOTTOM_LEFT);
+       //VBox pD = new VBox();
+       //pD.setAlignment(Pos.BOTTOM_LEFT);
         Image cardbk = new Image("resources/CardBack_Red.png");
         ImageView imv1 = new ImageView();
         imv1.setImage(cardbk);
         imv1.setFitHeight(150);
         imv1.setPreserveRatio(true);
-        pD.getChildren().add(imv1);
+        //pD.getChildren().add(imv1);
         
         //VBox cD = new VBox();
         //pD.setAlignment(Pos.CENTER_RIGHT);
@@ -105,7 +105,7 @@ public class War {
         imv2.setImage(cardbk2);
         imv2.setFitHeight(150);
         imv2.setPreserveRatio(true);
-        pD.getChildren().add(imv2);
+        //pD.getChildren().add(imv2);
         
         
         
@@ -335,7 +335,7 @@ public class War {
         warLayout.setAlignment(Pos.TOP_CENTER);
         warLayout.getChildren().addAll(winner, round, roundWon, p1Hand, p1Draw, p2Draw, p2Hand, warGm);
         warLayout.getChildren().addAll(drawButton);
-        warLayout.getChildren().addAll( pD);
+        warLayout.getChildren().addAll(imv1, imv2);
         primaryStage.setScene(war);
         primaryStage.show();
 
