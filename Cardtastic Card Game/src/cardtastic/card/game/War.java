@@ -73,7 +73,7 @@ public class War {
         Button drawButton = new Button("Draw Cards");
 
         warLayout.setStyle("-fx-background-color: ForestGreen");
-        Scene war = new Scene(warLayout, 1280, 550);
+        Scene war = new Scene(warLayout, 1280, 900);
         warLayout.setPrefWidth(300);
 
         warLayout.setPadding(new Insets(0, 0, 0, 0));
@@ -89,14 +89,14 @@ public class War {
         Label warGm = new Label(warG);
         warTitle.setFont(new Font("calibre", 40));
 
-       VBox pD = new VBox();
-       pD.setAlignment(Pos.BOTTOM_LEFT);
+       //VBox pD = new VBox();
+       //pD.setAlignment(Pos.BOTTOM_LEFT);
         Image cardbk = new Image("resources/CardBack_Red.png");
         ImageView imv1 = new ImageView();
         imv1.setImage(cardbk);
         imv1.setFitHeight(150);
         imv1.setPreserveRatio(true);
-        pD.getChildren().add(imv1);
+        //pD.getChildren().add(imv1);
         
         //VBox cD = new VBox();
         //pD.setAlignment(Pos.CENTER_RIGHT);
@@ -105,7 +105,7 @@ public class War {
         imv2.setImage(cardbk2);
         imv2.setFitHeight(150);
         imv2.setPreserveRatio(true);
-        pD.getChildren().add(imv2);
+        //pD.getChildren().add(imv2);
         
         
         
@@ -154,7 +154,20 @@ public class War {
         cc = hand2.size();
         
         
-        
+        //VBox pcV = new VBox();
+                //pcV.setAlignment(Pos.CENTER_LEFT);
+               
+                ImageView i = new ImageView();
+                
+                
+                //pcV.getChildren().add(i);
+                
+                //VBox ccV = new VBox();
+                //ccV.setAlignment(Pos.CENTER_RIGHT);
+                ImageView i2 = new ImageView();
+                
+               
+                //ccV.getChildren().add(i2);
         
         
         
@@ -171,30 +184,24 @@ public class War {
                 //Start of the Game
                 warGm.setText("");
                 
+                warLayout.getChildren().remove(i);
+                warLayout.getChildren().remove(i2);
+                
                 
                 //takes the first card out of each hand
                 Card p1 = hand1.pop();
                 Card p2 = hand2.pop();
                 
-                //VBox pcV = new VBox();
-                //pcV.setAlignment(Pos.CENTER_LEFT);
                 cardIp = p1.getImageFile();
-                ImageView i = new ImageView();
-                warLayout.getChildren().remove(i);
                 i.setFitHeight(150);
                 i.setPreserveRatio(true);
                 i.setImage(cardIp);
-                //pcV.getChildren().add(i);
                 
-                //VBox ccV = new VBox();
-                //ccV.setAlignment(Pos.CENTER_RIGHT);
-                ImageView i2 = new ImageView();
-                warLayout.getChildren().remove(i2);
+                cardIc = p2.getImageFile();
                 i2.setFitHeight(150);
                 i2.setPreserveRatio(true);
-                cardIc = p2.getImageFile();
                 i2.setImage(cardIc);
-                //ccV.getChildren().add(i2);
+                
                 
                 warLayout.getChildren().addAll(i,i2);
 
@@ -328,7 +335,7 @@ public class War {
         warLayout.setAlignment(Pos.TOP_CENTER);
         warLayout.getChildren().addAll(winner, round, roundWon, p1Hand, p1Draw, p2Draw, p2Hand, warGm);
         warLayout.getChildren().addAll(drawButton);
-        warLayout.getChildren().addAll( pD);
+        warLayout.getChildren().addAll(imv1, imv2);
         primaryStage.setScene(war);
         primaryStage.show();
 

@@ -51,12 +51,6 @@ public class Settings extends Application {
         reader = new FileReader("Settings.txt");
         settingsInfo = reader.readFile();
         
-        if (settingsInfo.isEmpty()) {
-            // If the settings file is empty, adds default settings for card and window backs
-            settingsInfo.add(0, "CardBack_Red");
-            settingsInfo.add(1, "Back_Green");
-        }
-        
         // VBox for all settings
         VBox AllSettingsVBox = new VBox();
         AllSettingsVBox.setSpacing(40);
