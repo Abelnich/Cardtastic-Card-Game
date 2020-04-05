@@ -1,2 +1,2 @@
-CardBack_Red
-Back_Green
+CardBack_Red.png
+-fx-background-color: ForestGreen
