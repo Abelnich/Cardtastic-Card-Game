@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -25,7 +26,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -58,6 +61,7 @@ public class CrazyEights extends Application {
     private HBox cpu2HB, pHandHB;
     private VBox cpu1VB, cpu3VB;
     private Button nextBtn;
+    private Circle turnIndicator;
     // Layout Stuff
 
     private Boolean playersTurn = false, winner = false;
@@ -148,6 +152,17 @@ public class CrazyEights extends Application {
             @Override
             public void handle(Event event) {
                 if (playersTurn) {
+                    // Checks if deck is empty; will refill from discard pile except for the current card
+                    if (deck.getDeck().size() == 1) {
+                        System.out.println("Cover me I'm reloading");
+                        for (int i = 0; i < discardPile.size(); i++) {
+                            Card c = discardPile.get(i);
+                            if (!c.equals(currentDiscard)) {
+                                deck.getDeck().add(c);
+                                discardPile.remove(c);
+                            }
+                        }
+                    } // end check for empty deck
                     Card drawnCard = deck.deal();
                     ImageView drawnIV = createIV(drawnCard, false);
                     playerHand.add(drawnCard);
@@ -164,12 +179,29 @@ public class CrazyEights extends Application {
 
         midHB.getChildren().addAll(cpu1VB, spaceL, discardIV, spaceM, deckIV, spaceR, cpu3VB);
 
+        HBox bottomHB = new HBox();
+        bottomHB.setAlignment(Pos.CENTER);
+        UserInfo user = new UserInfo();
+        Label playerName = new Label(user.getActiveUser());
+        playerName.setFont(Font.font(16));
+        turnIndicator = new Circle(25);
+        turnIndicator.setFill(Color.RED);
+
         nextBtn = new Button("Next Turn");
         nextBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 if (!playersTurn && !winner) {
-                    if (!winner) play(1); if (!winner) play(2); if (!winner) play(3);
+                    if (!winner) {
+                        play(1);
+                    }
+                    if (!winner) {
+                        play(2);
+                    }
+                    if (!winner) {
+                        play(3);
+                    }
                     playersTurn = true;
+                    turnIndicator.setFill(Color.LIME);
                 } else {
                     System.out.println("You must play first");
                 }
@@ -179,16 +211,19 @@ public class CrazyEights extends Application {
         Button crazy = new Button("Go Crazy");
         crazy.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                Crazy crazy = new Crazy("Spades");
-                crazy.showSelection();
-                System.out.println("You've selected: " + crazy.getSelection());
+                //Crazy crazy = new Crazy("Spades");
+                //crazy.showSelection();
+                //System.out.println("You've selected: " + crazy.getSelection());
             }
         });
-        HBox bottomHB = new HBox();
+        
+        crazy.setVisible(false);
+
+        bottomHB.getChildren().addAll(turnIndicator, nextBtn, crazy);
 
         VBox screenVB = new VBox();
         screenVB.setAlignment(Pos.CENTER);
-        screenVB.getChildren().addAll(cpu2HB, midHB, pHandHB, nextBtn);
+        screenVB.getChildren().addAll(cpu2HB, midHB, pHandHB, bottomHB);
 
         StackPane root = new StackPane();
         root.getChildren().add(screenVB);
@@ -235,18 +270,17 @@ public class CrazyEights extends Application {
                     if (hands[num].isEmpty()) {
                         winner = true;
                         System.out.println("CPU " + num + " Wins!");
-                        
+
                         // Winner Alert
                         Alert winnerAlert = new Alert(Alert.AlertType.INFORMATION);
                         winnerAlert.setTitle("Game Over");
                         winnerAlert.setHeaderText("CPU " + num + " Wins!");
                         winnerAlert.setContentText("Better luck next time pal :/");
-
-                        Optional<ButtonType> result = winnerAlert.showAndWait();
+                        winnerAlert.show();
                         // end Winner Alert
-                        
+
                         nextBtn.setVisible(false);
-            
+
                         break whileLoop;
                     }
                     played = true;
@@ -255,6 +289,17 @@ public class CrazyEights extends Application {
             } // end for each
 
             // Will reach here if hand does not have a suitable hand
+            // Checks if deck is empty; will refill from discard pile except for the current card
+            if (deck.getDeck().size() == 1) {
+                System.out.println("Cover me I'm reloading");
+                for (int i = 0; i < discardPile.size(); i++) {
+                    Card c = discardPile.get(i);
+                    if (!c.equals(currentDiscard)) {
+                        deck.getDeck().add(c);
+                        discardPile.remove(c);
+                    }
+                }
+            } // end check for empty deck
             // Adds card to hand and goes back through again
             hands[num].add(deck.deal());
             System.out.println("Drawing");
@@ -291,9 +336,9 @@ public class CrazyEights extends Application {
                 @Override
                 public void handle(Event event) {
                     if (playersTurn) {
-                        if (c.getValue().equals("8")) {
+                        if (c.getValue().equals("800")) {
                             // Wild
-                            System.out.println("Its an eight, everyone panic!");
+                            System.out.println("Its an eight hundred, everyone panic!");
                         } else {
                             if (c.getSuit().equals(currentDiscard.getSuit()) || c.getValue().equals(currentDiscard.getValue())) {
                                 currentDiscard = c;
@@ -305,14 +350,22 @@ public class CrazyEights extends Application {
                                 playerHand.remove(c);
                                 if (playerHand.isEmpty()) {
                                     winner = true;
-                                    System.out.println("You win buddy");
+                                    // Winner Alert
+                                    Alert winnerAlert = new Alert(Alert.AlertType.INFORMATION);
+                                    winnerAlert.setTitle("Game Over");
+                                    winnerAlert.setHeaderText("You Won!");
+                                    winnerAlert.setContentText("Remember to drink water.");
+                                    winnerAlert.show();
+                                    // end Winner Alert
+                                } else {
+                                    playersTurn = false;
+                                    turnIndicator.setFill(Color.RED);
                                 }
-                                playersTurn = false;
                             } else {
                                 System.out.println("Can't play that buddy.");
                             }
-                        }
-                    }
+                        } // end check for 8
+                    }// end if (playersTurn)
 
                     selectedCard = c;
                 }
@@ -341,24 +394,6 @@ class Spacer extends Rectangle {
     public Spacer() {
         super(100, 100);
         this.setFill(Color.TRANSPARENT);
-    }
-
-}
-
-class Crazy {
-
-    String selectedSuit;
-
-    public Crazy(String currentSuit) {
-        this.selectedSuit = currentSuit;
-    }
-
-    public void showSelection() {
-
-    }
-
-    public String getSelection() {
-        return selectedSuit;
     }
 
 }
