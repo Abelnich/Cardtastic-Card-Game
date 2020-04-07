@@ -60,7 +60,7 @@ public class CrazyEights extends Application {
     // Layout Stuff
     private HBox cpu2HB, pHandHB;
     private VBox cpu1VB, cpu3VB;
-    private Button nextBtn;
+    private Button nextBtn, againBtn;
     private Circle turnIndicator;
     // Layout Stuff
 
@@ -202,24 +202,59 @@ public class CrazyEights extends Application {
                     }
                     playersTurn = true;
                     turnIndicator.setFill(Color.LIME);
-                } else {
-                    System.out.println("You must play first");
                 }
             }
         });
+        
+        againBtn = new Button("Play Again");
+        againBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                CrazyEights crazyGame = new CrazyEights();
+                crazyGame.start(primaryStage);
+            }
+        });
+        againBtn.setVisible(false);
 
         Button crazy = new Button("Go Crazy");
         crazy.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                //Crazy crazy = new Crazy("Spades");
-                //crazy.showSelection();
-                //System.out.println("You've selected: " + crazy.getSelection());
+
             }
         });
-        
+
         crazy.setVisible(false);
 
-        bottomHB.getChildren().addAll(turnIndicator, nextBtn, crazy);
+        Button mainBtn = new Button("Main menu");
+        mainBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                if (!winner) {
+                    // Asks for leave confirmation if game is in progress
+                    Alert cancelAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                    cancelAlert.setTitle("Go back to main menu?");
+                    cancelAlert.setHeaderText("You are about to abandon the game.");
+                    cancelAlert.setContentText("Are you sure?");
+
+                    Optional<ButtonType> result = cancelAlert.showAndWait();
+                    if (result.get() == ButtonType.OK) {
+                        Main main = new Main();
+                        try {
+                            main.start(primaryStage);
+                        } catch (Exception e2) {
+                            System.out.println("Exception going to Main with confimation: " + e2.getMessage());
+                        }
+                    }
+                } else {
+                    Main main = new Main();
+                    try {
+                        main.start(primaryStage);
+                    } catch (Exception e3) {
+                        System.out.println("Exception going to Main without confimation: " + e3.getMessage());
+                    }
+                }
+            }
+        });
+
+        bottomHB.getChildren().addAll(turnIndicator, nextBtn, crazy, mainBtn, againBtn);
 
         VBox screenVB = new VBox();
         screenVB.setAlignment(Pos.CENTER);
@@ -234,6 +269,7 @@ public class CrazyEights extends Application {
 
         primaryStage.setTitle("Crazy Eights");
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
         primaryStage.show();
 
     }// end start()
@@ -247,7 +283,6 @@ public class CrazyEights extends Application {
             for (Card c : hands[num]) {
                 // Iterate through each card of the hand
                 if (c.getSuit().equals(currentDiscard.getSuit()) || c.getValue().equals(currentDiscard.getValue())) {
-                    System.out.println("CPU " + num + " Playing " + c.getInfo());
                     hands[num].remove(c);
                     switch (num) {
                         case 1:
@@ -266,9 +301,9 @@ public class CrazyEights extends Application {
                     discardPile.add(c);
                     currentDiscard = c;
                     discardIV.setImage(c.getImageFile());
-                    System.out.println("CPU " + num + " hand is of size " + hands[num].size());
                     if (hands[num].isEmpty()) {
                         winner = true;
+                        againBtn.setVisible(true);
                         System.out.println("CPU " + num + " Wins!");
 
                         // Winner Alert
@@ -291,7 +326,6 @@ public class CrazyEights extends Application {
             // Will reach here if hand does not have a suitable hand
             // Checks if deck is empty; will refill from discard pile except for the current card
             if (deck.getDeck().size() == 1) {
-                System.out.println("Cover me I'm reloading");
                 for (int i = 0; i < discardPile.size(); i++) {
                     Card c = discardPile.get(i);
                     if (!c.equals(currentDiscard)) {
@@ -302,7 +336,6 @@ public class CrazyEights extends Application {
             } // end check for empty deck
             // Adds card to hand and goes back through again
             hands[num].add(deck.deal());
-            System.out.println("Drawing");
             switch (num) {
                 case 1:
                     ImageView iv1 = createIV();
@@ -350,6 +383,7 @@ public class CrazyEights extends Application {
                                 playerHand.remove(c);
                                 if (playerHand.isEmpty()) {
                                     winner = true;
+                                    againBtn.setVisible(true);
                                     // Winner Alert
                                     Alert winnerAlert = new Alert(Alert.AlertType.INFORMATION);
                                     winnerAlert.setTitle("Game Over");
@@ -361,8 +395,6 @@ public class CrazyEights extends Application {
                                     playersTurn = false;
                                     turnIndicator.setFill(Color.RED);
                                 }
-                            } else {
-                                System.out.println("Can't play that buddy.");
                             }
                         } // end check for 8
                     }// end if (playersTurn)
