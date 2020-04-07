@@ -7,6 +7,7 @@ package cardtastic.card.game;
 
 import com.sun.org.apache.bcel.internal.generic.GOTO;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -14,7 +15,9 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -54,7 +57,7 @@ public class CrazyEights extends Application {
     // Layout Stuff
     private HBox cpu2HB, pHandHB;
     private VBox cpu1VB, cpu3VB;
-    private Button startBtn;
+    private Button nextBtn;
     // Layout Stuff
 
     private Boolean playersTurn = false, winner = false;
@@ -161,11 +164,15 @@ public class CrazyEights extends Application {
 
         midHB.getChildren().addAll(cpu1VB, spaceL, discardIV, spaceM, deckIV, spaceR, cpu3VB);
 
-        startBtn = new Button("Start");
-        startBtn.setOnAction(new EventHandler<ActionEvent>() {
+        nextBtn = new Button("Next Turn");
+        nextBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                startBtn.setVisible(false);
-                startGame();
+                if (!playersTurn && !winner) {
+                    if (!winner) play(1); if (!winner) play(2); if (!winner) play(3);
+                    playersTurn = true;
+                } else {
+                    System.out.println("You must play first");
+                }
             }
         });
 
@@ -181,7 +188,7 @@ public class CrazyEights extends Application {
 
         VBox screenVB = new VBox();
         screenVB.setAlignment(Pos.CENTER);
-        screenVB.getChildren().addAll(cpu2HB, midHB, pHandHB, startBtn);
+        screenVB.getChildren().addAll(cpu2HB, midHB, pHandHB, nextBtn);
 
         StackPane root = new StackPane();
         root.getChildren().add(screenVB);
@@ -196,17 +203,6 @@ public class CrazyEights extends Application {
 
     }// end start()
 
-    private void startGame() {
-        
-        if (!playersTurn) {
-            play(1);
-            play(2);
-            play(3);
-        }
-        playersTurn = true;
-        
-    }// end startGame()
-
     private void play(int num) {
         // Num = 0 is for the player; should only be used if player needs to be simulated
         Boolean played = false;
@@ -214,8 +210,9 @@ public class CrazyEights extends Application {
         whileLoop:
         while (!played) {
             for (Card c : hands[num]) {
+                // Iterate through each card of the hand
                 if (c.getSuit().equals(currentDiscard.getSuit()) || c.getValue().equals(currentDiscard.getValue())) {
-                    System.out.println("Playing " + c.getInfo());
+                    System.out.println("CPU " + num + " Playing " + c.getInfo());
                     hands[num].remove(c);
                     switch (num) {
                         case 1:
@@ -231,13 +228,26 @@ public class CrazyEights extends Application {
                             cpu3VB.getChildren().remove(0);
                             break;
                     }
-                    handDisplays[num].remove(0);
                     discardPile.add(c);
                     currentDiscard = c;
                     discardIV.setImage(c.getImageFile());
+                    System.out.println("CPU " + num + " hand is of size " + hands[num].size());
                     if (hands[num].isEmpty()) {
                         winner = true;
                         System.out.println("CPU " + num + " Wins!");
+                        
+                        // Winner Alert
+                        Alert winnerAlert = new Alert(Alert.AlertType.INFORMATION);
+                        winnerAlert.setTitle("Game Over");
+                        winnerAlert.setHeaderText("CPU " + num + " Wins!");
+                        winnerAlert.setContentText("Better luck next time pal :/");
+
+                        Optional<ButtonType> result = winnerAlert.showAndWait();
+                        // end Winner Alert
+                        
+                        nextBtn.setVisible(false);
+            
+                        break whileLoop;
                     }
                     played = true;
                     break whileLoop;
@@ -256,7 +266,9 @@ public class CrazyEights extends Application {
                     cpu1IVs.add(iv1);
                     break;
                 case 2:
-                    cpu2HB.getChildren().add(createIV());
+                    ImageView iv2 = createIV();
+                    cpu2HB.getChildren().add(iv2);
+                    cpu2IVs.add(iv2);
                     break;
                 case 3:
                     ImageView iv3 = createIV();
