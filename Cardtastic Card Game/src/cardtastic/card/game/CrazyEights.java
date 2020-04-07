@@ -8,6 +8,7 @@ package cardtastic.card.game;
 import com.sun.org.apache.bcel.internal.generic.GOTO;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -36,7 +37,8 @@ import javafx.stage.Stage;
  * @author NickAbel
  */
 public class CrazyEights extends Application {
-    // hands can only display 12 cards currently
+    // Player hand can only display 19 cards currently
+    // CPUs hands are limited to displaying 14 cards
 
     private ArrayList<Card> discardPile = new ArrayList();
 
@@ -153,7 +155,7 @@ public class CrazyEights extends Application {
             public void handle(Event event) {
                 if (playersTurn) {
                     // Checks if deck is empty; will refill from discard pile except for the current card
-                    if (deck.getDeck().size() == 1) {
+                    if (deck.getDeck().size() <= 1) {
                         System.out.println("Cover me I'm reloading");
                         for (int i = 0; i < discardPile.size(); i++) {
                             Card c = discardPile.get(i);
@@ -164,8 +166,9 @@ public class CrazyEights extends Application {
                         }
                     } // end check for empty deck
                     Card drawnCard = deck.deal();
-                    ImageView drawnIV = createIV(drawnCard, false);
                     playerHand.add(drawnCard);
+
+                    ImageView drawnIV = createIV(drawnCard, false);
                     playersIVs.add(drawnIV);
                     pHandHB.getChildren().add(drawnIV);
                 }
@@ -181,15 +184,23 @@ public class CrazyEights extends Application {
 
         HBox bottomHB = new HBox();
         bottomHB.setAlignment(Pos.CENTER);
+
         UserInfo user = new UserInfo();
         Label playerName = new Label(user.getActiveUser());
         playerName.setFont(Font.font(16));
+
+        // Circle to inform the player if it is their turn or not
         turnIndicator = new Circle(25);
         turnIndicator.setFill(Color.RED);
 
-        nextBtn = new Button("Next Turn");
+        // Makes the computer players go so the player can play again; in place of an infinite loop
+        nextBtn = new Button("Start");
         nextBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
+                // Changes next turn button to say next turn after the game has started
+                if (nextBtn.getText().equals("Start")) {
+                    nextBtn.setText("Next Turn");
+                }
                 if (!playersTurn && !winner) {
                     if (!winner) {
                         play(1);
@@ -205,24 +216,30 @@ public class CrazyEights extends Application {
                 }
             }
         });
-        
+
+        // To play the game again after it has completed.
         againBtn = new Button("Play Again");
         againBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 CrazyEights crazyGame = new CrazyEights();
-                crazyGame.start(primaryStage);
+                Stage secondaryStage = new Stage();
+                secondaryStage.setMaximized(true); // maximizes the window for the next game
+                primaryStage.close();
+                crazyGame.start(secondaryStage);
             }
         });
         againBtn.setVisible(false);
 
+        // For testing
         Button crazy = new Button("Go Crazy");
         crazy.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-
+                GiveMeInspiration ins = new GiveMeInspiration();
+                System.out.println(ins.give());
             }
         });
 
-        crazy.setVisible(false);
+        //crazy.setVisible(false);
 
         Button mainBtn = new Button("Main menu");
         mainBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -284,19 +301,23 @@ public class CrazyEights extends Application {
                 // Iterate through each card of the hand
                 if (c.getSuit().equals(currentDiscard.getSuit()) || c.getValue().equals(currentDiscard.getValue())) {
                     hands[num].remove(c);
-                    switch (num) {
-                        case 1:
-                            cpu1IVs.remove(0);
-                            cpu1VB.getChildren().remove(0);
-                            break;
-                        case 2:
-                            cpu2IVs.remove(0);
-                            cpu2HB.getChildren().remove(0);
-                            break;
-                        case 3:
-                            cpu3IVs.remove(0);
-                            cpu3VB.getChildren().remove(0);
-                            break;
+                    if (hands[num].size() <= 14) {
+                        // Won't remove an IV if there's more than 14 cards in computers hand
+                        switch (num) {
+
+                            case 1:
+                                cpu1IVs.remove(0);
+                                cpu1VB.getChildren().remove(0);
+                                break;
+                            case 2:
+                                cpu2IVs.remove(0);
+                                cpu2HB.getChildren().remove(0);
+                                break;
+                            case 3:
+                                cpu3IVs.remove(0);
+                                cpu3VB.getChildren().remove(0);
+                                break;
+                        }
                     }
                     discardPile.add(c);
                     currentDiscard = c;
@@ -333,28 +354,32 @@ public class CrazyEights extends Application {
                         discardPile.remove(c);
                     }
                 }
-            } // end check for empty deck
+            } // end check for empty deck   
+            // CPU Drawing: 
             // Adds card to hand and goes back through again
             hands[num].add(deck.deal());
-            switch (num) {
-                case 1:
-                    ImageView iv1 = createIV();
-                    iv1.setRotate(90);
-                    cpu1VB.getChildren().add(iv1);
-                    cpu1IVs.add(iv1);
-                    break;
-                case 2:
-                    ImageView iv2 = createIV();
-                    cpu2HB.getChildren().add(iv2);
-                    cpu2IVs.add(iv2);
-                    break;
-                case 3:
-                    ImageView iv3 = createIV();
-                    iv3.setRotate(90);
-                    cpu3VB.getChildren().add(iv3);
-                    cpu3IVs.add(iv3);
-                    break;
-            } // end switch 
+            if (hands[num].size() + 1 <= 14) {
+                // Won't add another IV if it doesn't fit 
+                switch (num) {
+                    case 1:
+                        ImageView iv1 = createIV();
+                        iv1.setRotate(90);
+                        cpu1VB.getChildren().add(iv1);
+                        cpu1IVs.add(iv1);
+                        break;
+                    case 2:
+                        ImageView iv2 = createIV();
+                        cpu2HB.getChildren().add(iv2);
+                        cpu2IVs.add(iv2);
+                        break;
+                    case 3:
+                        ImageView iv3 = createIV();
+                        iv3.setRotate(90);
+                        cpu3VB.getChildren().add(iv3);
+                        cpu3IVs.add(iv3);
+                        break;
+                } // end switch 
+            }
 
         } // end while
     }
@@ -388,7 +413,8 @@ public class CrazyEights extends Application {
                                     Alert winnerAlert = new Alert(Alert.AlertType.INFORMATION);
                                     winnerAlert.setTitle("Game Over");
                                     winnerAlert.setHeaderText("You Won!");
-                                    winnerAlert.setContentText("Remember to drink water.");
+                                    GiveMeInspiration ins = new GiveMeInspiration();
+                                    winnerAlert.setContentText(ins.give());
                                     winnerAlert.show();
                                     // end Winner Alert
                                 } else {
@@ -428,4 +454,28 @@ class Spacer extends Rectangle {
         this.setFill(Color.TRANSPARENT);
     }
 
+}
+
+class GiveMeInspiration {
+    
+    ArrayList<String> inspirations;
+    
+    public GiveMeInspiration() {
+        // inspirations.add("");
+        inspirations = new ArrayList();
+        inspirations.add("If you fear failure, you will never go anywhere.");
+        inspirations.add("Remember to drink water.");
+        inspirations.add("One must learn to be content with being happier than they think they deserve");
+        inspirations.add("Life's true gift is the capacity to enjoy enjoyment.");
+        inspirations.add("It is possible to commit no mistakes and still lose. That is not a weakness; that is life.");
+        inspirations.add("You Heard About Pluto? That's messed up, right?");
+        inspirations.add("I don’t lose things. I place things in locations which later elude me.");
+        inspirations.add("If he didn't have any hair then no one had any business calling him Fuzzy Wuzzy.");
+        inspirations.add("Ross and Rachel were on a break.");
+    }
+    
+    public String give() {
+        Random rand = new Random();
+        return (inspirations.get(rand.nextInt(inspirations.size())));
+    }
 }
