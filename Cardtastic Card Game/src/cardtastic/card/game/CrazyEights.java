@@ -5,11 +5,9 @@
  */
 package cardtastic.card.game;
 
-import com.sun.org.apache.bcel.internal.generic.GOTO;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -239,7 +237,7 @@ public class CrazyEights extends Application {
             }
         });
 
-        //crazy.setVisible(false);
+        crazy.setVisible(false);
 
         Button mainBtn = new Button("Main menu");
         mainBtn.setOnAction(new EventHandler<ActionEvent>() {
