@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.PasswordField;
@@ -100,8 +102,15 @@ public class UserInfo {
 
             // checks the username and password and displays the stage if there is a match
             if(user.getText().equals(checkLogin.get(a+2)) && pass.getText().equals(checkLogin.get(a+4))){
-                 
-                 main.show();
+                 Main x = new Main(); 
+                
+                try {
+                    x.start(main);
+                    
+                } catch (Exception ex) {
+                    Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
                //  a = 10000000; 
             }
             

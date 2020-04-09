@@ -73,7 +73,7 @@ public class Main extends Application {
         loginButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 LoginPage loginPage = new LoginPage();
-                loginPage.start();
+                loginPage.start(primaryStage);
             }
         });
 

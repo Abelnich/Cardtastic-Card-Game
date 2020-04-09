@@ -7,6 +7,8 @@ package cardtastic.card.game;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
@@ -30,6 +32,7 @@ public  class freeCell {
         private double endDragX; 
         private double endDragY;
         private Group root = new Group();
+        private ArrayList<Card> cards = new ArrayList();
         private ArrayList<ImageView> x = new ArrayList(); 
         private ArrayList<ImageView> a1 = new ArrayList();
         private ArrayList<ImageView> a2 = new ArrayList();
@@ -43,34 +46,56 @@ public  class freeCell {
         private int sety; // set y position for each card 
         private final double sceneWidth = 1650; 
         private final double sceneHieght = 1000; 
-        private final double cardW = 150;
-        private final double cardH = 200; 
+        private final double cardW = 125;
+        private final double cardH = 175; 
         private Deck deck = new Deck(); 
+        private Stage freeCellStage; 
     public freeCell(){
         setx = 50;
         sety = 0;
         
     }
-    public void newGame(){
-        Button newGame = new Button(); 
-        newGame.setText("New Game");
-        
+    public void buttons(){
+        Button newGame = new Button("New Game"); 
+        Button home = new Button("Exit"); 
+       
         newGame.setLayoutX(1513);
         newGame.setLayoutY(50);
         newGame.setScaleX(1.3);
         newGame.setScaleY(5);
         newGame.setStyle("-fx-background-color: red;");
+        
+        home.setLayoutX(1533);
+        home.setLayoutY(180);
+        home.setScaleX(2.8);
+        home.setScaleY(5);
+        home.setStyle("-fx-background-color: green;");
+        
         newGame.setOnMousePressed(e -> {
             newGame.setStyle("-fx-background-color: green;");
-            deck.Shuffle();
-            
-        });
-        newGame.setOnMouseReleased(e -> {
-            newGame.setStyle("-fx-background-color: red;");
           
+            freeCell f = new freeCell(); 
+           
+            f.main(freeCellStage);
+            
             
         });
+        
+         home.setOnMousePressed(e -> {
+            newGame.setStyle("-fx-background-color: green;");
+          
+            freeCellStage.close();
+            Main m = new Main(); 
+            try {
+                m.start(freeCellStage);
+            } catch (Exception ex) {
+                Logger.getLogger(freeCell.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        });
+
         root.getChildren().add(newGame); 
+        root.getChildren().add(home); 
         
     }
     
@@ -90,7 +115,7 @@ public  class freeCell {
          deck.Shuffle();
          // this loop loads the images 
          for(int i = 0; i < deck.getDeck().size() ; i++){
- //           ImageView main = new ImageView(deck.deal().getImageFile()); //the .getImageFile() isnt working 
+ //         ImageView main = new ImageView(deck.deal().getImageFile()); //the .getImageFile() isnt working 
             String value = deck.getDeck().get(i).getValue(); 
             char suit = deck.getDeck().get(i).getSuit().charAt(0); 
             ImageView main = new ImageView("file:" + value + suit + ".png"); 
@@ -100,6 +125,7 @@ public  class freeCell {
             x.add(main);
                
         }
+
          
          // the next 8 for loops take the images and sort them into 8 columns 
          for(int i = 0; i < 7; i++){ // card index 0 - 7 
@@ -176,61 +202,14 @@ public  class freeCell {
     }
     
     public void logic(){
-                a1.get(a1.size() - 1).setOnMousePressed(e -> {
-            startDragX = e.getSceneX(); 
-            startDragY = e.getSceneY(); 
         
-        });
-        a1.get(a1.size() - 1).setOnMouseReleased(e -> {
-            startDragX = e.getSceneX(); 
-            startDragY = e.getSceneY(); 
-           
-        
-        });
-     
-        
-        a1.get(a1.size() - 1).setOnMouseDragged(e ->{
- 
-            a1.get(a1.size() - 1).setTranslateX(e.getSceneX() - startDragX);
-            a1.get(a1.size() - 1).setTranslateY(e.getSceneY() - startDragY);
-             startDragX = e.getSceneX(); 
-            startDragY = e.getSceneY(); 
-            
-        
-        
-        });
-        
-//        
-//         a2.get(a2.size() - 1).setOnMousePressed(e -> {
-//            startDragX = e.getSceneX(); 
-//            startDragY = e.getSceneY(); 
-//        
-//        });
-//        a2.get(a2.size() - 1).setOnMouseReleased(c -> {
-//            endDragX = c.getX(); 
-//            endDragY = c.getY(); 
-//            endDragX = startDragX; 
-//            endDragY = startDragY; 
-//        
-//        });
-//     
-//        
-//        a2.get(a2.size() - 1).setOnMouseDragged(e ->{
-//          
-//           
-//            a2.get(a2.size() - 1).setTranslateX(e.getSceneX() - startDragX);
-//            a1.get(a2.size() - 1).setTranslateY(e.getSceneY() - startDragY);
-//            
-//        
-//        
-//        });
     }
 
     public void main(Stage freeCellStage)  {
-
+        this.freeCellStage = freeCellStage; 
         load(); 
         logic(); 
-        newGame();
+        buttons();
         Scene scene = new Scene(root, sceneWidth, sceneHieght);
         freeCellStage.setScene(scene);
         freeCellStage.setTitle("Free Cell");

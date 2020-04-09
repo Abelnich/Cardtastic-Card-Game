@@ -34,10 +34,11 @@ import javafx.stage.Stage;
 public class LoginPage {
     
     
-   
+   private Stage loginPage;
     
-    public void start() {
+    public void start(Stage loginPage ) {
      
+        this.loginPage = loginPage; 
         
         
         GridPane grid = new GridPane();
@@ -63,6 +64,7 @@ public class LoginPage {
          
          createAccount x = new createAccount();
          UserInfo y = new UserInfo(); 
+         Main m = new Main(); 
          
              EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() { 
             public void handle(ActionEvent e) 
@@ -79,6 +81,10 @@ public class LoginPage {
             { 
                 try { 
                     y.validate(username,password);
+                    if(m.window.isShowing()){
+                        loginPage.hide();
+                    }
+                    
                 } catch (IOException ex) {
                  //   Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -99,10 +105,14 @@ public class LoginPage {
       
         
         Scene scene = new Scene(grid, 500, 450);
-        Stage loginPage = new Stage();
+        
         loginPage.setTitle("Login");
         loginPage.setScene(scene);
         loginPage.show();
+    }
+    
+    public Stage getStage(){
+        return loginPage; 
     }
 
     /**
