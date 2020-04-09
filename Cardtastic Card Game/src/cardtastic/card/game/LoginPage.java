@@ -83,6 +83,7 @@ public class LoginPage {
                     y.validate(username,password);
                     if(m.window.isShowing()){
                         loginPage.hide();
+                        
                     }
                     
                 } catch (IOException ex) {

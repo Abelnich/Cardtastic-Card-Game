@@ -94,6 +94,8 @@ public class UserInfo {
         
         Stage main = new Stage(); // test stage 
         
+        Main m = new Main(); 
+        
         // this loop sperates all the users in the text file
         for(int a = 0; a < checkLogin.size(); a+=6){
 //            System.out.println(check.get(a+2));
@@ -102,10 +104,17 @@ public class UserInfo {
 
             // checks the username and password and displays the stage if there is a match
             if(user.getText().equals(checkLogin.get(a+2)) && pass.getText().equals(checkLogin.get(a+4))){
-                 Main x = new Main(); 
+             
                 
                 try {
-                    x.start(main);
+                    
+                    activeUser = user.getText();
+                    m.userName.setText("Username: " + activeUser);
+                    m.userName.setLayoutX(500);
+                    m.userName.setLayoutY(500);
+                    m.userName.setStyle("-fx-font: 22 calibre;");
+                    
+                    m.start(main);
                     
                 } catch (Exception ex) {
                     Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
@@ -113,6 +122,7 @@ public class UserInfo {
                 
                //  a = 10000000; 
             }
+            
             
             
         }
@@ -127,8 +137,9 @@ public class UserInfo {
              activeUser = null; 
         }
         else{
-            activeUser = user.getText(); 
+              
         }
+
         
         System.out.println("Active User: " + activeUser);
         
@@ -163,6 +174,9 @@ public class UserInfo {
      public String getActiveUser(){
             return activeUser; 
         }
+     public void setActiveUser(String user){
+         activeUser = user; 
+     }
     
     
     

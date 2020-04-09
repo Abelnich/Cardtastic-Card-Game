@@ -50,6 +50,7 @@ public  class freeCell {
         private final double cardH = 175; 
         private Deck deck = new Deck(); 
         private Stage freeCellStage; 
+        private Image background; 
     public freeCell(){
         setx = 50;
         sety = 0;
@@ -101,7 +102,25 @@ public  class freeCell {
     
     public void load(){
         
-        Image background = new Image("file:freeCell.png");
+        FileReader settings = new FileReader("Settings.txt"); 
+        System.out.println();
+        if(settings.readFile().get(1).equals("-fx-background-color: ForestGreen")){
+            background = new Image("file:freeCell.png");
+        }
+        
+        else if(settings.readFile().get(1).equals("-fx-background-color: Crimson")){
+            background = new Image("file:freeCellRed.png");
+            
+        }
+        else if(settings.readFile().get(1).equals("-fx-background-color: DodgerBlue")){
+            background = new Image("file:freeCellBlue.png");
+        }
+        
+        
+        
+        
+        
+        
         ImageView imgView = new ImageView(background); 
         
 

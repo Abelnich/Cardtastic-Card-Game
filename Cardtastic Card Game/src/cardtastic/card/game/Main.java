@@ -42,6 +42,7 @@ public class Main extends Application {
     Button solitaireButton, freeCellButton, blackJackButton, warButton, crazyButton;
     VBox mainLayout, menuVbox;
     HBox cardGames;
+    Label userName = new Label(); 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -51,7 +52,7 @@ public class Main extends Application {
         VBox menuVbox = new VBox(); // Is this needed?
         Menu userMenu = new Menu("User");
         Menu helpMenu = new Menu("Help");
-
+        
         MenuItem loginButton = new MenuItem("Login");
         MenuItem menuItem2 = new MenuItem("Log out");
         MenuItem settingsMenuItem = new MenuItem("Settings");
@@ -68,12 +69,14 @@ public class Main extends Application {
 
         menuBar.getMenus().add(userMenu);
         menuBar.getMenus().add(helpMenu);
-
+        
         // Menu bar actions
+        
         loginButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 LoginPage loginPage = new LoginPage();
                 loginPage.start(primaryStage);
+
             }
         });
 
@@ -178,6 +181,9 @@ public class Main extends Application {
                 solitaire.start(primaryStage);
             }
         });
+        
+
+        
 
         // end Action Methods
         // Add elements to GUI
@@ -185,6 +191,8 @@ public class Main extends Application {
         mainLayout.getChildren().add(cardGamesTitle);
         cardGames.getChildren().addAll(solitaireButton, freeCellButton, blackJackButton, warButton, crazyButton);
         mainLayout.getChildren().add(cardGames);
+        mainLayout.getChildren().add(userName);
+        
 
         // GUI Alignment
         cardGames.setAlignment(Pos.TOP_CENTER);
