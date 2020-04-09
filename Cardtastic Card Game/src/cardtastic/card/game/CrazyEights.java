@@ -6,14 +6,18 @@
 package cardtastic.card.game;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
+import java.util.Optional;
+import java.util.Random;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -21,7 +25,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -29,15 +35,20 @@ import javafx.stage.Stage;
  * @author NickAbel
  */
 public class CrazyEights extends Application {
-    // hands can only display 12 cards currently
+    // Player hand can only display 19 cards currently
+    // CPUs hands are limited to displaying 14 cards
 
     private ArrayList<Card> discardPile = new ArrayList();
-    
-    private ArrayList<Card> playerHand; private ArrayList<ImageView> playersIVs;
-    private ArrayList<Card> cpuHand_1; private ArrayList<ImageView> cpu1IVs;
-    private ArrayList<Card> cpuHand_2; private ArrayList<ImageView> cpu2IVs;
-    private ArrayList<Card> cpuHand_3; private ArrayList<ImageView> cpu3IVs;
-    
+
+    private ArrayList<Card> playerHand;
+    private ArrayList<ImageView> playersIVs;
+    private ArrayList<Card> cpuHand_1;
+    private ArrayList<ImageView> cpu1IVs;
+    private ArrayList<Card> cpuHand_2;
+    private ArrayList<ImageView> cpu2IVs;
+    private ArrayList<Card> cpuHand_3;
+    private ArrayList<ImageView> cpu3IVs;
+
     private ArrayList<Card>[] hands = new ArrayList[4];
     private ArrayList<ImageView>[] handDisplays = new ArrayList[4];
 
@@ -45,33 +56,45 @@ public class CrazyEights extends Application {
     private Deck deck;
     private String cardBack;
     private ImageView discardIV;
-    
+
     // Layout Stuff
-    HBox cpu2HB, pHandHB;
-    VBox cpu1VB, cpu3VB;
+    private HBox cpu2HB, pHandHB;
+    private VBox cpu1VB, cpu3VB;
+    private Button nextBtn, againBtn;
+    private Circle turnIndicator;
     // Layout Stuff
 
-    private Boolean playersTurn = false;
+    private Boolean playersTurn = false, winner = false;
 
     @Override
     public void start(Stage primaryStage) {
 
         FileReader fr = new FileReader("Settings.txt");
         cardBack = fr.readFile().get(0);
-        
+
         selectedCard = null;
 
         deck = new Deck();
         deck.Shuffle();
 
-        playerHand = new ArrayList(); playersIVs = new ArrayList();
-        cpuHand_1 = new ArrayList(); cpu1IVs = new ArrayList();
-        cpuHand_2 = new ArrayList(); cpu2IVs = new ArrayList();
-        cpuHand_3 = new ArrayList(); cpu3IVs = new ArrayList();
-        
-        hands[0] = playerHand; hands[1] = cpuHand_1; hands[2] = cpuHand_2; hands[3] = cpuHand_3;
-        
-        handDisplays[0] = playersIVs; handDisplays[1] = cpu1IVs; handDisplays[2] = cpu2IVs; handDisplays[3] = cpu3IVs;
+        playerHand = new ArrayList();
+        playersIVs = new ArrayList();
+        cpuHand_1 = new ArrayList();
+        cpu1IVs = new ArrayList();
+        cpuHand_2 = new ArrayList();
+        cpu2IVs = new ArrayList();
+        cpuHand_3 = new ArrayList();
+        cpu3IVs = new ArrayList();
+
+        hands[0] = playerHand;
+        hands[1] = cpuHand_1;
+        hands[2] = cpuHand_2;
+        hands[3] = cpuHand_3;
+
+        handDisplays[0] = playersIVs;
+        handDisplays[1] = cpu1IVs;
+        handDisplays[2] = cpu2IVs;
+        handDisplays[3] = cpu3IVs;
 
         for (int i = 1; i <= 5; i++) {
             playerHand.add(deck.deal());
@@ -129,7 +152,23 @@ public class CrazyEights extends Application {
             @Override
             public void handle(Event event) {
                 if (playersTurn) {
-                    playerHand.add(deck.deal());
+                    // Checks if deck is empty; will refill from discard pile except for the current card
+                    if (deck.getDeck().size() <= 1) {
+                        System.out.println("Cover me I'm reloading");
+                        for (int i = 0; i < discardPile.size(); i++) {
+                            Card c = discardPile.get(i);
+                            if (!c.equals(currentDiscard)) {
+                                deck.getDeck().add(c);
+                                discardPile.remove(c);
+                            }
+                        }
+                    } // end check for empty deck
+                    Card drawnCard = deck.deal();
+                    playerHand.add(drawnCard);
+
+                    ImageView drawnIV = createIV(drawnCard, false);
+                    playersIVs.add(drawnIV);
+                    pHandHB.getChildren().add(drawnIV);
                 }
             }
         });
@@ -140,146 +179,250 @@ public class CrazyEights extends Application {
         Spacer spaceR = new Spacer();
 
         midHB.getChildren().addAll(cpu1VB, spaceL, discardIV, spaceM, deckIV, spaceR, cpu3VB);
-        
-        
-        Button startBtn = new Button("Start");
-        startBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+        HBox bottomHB = new HBox();
+        bottomHB.setAlignment(Pos.CENTER);
+
+        UserInfo user = new UserInfo();
+        Label playerName = new Label(user.getActiveUser());
+        playerName.setFont(Font.font(16));
+
+        // Circle to inform the player if it is their turn or not
+        turnIndicator = new Circle(25);
+        turnIndicator.setFill(Color.RED);
+
+        // Makes the computer players go so the player can play again; in place of an infinite loop
+        nextBtn = new Button("Start");
+        nextBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                startBtn.setVisible(false);
-                start();
+                // Changes next turn button to say next turn after the game has started
+                if (nextBtn.getText().equals("Start")) {
+                    nextBtn.setText("Next Turn");
+                }
+                if (!playersTurn && !winner) {
+                    if (!winner) {
+                        play(1);
+                    }
+                    if (!winner) {
+                        play(2);
+                    }
+                    if (!winner) {
+                        play(3);
+                    }
+                    playersTurn = true;
+                    turnIndicator.setFill(Color.LIME);
+                }
             }
         });
-        
+
+        // To play the game again after it has completed.
+        againBtn = new Button("Play Again");
+        againBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                CrazyEights crazyGame = new CrazyEights();
+                Stage secondaryStage = new Stage();
+                secondaryStage.setMaximized(true); // maximizes the window for the next game
+                primaryStage.close();
+                crazyGame.start(secondaryStage);
+            }
+        });
+        againBtn.setVisible(false);
+
+        // For testing
         Button crazy = new Button("Go Crazy");
         crazy.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                Crazy crazy = new Crazy("Spades");
-                crazy.showSelection();
-                System.out.println("You've selected: " + crazy.getSelection());
+                GiveMeInspiration ins = new GiveMeInspiration();
+                System.out.println(ins.give());
             }
         });
-        HBox bottomHB = new HBox();
+
+        crazy.setVisible(false);
+
+        Button mainBtn = new Button("Main menu");
+        mainBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                if (!winner) {
+                    // Asks for leave confirmation if game is in progress
+                    Alert cancelAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                    cancelAlert.setTitle("Go back to main menu?");
+                    cancelAlert.setHeaderText("You are about to abandon the game.");
+                    cancelAlert.setContentText("Are you sure?");
+
+                    Optional<ButtonType> result = cancelAlert.showAndWait();
+                    if (result.get() == ButtonType.OK) {
+                        Main main = new Main();
+                        try {
+                            main.start(primaryStage);
+                        } catch (Exception e2) {
+                            System.out.println("Exception going to Main with confimation: " + e2.getMessage());
+                        }
+                    }
+                } else {
+                    Main main = new Main();
+                    try {
+                        main.start(primaryStage);
+                    } catch (Exception e3) {
+                        System.out.println("Exception going to Main without confimation: " + e3.getMessage());
+                    }
+                }
+            }
+        });
+
+        bottomHB.getChildren().addAll(turnIndicator, nextBtn, crazy, mainBtn, againBtn);
 
         VBox screenVB = new VBox();
         screenVB.setAlignment(Pos.CENTER);
-        screenVB.getChildren().addAll(cpu2HB, midHB, pHandHB, startBtn);
+        screenVB.getChildren().addAll(cpu2HB, midHB, pHandHB, bottomHB);
 
         StackPane root = new StackPane();
         root.getChildren().add(screenVB);
-        
+
         root.setStyle(fr.readFile().get(1));
-        
+
         Scene scene = new Scene(root, 1200, 700);
 
         primaryStage.setTitle("Crazy Eights");
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
         primaryStage.show();
-        
-        
-    }
-    
-    private void start() {
-        // while nobody has won
-        playersTurn = false;
-        play(1); play(2); play(3);
-        playersTurn = true;
-        // end while
-    }
-    
-    private void play (int num) {
+
+    }// end start()
+
+    private void play(int num) {
         // Num = 0 is for the player; should only be used if player needs to be simulated
-        
-//        try {
-//            Thread.sleep(2000);
-//        }
-//        catch(InterruptedException ex) {
-//            Thread.currentThread().interrupt();
-//        }
-        
         Boolean played = false;
-        
+
         whileLoop:
         while (!played) {
             for (Card c : hands[num]) {
+                // Iterate through each card of the hand
                 if (c.getSuit().equals(currentDiscard.getSuit()) || c.getValue().equals(currentDiscard.getValue())) {
-                    System.out.println("Playing " + c.getInfo());
                     hands[num].remove(c);
-                    switch (num) {
-                        case 1: 
-                            cpu1IVs.remove(0);
-                            cpu1VB.getChildren().remove(0);
-                            break;
-                        case 2: 
-                            cpu2IVs.remove(0);
-                            cpu2HB.getChildren().remove(0);
-                            break;
-                        case 3: 
-                            cpu3IVs.remove(0);
-                            cpu3VB.getChildren().remove(0);
-                            break;
-                    } 
-                    handDisplays[num].remove(0);
+                    if (hands[num].size() <= 14) {
+                        // Won't remove an IV if there's more than 14 cards in computers hand
+                        switch (num) {
+
+                            case 1:
+                                cpu1IVs.remove(0);
+                                cpu1VB.getChildren().remove(0);
+                                break;
+                            case 2:
+                                cpu2IVs.remove(0);
+                                cpu2HB.getChildren().remove(0);
+                                break;
+                            case 3:
+                                cpu3IVs.remove(0);
+                                cpu3VB.getChildren().remove(0);
+                                break;
+                        }
+                    }
                     discardPile.add(c);
                     currentDiscard = c;
                     discardIV.setImage(c.getImageFile());
+                    if (hands[num].isEmpty()) {
+                        winner = true;
+                        againBtn.setVisible(true);
+                        System.out.println("CPU " + num + " Wins!");
+
+                        // Winner Alert
+                        Alert winnerAlert = new Alert(Alert.AlertType.INFORMATION);
+                        winnerAlert.setTitle("Game Over");
+                        winnerAlert.setHeaderText("CPU " + num + " Wins!");
+                        winnerAlert.setContentText("Better luck next time pal :/");
+                        winnerAlert.show();
+                        // end Winner Alert
+
+                        nextBtn.setVisible(false);
+
+                        break whileLoop;
+                    }
                     played = true;
                     break whileLoop;
                 }
             } // end for each
-            
-        // Will reach here if hand does not have a suitable hand
-        // Adds card to hand and goes back through again
-        hands[num].add(deck.deal());
-            System.out.println("Drawing");
-        switch (num) {
-            case 1: 
-                ImageView iv1 = createIV();
-                iv1.setRotate(90);
-                cpu1VB.getChildren().add(iv1);
-                cpu1IVs.add(iv1);
-                break;
-            case 2: 
-                cpu2HB.getChildren().add(createIV());
-                break;
-            case 3: 
-                ImageView iv3 = createIV();
-                iv3.setRotate(90);
-                cpu3VB.getChildren().add(iv3);
-                cpu3IVs.add(iv3);
-                break;
-        } // end switch 
-        
+
+            // Will reach here if hand does not have a suitable hand
+            // Checks if deck is empty; will refill from discard pile except for the current card
+            if (deck.getDeck().size() == 1) {
+                for (int i = 0; i < discardPile.size(); i++) {
+                    Card c = discardPile.get(i);
+                    if (!c.equals(currentDiscard)) {
+                        deck.getDeck().add(c);
+                        discardPile.remove(c);
+                    }
+                }
+            } // end check for empty deck   
+            // CPU Drawing: 
+            // Adds card to hand and goes back through again
+            hands[num].add(deck.deal());
+            if (hands[num].size() + 1 <= 14) {
+                // Won't add another IV if it doesn't fit 
+                switch (num) {
+                    case 1:
+                        ImageView iv1 = createIV();
+                        iv1.setRotate(90);
+                        cpu1VB.getChildren().add(iv1);
+                        cpu1IVs.add(iv1);
+                        break;
+                    case 2:
+                        ImageView iv2 = createIV();
+                        cpu2HB.getChildren().add(iv2);
+                        cpu2IVs.add(iv2);
+                        break;
+                    case 3:
+                        ImageView iv3 = createIV();
+                        iv3.setRotate(90);
+                        cpu3VB.getChildren().add(iv3);
+                        cpu3IVs.add(iv3);
+                        break;
+                } // end switch 
+            }
+
         } // end while
     }
 
     private ImageView createIV(Card c, boolean isDiscard) {
         // NOT FOR CPUS
         ImageView iv = new ImageView(c.getImageFile());
-        
+
         if (!isDiscard) {
             // If it is a discard IV, it doesn't need the click event
             iv.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler() {
                 @Override
                 public void handle(Event event) {
-                    if (playersTurn)
-                    if (c.getValue().equals("8")) {
-                        // Wild
-                        System.out.println("Its an eight, everyone panic!");
-                    } else {
-                        if (c.getSuit().equals(currentDiscard.getSuit()) || c.getValue().equals(currentDiscard.getValue())) {
-                            currentDiscard = c;
-                            discardPile.add(c);
-                            discardIV.setImage(c.getImageFile());
-                            
-                            playersIVs.remove(iv);
-                            pHandHB.getChildren().remove(iv);
-                            playerHand.remove(c);
-                            playersTurn = false;
+                    if (playersTurn) {
+                        if (c.getValue().equals("800")) {
+                            // Wild
+                            System.out.println("Its an eight hundred, everyone panic!");
                         } else {
-                            System.out.println("Can't play that buddy.");
-                        }
-                    }
-                    
+                            if (c.getSuit().equals(currentDiscard.getSuit()) || c.getValue().equals(currentDiscard.getValue())) {
+                                currentDiscard = c;
+                                discardPile.add(c);
+                                discardIV.setImage(c.getImageFile());
+
+                                playersIVs.remove(iv);
+                                pHandHB.getChildren().remove(iv);
+                                playerHand.remove(c);
+                                if (playerHand.isEmpty()) {
+                                    winner = true;
+                                    againBtn.setVisible(true);
+                                    // Winner Alert
+                                    Alert winnerAlert = new Alert(Alert.AlertType.INFORMATION);
+                                    winnerAlert.setTitle("Game Over");
+                                    winnerAlert.setHeaderText("You Won!");
+                                    GiveMeInspiration ins = new GiveMeInspiration();
+                                    winnerAlert.setContentText(ins.give());
+                                    winnerAlert.show();
+                                    // end Winner Alert
+                                } else {
+                                    playersTurn = false;
+                                    turnIndicator.setFill(Color.RED);
+                                }
+                            }
+                        } // end check for 8
+                    }// end if (playersTurn)
+
                     selectedCard = c;
                 }
             });
@@ -311,20 +454,26 @@ class Spacer extends Rectangle {
 
 }
 
-class Crazy {
+class GiveMeInspiration {
     
-    String selectedSuit;
+    ArrayList<String> inspirations;
     
-    public Crazy (String currentSuit) {
-        this.selectedSuit = currentSuit;
+    public GiveMeInspiration() {
+        // inspirations.add("");
+        inspirations = new ArrayList();
+        inspirations.add("If you fear failure, you will never go anywhere.");
+        inspirations.add("Remember to drink water.");
+        inspirations.add("One must learn to be content with being happier than they think they deserve");
+        inspirations.add("Life's true gift is the capacity to enjoy enjoyment.");
+        inspirations.add("It is possible to commit no mistakes and still lose. That is not a weakness; that is life.");
+        inspirations.add("You Heard About Pluto? That's messed up, right?");
+        inspirations.add("I don’t lose things. I place things in locations which later elude me.");
+        inspirations.add("If he didn't have any hair then no one had any business calling him Fuzzy Wuzzy.");
+        inspirations.add("Ross and Rachel were on a break.");
     }
     
-    public void showSelection() {
-        
+    public String give() {
+        Random rand = new Random();
+        return (inspirations.get(rand.nextInt(inspirations.size())));
     }
-    
-    public String getSelection() {
-        return selectedSuit;
-    }
-    
 }

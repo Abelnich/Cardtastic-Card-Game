@@ -46,7 +46,7 @@ public class CardImage {
         if( img == null )
         {
             System.out.println(ImageLocal + pCode + ImageSuff);
-            img = new Image(CardImage.class.getClassLoader().getResourceAsStream( ImageLocal + pCode + ImageSuff ));
+            img = new Image(CardImage.class.getClassLoader().getResourceAsStream("resources/" + ImageLocal + pCode + ImageSuff ));
             gCards.put( pCode, img );
         }
         return img;
