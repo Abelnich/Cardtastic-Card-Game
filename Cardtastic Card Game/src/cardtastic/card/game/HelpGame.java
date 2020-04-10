@@ -19,9 +19,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 /**
@@ -30,146 +32,102 @@ import javafx.stage.Stage;
  */
 public class HelpGame extends Application {
     
-    StackPane root;
-    Stage helpStage;
-    Scene startScene, guideScene;
-    Button solitaireBtn, freeCellBtn, blackJackBtn, warBtn;
-    Label messageLbl;
-    Image guideImg1, guideImg2, guideImg3, guideImg4;
-    ImageView guideIV1, guideIV2, guideIV3, guideIV4;
+    private StackPane sp_root;
+    private Stage stage_help;
+    private Scene scene_start, scene_guide;
+    private HBox hb_iv, hb_button;
+    private Button btn_solitaire, btn_freeCell, btn_blackJack, btn_war, btn_crazy;
+    private Label lbl_message;
+    private Image img_guide1, img_guide2, img_guide3, img_guide4;
+    private ImageView iv_guide1, iv_guide2, iv_guide3, iv_guide4;
     
     @Override
     public void start(Stage primaryStage) {
-        helpStage = primaryStage;
+        stage_help = primaryStage;
         
         // start scene \\
         
-        guideImg1 = new Image("resources/AS.png", 100, 150.2, true, true);
-        guideIV1 = new ImageView(guideImg1);
-        guideImg2 = new Image("resources/AD.png", 100, 150.2, true, true);
-        guideIV2 = new ImageView(guideImg2);
-        guideImg3 = new Image("resources/AC.png", 100, 150.2, true, true);
-        guideIV3 = new ImageView(guideImg3);
-        guideImg4 = new Image("resources/AH.png", 100, 150.2, true, true);
-        guideIV4 = new ImageView(guideImg4);
-        HBox imgHB = new HBox();
-        imgHB.setAlignment(Pos.CENTER);
-        imgHB.setSpacing(20);
-        imgHB.getChildren().addAll(guideIV1, guideIV2, guideIV3, guideIV4);
+        img_guide1 = new Image("resources/AS.png", 100, 150.2, true, true);
+        iv_guide1 = new ImageView(img_guide1);
+        img_guide2 = new Image("resources/AD.png", 100, 150.2, true, true);
+        iv_guide2 = new ImageView(img_guide2);
+        img_guide3 = new Image("resources/AC.png", 100, 150.2, true, true);
+        iv_guide3 = new ImageView(img_guide3);
+        img_guide4 = new Image("resources/AH.png", 100, 150.2, true, true);
+        iv_guide4 = new ImageView(img_guide4);
+        hb_iv = new HBox();
+        hb_iv.setAlignment(Pos.CENTER);
+        hb_iv.setSpacing(20);
+        hb_iv.getChildren().addAll(iv_guide1, iv_guide2, iv_guide3, iv_guide4);
         
-        messageLbl = new Label("Select below which game you want to know more about.");
-        messageLbl.setFont(new Font("calibre", 40));
-        solitaireBtn = new Button("Solitaire");
-        solitaireBtn.setOnAction(e -> handleButton(solitaireBtn));
-        freeCellBtn = new Button("Freecell");
-        freeCellBtn.setOnAction(e -> handleButton(freeCellBtn));
-        blackJackBtn = new Button("Blackjack");
-        blackJackBtn.setOnAction(e -> handleButton(blackJackBtn));
-        warBtn = new Button("War");
-        warBtn.setOnAction(e -> handleButton(warBtn));
+        lbl_message = new Label("Select below which game you want to know more about.");
+        lbl_message.setFont(new Font("calibre", 40));
+        btn_solitaire = new Button("Solitaire");
+        btn_solitaire.setOnAction(e -> handleButton(btn_solitaire));
+        btn_freeCell = new Button("Freecell");
+        btn_freeCell.setOnAction(e -> handleButton(btn_freeCell));
+        btn_blackJack = new Button("Blackjack");
+        btn_blackJack.setOnAction(e -> handleButton(btn_blackJack));
+        btn_war = new Button("War");
+        btn_war.setOnAction(e -> handleButton(btn_war));
+        btn_crazy = new Button("Crazy Eights");
+        btn_crazy.setOnAction(e -> handleButton(btn_crazy));
         
-        VBox sceneVB = new VBox();
-        sceneVB.setAlignment(Pos.CENTER);
-        sceneVB.setSpacing(20);
-        sceneVB.getChildren().addAll(imgHB, messageLbl);
+        hb_button = new HBox();
+        hb_button.setAlignment(Pos.CENTER);
+        hb_button.setSpacing(20);
+        hb_button.getChildren().addAll(btn_solitaire, btn_freeCell, btn_blackJack, btn_war, btn_crazy);
         
-        HBox buttonHB = new HBox();
-        buttonHB.setAlignment(Pos.CENTER);
-        buttonHB.setSpacing(20);
-        buttonHB.getChildren().add(solitaireBtn);
-        buttonHB.getChildren().add(freeCellBtn);
-        buttonHB.getChildren().add(blackJackBtn);
-        buttonHB.getChildren().add(warBtn);
-        sceneVB.getChildren().add(buttonHB);
+        VBox vb_scene = new VBox();
+        vb_scene.setAlignment(Pos.CENTER);
+        vb_scene.setSpacing(20);
+        vb_scene.getChildren().addAll(hb_iv, lbl_message, hb_button);
         
         // Scene housekeeping
-        root = new StackPane();
-        root.setStyle("-fx-background-color: ForestGreen");
-        root.getChildren().add(sceneVB);
-        Scene scene = new Scene(root, 1280, 550);
+        sp_root = new StackPane();
+        FileReader fr = new FileReader("Settings.txt"); 
+        sp_root.setStyle(fr.readFile().get(1));
+        sp_root.getChildren().add(vb_scene);
+        Scene scene = new Scene(sp_root, 1280, 550);
         
-        helpStage.setTitle("Help");
-        helpStage.setScene(scene);
-        helpStage.show();
+        stage_help.setTitle("Help");
+        stage_help.setScene(scene);
+        stage_help.show();
         // end start scene \\
         
     }
     
-    public void handleButton(Button b) {
+    private void handleButton(Button b) {
         switch (b.getText()) {
             case "Solitaire":
-                messageLbl.setText("Your text here.");
+                lbl_message.setText("Your text here.");
                 break;
             case "Freecell":
-                messageLbl.setText("Your text here.");
+                lbl_message.setText("Your text here.");
                 break;
             case "Blackjack":
-                messageLbl.setText("Your text here.");
+                lbl_message.setText("Your text here.");
                 break;
             case "War":
-                messageLbl.setText("Your text here.");
+                lbl_message.setText("Your text here.");
                 break;
-            case "UNO":
-                messageLbl.setText("Legally not uno.");
+            case "Crazy Eights":
+                
+                lbl_message.setText("The object of the game is to get rid of all your cards. You do so by playing a card that matches either the suit or the "
+                        + "value of the card on the discard pile. To begin, press the start button. Each computer will take it's turn and then the red circle "
+                        + "will turn green to indicate it is your turn to go. You may either play a card or draw. Eights are wild! If you play on, you will need "
+                        + "to select a new suit to play with. Once your turn is over, click \"Next Turn\". Repeat until someone wins.");
+                lbl_message.setFont(new Font("calibre", 24));
+                lbl_message.setTextFill(Color.WHITE);
+                lbl_message.setTextAlignment(TextAlignment.CENTER);
                 break;
             default:
                 System.out.println("help " + b.getText());
                 break;
         }
+        
+        lbl_message.setWrapText(true);
                 
-    }
-    
-    public void setup() {
-        // may not be used
-        
-        int currMessage = 0;
-        String message1 = "Testing messages number 1";
-        String message2 = "2 number messages testing";
-        String[] messages = {message1, message2};  
-        
-        // Layout
-        VBox vbox = new VBox();
-        vbox.setAlignment(Pos.CENTER);
-        vbox.setSpacing(20);
-        
-        // Images for guide
-        Image test1 = new Image("resources/AC.png", 100, 152.821997106, false, true);
-        ImageView iv1 = new ImageView(test1);
-        vbox.getChildren().add(iv1);
-  
-        Label lblMessage = new Label(messages[currMessage]);
-        lblMessage.setFont(new Font("calibre", 40));
-        
-        HBox btnBox = new HBox();
-        btnBox.setAlignment(Pos.CENTER);
-        btnBox.setSpacing(20);
-        Button previous = new Button("Previous");
-        previous.setOnAction(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-              lblMessage.setText("prev");
-            }
-        });
-        Button next = new Button("Next");
-        next.setOnAction(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-              lblMessage.setText("next");
-            }
-        });
-        btnBox.getChildren().add(previous);
-        btnBox.getChildren().add(next);
-        
-        vbox.getChildren().add(lblMessage);
-        vbox.getChildren().add(btnBox);
-
-        
-        StackPane guideStack = new StackPane();
-        guideStack.getChildren().add(vbox);
-        guideStack.setStyle("-fx-background-color: ForestGreen");
-        guideScene = new Scene(guideStack, 1280, 550);
-        
-        helpStage.setScene(guideScene);
     }
     
 }
