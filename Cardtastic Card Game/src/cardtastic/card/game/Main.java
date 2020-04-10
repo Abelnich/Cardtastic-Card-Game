@@ -64,7 +64,7 @@ public class Main extends Application {
         userMenu.getItems().add(menuItem2);
         userMenu.getItems().add(settingsMenuItem);
 
-        helpMenu.getItems().add(userHelpItem);
+        //helpMenu.getItems().add(userHelpItem);
         helpMenu.getItems().add(gameHelpItem);
 
         menuBar.getMenus().add(userMenu);
