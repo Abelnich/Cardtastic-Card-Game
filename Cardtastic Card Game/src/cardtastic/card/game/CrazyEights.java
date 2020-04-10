@@ -40,28 +40,28 @@ public class CrazyEights extends Application {
 
     private ArrayList<Card> discardPile = new ArrayList();
 
-    private ArrayList<Card> playerHand;
-    private ArrayList<ImageView> playersIVs;
-    private ArrayList<Card> cpuHand_1;
-    private ArrayList<ImageView> cpu1IVs;
-    private ArrayList<Card> cpuHand_2;
-    private ArrayList<ImageView> cpu2IVs;
-    private ArrayList<Card> cpuHand_3;
-    private ArrayList<ImageView> cpu3IVs;
+    private ArrayList<Card> arryLst_playerHand;
+    private ArrayList<ImageView> arryLst_playersIVs;
+    private ArrayList<Card> arryLst_cpuHand_1;
+    private ArrayList<ImageView> arryLst_cpu1IVs;
+    private ArrayList<Card> arryLst_cpuHand_2;
+    private ArrayList<ImageView> arryLst_cpu2IVs;
+    private ArrayList<Card> arryLst_cpuHand_3;
+    private ArrayList<ImageView> arryLst_cpu3IVs;
 
-    private ArrayList<Card>[] hands = new ArrayList[4];
-    private ArrayList<ImageView>[] handDisplays = new ArrayList[4];
+    private ArrayList<Card>[] arry_hands = new ArrayList[4];
+    private ArrayList<ImageView>[] arry_handDisplays = new ArrayList[4];
 
-    private Card currentDiscard, selectedCard;
+    private Card card_currentDiscard, selectedCard;
     private Deck deck;
-    private String cardBack;
-    private ImageView discardIV;
+    private String str_cardBack;
+    private ImageView iv_discard, iv_deck;
 
     // Layout Stuff
-    private HBox cpu2HB, pHandHB;
-    private VBox cpu1VB, cpu3VB;
-    private Button nextBtn, againBtn;
-    private Circle turnIndicator;
+    private HBox hb_cpu2, hb_pHand, hb_Bottom;
+    private VBox vb_cpu1, vb_cpu3;
+    private Button btn_next, btn_again;
+    private Circle circ_turnIndicator;
     // Layout Stuff
 
     private Boolean playersTurn = false, winner = false;
@@ -70,105 +70,104 @@ public class CrazyEights extends Application {
     public void start(Stage primaryStage) {
 
         FileReader fr = new FileReader("Settings.txt");
-        cardBack = fr.readFile().get(0);
+        str_cardBack = fr.readFile().get(0);
 
         selectedCard = null;
 
         deck = new Deck();
         deck.Shuffle();
 
-        playerHand = new ArrayList();
-        playersIVs = new ArrayList();
-        cpuHand_1 = new ArrayList();
-        cpu1IVs = new ArrayList();
-        cpuHand_2 = new ArrayList();
-        cpu2IVs = new ArrayList();
-        cpuHand_3 = new ArrayList();
-        cpu3IVs = new ArrayList();
+        arryLst_playerHand = new ArrayList();
+        arryLst_playersIVs = new ArrayList();
+        arryLst_cpuHand_1 = new ArrayList();
+        arryLst_cpu1IVs = new ArrayList();
+        arryLst_cpuHand_2 = new ArrayList();
+        arryLst_cpu2IVs = new ArrayList();
+        arryLst_cpuHand_3 = new ArrayList();
+        arryLst_cpu3IVs = new ArrayList();
 
-        hands[0] = playerHand;
-        hands[1] = cpuHand_1;
-        hands[2] = cpuHand_2;
-        hands[3] = cpuHand_3;
+        arry_hands[0] = arryLst_playerHand;
+        arry_hands[1] = arryLst_cpuHand_1;
+        arry_hands[2] = arryLst_cpuHand_2;
+        arry_hands[3] = arryLst_cpuHand_3;
 
-        handDisplays[0] = playersIVs;
-        handDisplays[1] = cpu1IVs;
-        handDisplays[2] = cpu2IVs;
-        handDisplays[3] = cpu3IVs;
+        arry_handDisplays[0] = arryLst_playersIVs;
+        arry_handDisplays[1] = arryLst_cpu1IVs;
+        arry_handDisplays[2] = arryLst_cpu2IVs;
+        arry_handDisplays[3] = arryLst_cpu3IVs;
 
         for (int i = 1; i <= 5; i++) {
-            playerHand.add(deck.deal());
-            cpuHand_1.add(deck.deal());
-            cpuHand_2.add(deck.deal());
-            cpuHand_3.add(deck.deal());
+            arryLst_playerHand.add(deck.deal());
+            arryLst_cpuHand_1.add(deck.deal());
+            arryLst_cpuHand_2.add(deck.deal());
+            arryLst_cpuHand_3.add(deck.deal());
         }
 
-        cpu2HB = new HBox();
-        cpu2HB.setAlignment(Pos.CENTER);
-        cpu2HB.setSpacing(-75);
-        for (int i = 0; i < cpuHand_2.size(); i++) {
+        hb_cpu2 = new HBox();
+        hb_cpu2.setAlignment(Pos.CENTER);
+        hb_cpu2.setSpacing(-75);
+        for (int i = 0; i < arryLst_cpuHand_2.size(); i++) {
             ImageView iv = createIV();
-            cpu2HB.getChildren().add(iv);
-            cpu2IVs.add(iv);
+            hb_cpu2.getChildren().add(iv);
+            arryLst_cpu2IVs.add(iv);
         }
 
         HBox midHB = new HBox();
         midHB.setAlignment(Pos.CENTER);
 
-        cpu1VB = new VBox();
-        cpu1VB.setAlignment(Pos.CENTER);
-        cpu1VB.setSpacing(-112.5);
-        for (int i = 0; i < cpuHand_1.size(); i++) {
+        vb_cpu1 = new VBox();
+        vb_cpu1.setAlignment(Pos.CENTER);
+        vb_cpu1.setSpacing(-112.5);
+        for (int i = 0; i < arryLst_cpuHand_1.size(); i++) {
             ImageView iv = createIV();
             iv.setRotate(-90);
-            cpu1VB.getChildren().add(iv);
-            cpu1IVs.add(iv);
+            vb_cpu1.getChildren().add(iv);
+            arryLst_cpu1IVs.add(iv);
         }
 
-        cpu3VB = new VBox();
-        cpu3VB.setAlignment(Pos.CENTER);
-        cpu3VB.setSpacing(-112.5);
-        for (int i = 0; i < cpuHand_3.size(); i++) {
+        vb_cpu3 = new VBox();
+        vb_cpu3.setAlignment(Pos.CENTER);
+        vb_cpu3.setSpacing(-112.5);
+        for (int i = 0; i < arryLst_cpuHand_3.size(); i++) {
             ImageView iv = createIV();
             iv.setRotate(90);
-            cpu3VB.getChildren().add(iv);
-            cpu3IVs.add(iv);
+            vb_cpu3.getChildren().add(iv);
+            arryLst_cpu3IVs.add(iv);
         }
 
-        pHandHB = new HBox();
-        pHandHB.setAlignment(Pos.CENTER);
-        for (int i = 0; i < playerHand.size(); i++) {
+        hb_pHand = new HBox();
+        hb_pHand.setAlignment(Pos.CENTER);
+        for (int i = 0; i < arryLst_playerHand.size(); i++) {
             // Add player cards to the screen
-            ImageView iv = createIV(playerHand.get(i), false);
-            pHandHB.getChildren().add(iv);
-            playersIVs.add(iv);
+            ImageView iv = createIV(arryLst_playerHand.get(i), false);
+            hb_pHand.getChildren().add(iv);
+            arryLst_playersIVs.add(iv);
         }
 
-        currentDiscard = deck.deal(); // First card to start game
-        discardIV = createIV(currentDiscard, true);
+        card_currentDiscard = deck.deal(); // First card to start game
+        iv_discard = createIV(card_currentDiscard, true);
 
-        ImageView deckIV = createIV();
-        deckIV.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler() {
+        iv_deck = createIV();
+        iv_deck.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler() {
             @Override
             public void handle(Event event) {
                 if (playersTurn) {
                     // Checks if deck is empty; will refill from discard pile except for the current card
                     if (deck.getDeck().size() <= 1) {
-                        System.out.println("Cover me I'm reloading");
                         for (int i = 0; i < discardPile.size(); i++) {
                             Card c = discardPile.get(i);
-                            if (!c.equals(currentDiscard)) {
+                            if (!c.equals(card_currentDiscard)) {
                                 deck.getDeck().add(c);
                                 discardPile.remove(c);
                             }
                         }
                     } // end check for empty deck
                     Card drawnCard = deck.deal();
-                    playerHand.add(drawnCard);
+                    arryLst_playerHand.add(drawnCard);
 
                     ImageView drawnIV = createIV(drawnCard, false);
-                    playersIVs.add(drawnIV);
-                    pHandHB.getChildren().add(drawnIV);
+                    arryLst_playersIVs.add(drawnIV);
+                    hb_pHand.getChildren().add(drawnIV);
                 }
             }
         });
@@ -178,26 +177,22 @@ public class CrazyEights extends Application {
         Spacer spaceM = new Spacer();
         Spacer spaceR = new Spacer();
 
-        midHB.getChildren().addAll(cpu1VB, spaceL, discardIV, spaceM, deckIV, spaceR, cpu3VB);
+        midHB.getChildren().addAll(vb_cpu1, spaceL, iv_discard, spaceM, iv_deck, spaceR, vb_cpu3);
 
-        HBox bottomHB = new HBox();
-        bottomHB.setAlignment(Pos.CENTER);
-
-        UserInfo user = new UserInfo();
-        Label playerName = new Label(user.getActiveUser());
-        playerName.setFont(Font.font(16));
+        hb_Bottom = new HBox();
+        hb_Bottom.setAlignment(Pos.CENTER);
 
         // Circle to inform the player if it is their turn or not
-        turnIndicator = new Circle(25);
-        turnIndicator.setFill(Color.RED);
+        circ_turnIndicator = new Circle(25);
+        circ_turnIndicator.setFill(Color.RED);
 
         // Makes the computer players go so the player can play again; in place of an infinite loop
-        nextBtn = new Button("Start");
-        nextBtn.setOnAction(new EventHandler<ActionEvent>() {
+        btn_next = new Button("Start");
+        btn_next.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 // Changes next turn button to say next turn after the game has started
-                if (nextBtn.getText().equals("Start")) {
-                    nextBtn.setText("Next Turn");
+                if (btn_next.getText().equals("Start")) {
+                    btn_next.setText("Next Turn");
                 }
                 if (!playersTurn && !winner) {
                     if (!winner) {
@@ -210,14 +205,14 @@ public class CrazyEights extends Application {
                         play(3);
                     }
                     playersTurn = true;
-                    turnIndicator.setFill(Color.LIME);
+                    circ_turnIndicator.setFill(Color.LIME);
                 }
             }
         });
 
         // To play the game again after it has completed.
-        againBtn = new Button("Play Again");
-        againBtn.setOnAction(new EventHandler<ActionEvent>() {
+        btn_again = new Button("Play Again");
+        btn_again.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 CrazyEights crazyGame = new CrazyEights();
                 Stage secondaryStage = new Stage();
@@ -226,18 +221,17 @@ public class CrazyEights extends Application {
                 crazyGame.start(secondaryStage);
             }
         });
-        againBtn.setVisible(false);
+        btn_again.setVisible(false);
 
         // For testing
-        Button crazy = new Button("Go Crazy");
-        crazy.setOnAction(new EventHandler<ActionEvent>() {
+        Button btn_crazy = new Button("Go Crazy");
+        btn_crazy.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                GiveMeInspiration ins = new GiveMeInspiration();
-                System.out.println(ins.give());
+                //showWild();
             }
         });
 
-        crazy.setVisible(false);
+        btn_crazy.setVisible(false);
 
         Button mainBtn = new Button("Main menu");
         mainBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -269,11 +263,11 @@ public class CrazyEights extends Application {
             }
         });
 
-        bottomHB.getChildren().addAll(turnIndicator, nextBtn, crazy, mainBtn, againBtn);
+        hb_Bottom.getChildren().addAll(circ_turnIndicator, btn_next, btn_crazy, mainBtn, btn_again);
 
         VBox screenVB = new VBox();
         screenVB.setAlignment(Pos.CENTER);
-        screenVB.getChildren().addAll(cpu2HB, midHB, pHandHB, bottomHB);
+        screenVB.getChildren().addAll(hb_cpu2, midHB, hb_pHand, hb_Bottom);
 
         StackPane root = new StackPane();
         root.getChildren().add(screenVB);
@@ -295,35 +289,34 @@ public class CrazyEights extends Application {
 
         whileLoop:
         while (!played) {
-            for (Card c : hands[num]) {
+            for (Card c : arry_hands[num]) {
                 // Iterate through each card of the hand
-                if (c.getSuit().equals(currentDiscard.getSuit()) || c.getValue().equals(currentDiscard.getValue())) {
-                    hands[num].remove(c);
-                    if (hands[num].size() <= 14) {
+                if (c.getSuit().equals(card_currentDiscard.getSuit()) || c.getValue().equals(card_currentDiscard.getValue())) {
+                    arry_hands[num].remove(c);
+                    if (arry_hands[num].size() <= 14) {
                         // Won't remove an IV if there's more than 14 cards in computers hand
                         switch (num) {
 
                             case 1:
-                                cpu1IVs.remove(0);
-                                cpu1VB.getChildren().remove(0);
+                                arryLst_cpu1IVs.remove(0);
+                                vb_cpu1.getChildren().remove(0);
                                 break;
                             case 2:
-                                cpu2IVs.remove(0);
-                                cpu2HB.getChildren().remove(0);
+                                arryLst_cpu2IVs.remove(0);
+                                hb_cpu2.getChildren().remove(0);
                                 break;
                             case 3:
-                                cpu3IVs.remove(0);
-                                cpu3VB.getChildren().remove(0);
+                                arryLst_cpu3IVs.remove(0);
+                                vb_cpu3.getChildren().remove(0);
                                 break;
                         }
                     }
                     discardPile.add(c);
-                    currentDiscard = c;
-                    discardIV.setImage(c.getImageFile());
-                    if (hands[num].isEmpty()) {
+                    card_currentDiscard = c;
+                    iv_discard.setImage(c.getImageFile());
+                    if (arry_hands[num].isEmpty()) {
                         winner = true;
-                        againBtn.setVisible(true);
-                        System.out.println("CPU " + num + " Wins!");
+                        btn_again.setVisible(true);
 
                         // Winner Alert
                         Alert winnerAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -333,13 +326,13 @@ public class CrazyEights extends Application {
                         winnerAlert.show();
                         // end Winner Alert
 
-                        nextBtn.setVisible(false);
+                        btn_next.setVisible(false);
 
                         break whileLoop;
                     }
                     played = true;
                     break whileLoop;
-                }
+                } // end if equal to discard check
             } // end for each
 
             // Will reach here if hand does not have a suitable hand
@@ -347,7 +340,7 @@ public class CrazyEights extends Application {
             if (deck.getDeck().size() == 1) {
                 for (int i = 0; i < discardPile.size(); i++) {
                     Card c = discardPile.get(i);
-                    if (!c.equals(currentDiscard)) {
+                    if (!c.equals(card_currentDiscard)) {
                         deck.getDeck().add(c);
                         discardPile.remove(c);
                     }
@@ -355,26 +348,26 @@ public class CrazyEights extends Application {
             } // end check for empty deck   
             // CPU Drawing: 
             // Adds card to hand and goes back through again
-            hands[num].add(deck.deal());
-            if (hands[num].size() + 1 <= 14) {
+            arry_hands[num].add(deck.deal());
+            if (arry_hands[num].size() + 1 <= 14) {
                 // Won't add another IV if it doesn't fit 
                 switch (num) {
                     case 1:
                         ImageView iv1 = createIV();
                         iv1.setRotate(90);
-                        cpu1VB.getChildren().add(iv1);
-                        cpu1IVs.add(iv1);
+                        vb_cpu1.getChildren().add(iv1);
+                        arryLst_cpu1IVs.add(iv1);
                         break;
                     case 2:
                         ImageView iv2 = createIV();
-                        cpu2HB.getChildren().add(iv2);
-                        cpu2IVs.add(iv2);
+                        hb_cpu2.getChildren().add(iv2);
+                        arryLst_cpu2IVs.add(iv2);
                         break;
                     case 3:
                         ImageView iv3 = createIV();
                         iv3.setRotate(90);
-                        cpu3VB.getChildren().add(iv3);
-                        cpu3IVs.add(iv3);
+                        vb_cpu3.getChildren().add(iv3);
+                        arryLst_cpu3IVs.add(iv3);
                         break;
                 } // end switch 
             }
@@ -392,21 +385,21 @@ public class CrazyEights extends Application {
                 @Override
                 public void handle(Event event) {
                     if (playersTurn) {
-                        if (c.getValue().equals("800")) {
+                        if (c.getValue().equals("8")) {
                             // Wild
-                            System.out.println("Its an eight hundred, everyone panic!");
+                            showWild(iv, c);
                         } else {
-                            if (c.getSuit().equals(currentDiscard.getSuit()) || c.getValue().equals(currentDiscard.getValue())) {
-                                currentDiscard = c;
+                            if (c.getSuit().equals(card_currentDiscard.getSuit()) || c.getValue().equals(card_currentDiscard.getValue())) {
+                                card_currentDiscard = c;
                                 discardPile.add(c);
-                                discardIV.setImage(c.getImageFile());
+                                iv_discard.setImage(c.getImageFile());
 
-                                playersIVs.remove(iv);
-                                pHandHB.getChildren().remove(iv);
-                                playerHand.remove(c);
-                                if (playerHand.isEmpty()) {
+                                arryLst_playersIVs.remove(iv);
+                                hb_pHand.getChildren().remove(iv);
+                                arryLst_playerHand.remove(c);
+                                if (arryLst_playerHand.isEmpty()) {
                                     winner = true;
-                                    againBtn.setVisible(true);
+                                    btn_again.setVisible(true);
                                     // Winner Alert
                                     Alert winnerAlert = new Alert(Alert.AlertType.INFORMATION);
                                     winnerAlert.setTitle("Game Over");
@@ -417,7 +410,7 @@ public class CrazyEights extends Application {
                                     // end Winner Alert
                                 } else {
                                     playersTurn = false;
-                                    turnIndicator.setFill(Color.RED);
+                                    circ_turnIndicator.setFill(Color.RED);
                                 }
                             }
                         } // end check for 8
@@ -431,18 +424,134 @@ public class CrazyEights extends Application {
         iv.setFitWidth(100);
         iv.setPreserveRatio(true);
         return iv;
-    }
+    } // end createIV(Card, boolean)
 
     private ImageView createIV() {
         // To create imageviews for the computers' hands showing just the card back
-        Image back = new Image("resources/" + cardBack);
+        Image back = new Image("resources/" + str_cardBack);
         ImageView iv = new ImageView(back);
         iv.setFitHeight(150.2);
         iv.setFitWidth(100);
         iv.setPreserveRatio(true);
         return iv;
+    } // end createIV()
+
+    private void showWild(ImageView iv_played, Card card_played) {
+
+        // Disables player cards and deck
+        for (ImageView iv : arryLst_playersIVs) {
+            iv.setVisible(false);
+        }
+        iv_deck.setDisable(true);
+
+        ImageView iv_spade = wildIV("Spades");
+        ImageView iv_diamond = wildIV("Diamonds");
+        ImageView iv_club = wildIV("Clubs");
+        ImageView iv_heart = wildIV("Hearts");
+
+        // Event handlers: create a 8 of respective suit and plays it. Does not get added to deck when reloaded
+        iv_spade.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+                // Player switches to spades
+                card_currentDiscard = new Card("Spades", "8");
+                hb_pHand.getChildren().removeAll(iv_spade, iv_diamond, iv_club, iv_heart);
+                wildPlayed(iv_played, card_played);
+            }
+        });
+        iv_diamond.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+                // Player switches to diamonds
+                card_currentDiscard = new Card("Diamonds", "8");
+                hb_pHand.getChildren().removeAll(iv_spade, iv_diamond, iv_club, iv_heart);
+                wildPlayed(iv_played, card_played);
+            }
+        });
+        iv_club.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+                // Player switches to clubs
+                card_currentDiscard = new Card("Clubs", "8");
+                hb_pHand.getChildren().removeAll(iv_spade, iv_diamond, iv_club, iv_heart);
+                wildPlayed(iv_played, card_played);
+            }
+        });
+        iv_heart.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+                // Player switches to hearts
+                card_currentDiscard = new Card("Hearts", "8"); // creates fake card for discard display
+                hb_pHand.getChildren().removeAll(iv_spade, iv_diamond, iv_club, iv_heart);
+                wildPlayed(iv_played, card_played);
+            }
+        });
+
+        hb_pHand.getChildren().addAll(iv_spade, iv_diamond, iv_club, iv_heart);
+
+    } // end showWild()
+
+    private void wildPlayed(ImageView iv_played, Card card_played) {
+        // Places the fake card into the discard
+        iv_discard.setImage(card_currentDiscard.getImageFile());
+
+        // Enables player card and deck
+        for (ImageView iv : arryLst_playersIVs) {
+            iv.setVisible(true);
+        }
+        iv_deck.setDisable(false);
+
+        arryLst_playersIVs.remove(iv_played);
+        hb_pHand.getChildren().remove(iv_played);
+        arryLst_playerHand.remove(card_played);
+        if (arryLst_playerHand.isEmpty()) {
+            winner = true;
+            btn_again.setVisible(true);
+            // Winner Alert
+            Alert winnerAlert = new Alert(Alert.AlertType.INFORMATION);
+            winnerAlert.setTitle("Game Over");
+            winnerAlert.setHeaderText("You Won!");
+            GiveMeInspiration ins = new GiveMeInspiration();
+            winnerAlert.setContentText(ins.give());
+            winnerAlert.show();
+            // end Winner Alert
+        } else {
+            playersTurn = false;
+            circ_turnIndicator.setFill(Color.RED);
+        }
     }
 
+    private ImageView wildIV(String suit) {
+        // for creating the suit only cards
+        String fileName;
+        switch (suit) {
+            case "Diamonds":
+                fileName = "DD.png";
+                break;
+            case "Clubs":
+                fileName = "CC.png";
+                break;
+            case "Hearts":
+                fileName = "HH.png";
+                break;
+            default:
+                fileName = "SS.png";
+                break;
+        }
+
+        Image img_wild = new Image("resources/" + fileName);
+
+        ImageView iv_wild = createIV();
+        iv_wild.setImage(img_wild);
+
+        Card card_wild = new Card(suit, "8");
+
+        return iv_wild;
+    }
 }
 
 class Spacer extends Rectangle {
@@ -455,9 +564,9 @@ class Spacer extends Rectangle {
 }
 
 class GiveMeInspiration {
-    
+
     ArrayList<String> inspirations;
-    
+
     public GiveMeInspiration() {
         // inspirations.add("");
         inspirations = new ArrayList();
@@ -471,7 +580,7 @@ class GiveMeInspiration {
         inspirations.add("If he didn't have any hair then no one had any business calling him Fuzzy Wuzzy.");
         inspirations.add("Ross and Rachel were on a break.");
     }
-    
+
     public String give() {
         Random rand = new Random();
         return (inspirations.get(rand.nextInt(inspirations.size())));
