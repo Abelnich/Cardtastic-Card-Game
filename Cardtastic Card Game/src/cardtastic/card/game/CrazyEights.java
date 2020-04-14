@@ -322,7 +322,7 @@ public class CrazyEights extends Application {
                         Alert winnerAlert = new Alert(Alert.AlertType.INFORMATION);
                         winnerAlert.setTitle("Game Over");
                         winnerAlert.setHeaderText("CPU " + num + " Wins!");
-                        winnerAlert.setContentText("Better luck next time pal :/");
+                        winnerAlert.setContentText("It is possible to commit no mistakes and still lose. That is not a weakness; that is life.");
                         winnerAlert.show();
                         // end Winner Alert
 
@@ -574,7 +574,6 @@ class GiveMeInspiration {
         inspirations.add("Remember to drink water.");
         inspirations.add("One must learn to be content with being happier than they think they deserve");
         inspirations.add("Life's true gift is the capacity to enjoy enjoyment.");
-        inspirations.add("It is possible to commit no mistakes and still lose. That is not a weakness; that is life.");
         inspirations.add("You Heard About Pluto? That's messed up, right?");
         inspirations.add("I don’t lose things. I place things in locations which later elude me.");
         inspirations.add("If he didn't have any hair then no one had any business calling him Fuzzy Wuzzy.");
