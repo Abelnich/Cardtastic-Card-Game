@@ -4,13 +4,20 @@ import Cards.Suit;
 import Model.FoundationPile;
 import Model.GameFacade;
 import Model.TableauPile;
+import cardtastic.card.game.Main;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.util.Optional;
 
 //app class for solitaire. it assembles the major UI components and launches the app
 //its composed elements handle the gesture handling which acts as an observer of the game model
@@ -36,30 +43,51 @@ public class Solitaire extends Application{
     @Override
     public void start(Stage primaryStge)
     {
+        MenuBar menuBar = new MenuBar();
+
+        Menu quitMenu = new Menu("Game");
+
+        MenuItem quitButton = new MenuItem("Quit to Main Menu");
+
+        quitMenu.getItems().add(quitButton);
+
+        menuBar.getMenus().add(quitMenu);
+
+        quitButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent actionEvent) {
+                Main main = new Main();
+                try {
+                    main.start(primaryStge);
+                } catch (Exception e) {
+                    System.out.println("Problem going back to main: " + e.getMessage());
+                }
+            }
+        });
+
         primaryStge.setTitle(title + " " + version);
 
-        GridPane root = new GridPane();
-        root.setStyle("-fx-background-color: green;");
-        root.setHgap(outerMargin);
-        root.setVgap(outerMargin);
-        root.setPadding(new Insets(outerMargin));
+        GridPane gridPane = new GridPane();
+        gridPane.setStyle("-fx-background-color: green;");
+        gridPane.setHgap(outerMargin);
+        gridPane.setVgap(outerMargin);
+        gridPane.setPadding(new Insets(outerMargin));
 
-        root.add(crdDeckView, 0, 0);
-        root.add(discardPileV, 1, 0);
+        gridPane.add(crdDeckView, 0, 0);
+        gridPane.add(discardPileV, 1, 0);
 
         for( FoundationPile index : FoundationPile.values() )
         {
             suitPle[index.ordinal()] = new SuitPile(index);
-            root.add(suitPle[index.ordinal()], 3+index.ordinal(), 0);
+            gridPane.add(suitPle[index.ordinal()], 3+index.ordinal(), 0);
         }
 
         for( TableauPile index : TableauPile.values() )
         {
             aStck[index.ordinal()] = new ViewOfCardPile(index);
-            root.add(aStck[index.ordinal()], index.ordinal(), 1);
+            gridPane.add(aStck[index.ordinal()], index.ordinal(), 1);
         }
 
-        root.setOnKeyTyped(new EventHandler<KeyEvent>()
+        gridPane.setOnKeyTyped(new EventHandler<KeyEvent>()
         {
 
             @Override
@@ -78,8 +106,12 @@ public class Solitaire extends Application{
 
         });
 
+        BorderPane borderPane = new BorderPane();
+        borderPane.setTop(menuBar);
+        borderPane.setCenter(gridPane);
+
         primaryStge.setResizable(false);
-        primaryStge.setScene(new Scene(root, width, height));
+        primaryStge.setScene(new Scene(borderPane, width, height));
         primaryStge.show();
     }
 }
