@@ -4,7 +4,9 @@ import Cards.Suit;
 import Model.FoundationPile;
 import Model.GameFacade;
 import Model.TableauPile;
+import cardtastic.card.game.FileReader;
 import cardtastic.card.game.Main;
+import com.sun.xml.internal.ws.api.config.management.policy.ManagementAssertion;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,7 +16,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.Optional;
@@ -25,8 +26,10 @@ public class Solitaire extends Application{
     private static final int width = 680;
     private static final int height = 500;
     private static final int outerMargin = 10;
+    private static final int BackgroundFileLine = 1;
     private static final String title = "Solitaire";
     private static final String version = "1.0";
+    private static final String SettingsFilename = "Settings.txt";
 
     private ViewOfCardDeck crdDeckView = new ViewOfCardDeck();
     private ViewOfDiscardPile discardPileV = new ViewOfDiscardPile();
@@ -67,7 +70,16 @@ public class Solitaire extends Application{
         primaryStge.setTitle(title + " " + version);
 
         GridPane gridPane = new GridPane();
-        gridPane.setStyle("-fx-background-color: green;");
+
+        try{
+            FileReader fileReader = new FileReader(SettingsFilename);
+            gridPane.setStyle(fileReader.readFile().get(BackgroundFileLine));
+        }
+        catch(Exception e){
+            System.out.println("Problem loading background color from file: " + e.getMessage());
+            gridPane.setStyle("-fx-background-color: ForestGreen;");
+        }
+
         gridPane.setHgap(outerMargin);
         gridPane.setVgap(outerMargin);
         gridPane.setPadding(new Insets(outerMargin));
