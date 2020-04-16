@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static javafx.application.Application.launch;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -27,10 +29,12 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
 
 /**
  *
@@ -55,14 +59,18 @@ public class War {
         VBox warLayout = new VBox();
         
         MenuBar warMenuBar = new MenuBar();
-        Menu warMenu = new Menu("User");
-        MenuItem settingsMenuItem = new MenuItem("Settings");
+        Menu warMenu = new Menu("Menu");
+        MenuItem settingsMenuItem = new MenuItem("Quit");
 
         settingsMenuItem.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-                Settings settingsPage = new Settings();
-                settingsPage.start(primaryStage);
+                Main main = new Main();
+                try {
+                    main.start(primaryStage);
+                } catch (Exception ex) {
+                    Logger.getLogger(War.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
             }
         });
@@ -73,7 +81,7 @@ public class War {
         Button drawButton = new Button("Draw Cards");
 
         warLayout.setStyle("-fx-background-color: ForestGreen");
-        Scene war = new Scene(warLayout, 1280, 900);
+        Scene war = new Scene(warLayout, 1280, 700);
         warLayout.setPrefWidth(300);
 
         warLayout.setPadding(new Insets(0, 0, 0, 0));
@@ -89,23 +97,22 @@ public class War {
         Label warGm = new Label(warG);
         warTitle.setFont(new Font("calibre", 40));
 
-       //VBox pD = new VBox();
-       //pD.setAlignment(Pos.BOTTOM_LEFT);
+       HBox pD = new HBox();
+       pD.setAlignment(Pos.CENTER);
         Image cardbk = new Image("resources/CardBack_Red.png");
         ImageView imv1 = new ImageView();
         imv1.setImage(cardbk);
         imv1.setFitHeight(150);
         imv1.setPreserveRatio(true);
-        //pD.getChildren().add(imv1);
+        pD.getChildren().add(imv1);
         
-        //VBox cD = new VBox();
-        //pD.setAlignment(Pos.CENTER_RIGHT);
+
         Image cardbk2 = new Image("resources/CardBack_Red.png");
         ImageView imv2 = new ImageView();
         imv2.setImage(cardbk2);
         imv2.setFitHeight(150);
         imv2.setPreserveRatio(true);
-        //pD.getChildren().add(imv2);
+        pD.getChildren().add(imv2);
         
         
         
@@ -153,22 +160,15 @@ public class War {
         pc = hand1.size() + 1;//not sure why i doesnt display 26
         cc = hand2.size();
         
-        
-        //VBox pcV = new VBox();
-                //pcV.setAlignment(Pos.CENTER_LEFT);
+      
                
                 ImageView i = new ImageView();
                 
-                
-                //pcV.getChildren().add(i);
-                
-                //VBox ccV = new VBox();
-                //ccV.setAlignment(Pos.CENTER_RIGHT);
+
                 ImageView i2 = new ImageView();
-                
-               
-                //ccV.getChildren().add(i2);
-        
+
+                HBox fC = new HBox();
+                fC.setAlignment(Pos.CENTER);
         
         
         
@@ -179,14 +179,12 @@ public class War {
         drawButton.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-                rnd = rnd + 1;
-                round.setText("Round#: " + rnd);
+                
                 //Start of the Game
-                warGm.setText("");
                 
-                warLayout.getChildren().remove(i);
-                warLayout.getChildren().remove(i2);
                 
+                fC.getChildren().remove(i);
+                fC.getChildren().remove(i2);
                 
                 //takes the first card out of each hand
                 Card p1 = hand1.pop();
@@ -202,10 +200,14 @@ public class War {
                 i2.setPreserveRatio(true);
                 i2.setImage(cardIc);
                 
+                fC.getChildren().addAll(i,i2);
                 
-                warLayout.getChildren().addAll(i,i2);
+                
+                rnd = rnd + 1;
+                round.setText("Round#: " + rnd);
+                warGm.setText("");
 
-                //compares the cards
+                
                 if (p1.getRank() > p2.getRank()) {
                     //adds cards to player 1's hand if they win
                     hand1.addLast(p1);
@@ -222,6 +224,7 @@ public class War {
                     p1Draw.setText("Player's card: " + pc1);
                     cc1 = p2.getSuit() + " " + p2.getValue();
                     p2Draw.setText("Computer's card: " + cc1);
+                    warLayout.getChildren().addAll(fC);
                     
 
                 } else if (p1.getRank() < p2.getRank()) {
@@ -239,9 +242,11 @@ public class War {
                     p1Draw.setText("Player's card: " + pc1);
                     cc1 = p2.getSuit() + " " + p2.getValue();
                     p2Draw.setText("Computer's card: " + cc1);
+                    warLayout.getChildren().addAll(fC);
                    
 
-                } else {
+                } 
+                else {
                     //war if cards match
 
                     pc1 = p1.getSuit() + " " + p1.getValue();
@@ -262,7 +267,7 @@ public class War {
                             winner.setText("Winner is: " + wnr);
                             rnd = 0;
                             round.setText("Round#: " + rnd);
-
+                            warLayout.getChildren().addAll(fC);
                             break;
 
                         }//end of if
@@ -272,6 +277,7 @@ public class War {
                             winner.setText("Winner is: " + wnr);
                             rnd = 0;
                             round.setText("Round#: " + rnd);
+                            warLayout.getChildren().addAll(fC);
                             break;
 
                         }//end of elseif
@@ -292,6 +298,7 @@ public class War {
                             p1Hand.setText("Player's cards remaining: " + pc);
                             cc -= 3;
                             p2Hand.setText("Computer's cards remaining: " + cc);
+                            warLayout.getChildren().addAll(fC);
 
                         }//end of if
                         else {
@@ -304,6 +311,7 @@ public class War {
                             p1Hand.setText("Player's cards remaining: " + pc);
                             cc += 3;
                             p2Hand.setText("Computer's cards remaining: " + cc);
+                            warLayout.getChildren().addAll(fC);
 
                         }//end of else
                     }//end of if
@@ -335,7 +343,7 @@ public class War {
         warLayout.setAlignment(Pos.TOP_CENTER);
         warLayout.getChildren().addAll(winner, round, roundWon, p1Hand, p1Draw, p2Draw, p2Hand, warGm);
         warLayout.getChildren().addAll(drawButton);
-        warLayout.getChildren().addAll(imv1, imv2);
+        warLayout.getChildren().addAll(pD);
         primaryStage.setScene(war);
         primaryStage.show();
 
