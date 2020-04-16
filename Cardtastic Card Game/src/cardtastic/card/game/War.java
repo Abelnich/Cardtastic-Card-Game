@@ -55,6 +55,8 @@ public class War {
     
 
     public void start(Stage primaryStage) {
+        FileReader bI = new FileReader("Settings.txt");
+        
 
         VBox warLayout = new VBox();
         
@@ -79,8 +81,21 @@ public class War {
         warMenuBar.getMenus().add(warMenu);
 
         Button drawButton = new Button("Draw Cards");
-
+        
         warLayout.setStyle("-fx-background-color: ForestGreen");
+        if(bI.readFile().get(1).equals("-fx-background-color: ForestGreen")){
+            warLayout.setStyle("-fx-background-color: ForestGreen");
+        }
+        
+        else if(bI.readFile().get(1).equals("-fx-background-color: Crimson")){
+            warLayout.setStyle("-fx-background-color: Crimson");
+            
+        }
+        else if(bI.readFile().get(1).equals("-fx-background-color: DodgerBlue")){
+            warLayout.setStyle("-fx-background-color: DodgerBlue");
+        }
+        
+        
         Scene war = new Scene(warLayout, 1280, 700);
         warLayout.setPrefWidth(300);
 
@@ -99,7 +114,30 @@ public class War {
 
        HBox pD = new HBox();
        pD.setAlignment(Pos.CENTER);
+       
         Image cardbk = new Image("resources/CardBack_Red.png");
+        
+        if(bI.readFile().get(0).equals("CardBack_Red.png")){
+            cardbk = new Image("resources/CardBack_Red.png");
+        }
+        
+        else if(bI.readFile().get(0).equals("CardBack_Yellow.png")){
+            cardbk = new Image("resources/CardBack_Yellow.png");
+            
+        }
+        else if(bI.readFile().get(0).equals("CardBack_Blue.png")){
+            cardbk = new Image("resources/CardBack_Blue.png");
+        }
+         else if(bI.readFile().get(0).equals("CardBack_Gray.png")){
+            cardbk = new Image("resources/CardBack_Gray.png");
+        }
+         else if(bI.readFile().get(0).equals("CardBack_Green.png")){
+            cardbk = new Image("resources/CardBack_Green.png");
+        }
+         else if(bI.readFile().get(0).equals("CardBack_Purple.png")){
+            cardbk = new Image("resources/CardBack_Purple.png");
+        }
+        
         ImageView imv1 = new ImageView();
         imv1.setImage(cardbk);
         imv1.setFitHeight(150);
@@ -108,6 +146,28 @@ public class War {
         
 
         Image cardbk2 = new Image("resources/CardBack_Red.png");
+        
+        if(bI.readFile().get(0).equals("CardBack_Red.png")){
+            cardbk2 = new Image("resources/CardBack_Red.png");
+        }
+        
+        else if(bI.readFile().get(0).equals("CardBack_Yellow.png")){
+            cardbk2 = new Image("resources/CardBack_Yellow.png");
+            
+        }
+        else if(bI.readFile().get(0).equals("CardBack_Blue.png")){
+            cardbk2 = new Image("resources/CardBack_Blue.png");
+        }
+         else if(bI.readFile().get(0).equals("CardBack_Gray.png")){
+            cardbk2 = new Image("resources/CardBack_Gray.png");
+        }
+         else if(bI.readFile().get(0).equals("CardBack_Green.png")){
+            cardbk2 = new Image("resources/CardBack_Green.png");
+        }
+         else if(bI.readFile().get(0).equals("CardBack_Purple.png")){
+            cardbk2 = new Image("resources/CardBack_Purple.png");
+        }
+        
         ImageView imv2 = new ImageView();
         imv2.setImage(cardbk2);
         imv2.setFitHeight(150);
